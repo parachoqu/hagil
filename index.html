@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hágil Terapêutica — Homeopatia veterinária livre de resíduos</title>
+<meta name="description" content="Redesign conceitual (estudo de UI/UX) do site institucional da Hágil Terapêutica — laboratório de medicamentos homeopáticos veterinários.">
+<link rel="icon" type="image/png" href="img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header" id="topo">
+  <div class="container site-header__inner">
+    <a class="site-header__logo" href="index.html" aria-label="Hágil Terapêutica — página inicial">
+      <img src="img/logo.png" alt="Hágil Terapêutica">
+    </a>
+    <button class="menu-toggle" aria-expanded="false" aria-controls="menu-principal">Menu</button>
+    <nav class="site-nav" id="menu-principal" aria-label="Navegação principal">
+      <a href="#empresa">Empresa</a>
+      <a href="#diferenciais">Diferenciais</a>
+      <a href="#conteudo">Conteúdo</a>
+      <a href="#distribuidores">Distribuidores</a>
+      <a class="btn btn--primario" href="produtos.html">Ver produtos
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- ===== Hero ===== -->
+  <section class="hero">
+    <div class="container hero__grid">
+      <div>
+        <p class="eyebrow" data-entrada style="--i:0"><span class="gota" aria-hidden="true"></span>Laboratório homeopático veterinário · desde 2009</p>
+        <h1 data-entrada style="--i:1">Ciência natural.<br><em>Resultado no campo.</em></h1>
+        <p class="hero__lead" data-entrada style="--i:2">Medicamentos homeopáticos veterinários livres de resíduos, que fortalecem a imunidade e o desempenho — respeitando o animal, as pessoas e o meio ambiente.</p>
+        <div class="hero__claims" data-entrada style="--i:3" aria-label="Selos do produto">
+          <span><span class="gota" aria-hidden="true"></span>Não tóxico</span>
+          <span><span class="gota" aria-hidden="true"></span>Livre de resíduos</span>
+          <span><span class="gota" aria-hidden="true"></span>Descarte zero</span>
+        </div>
+        <div class="hero__acoes" data-entrada style="--i:4">
+          <a class="btn btn--primario" href="produtos.html">Conhecer os produtos
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn--fantasma" href="#empresa">Sobre a Hágil</a>
+        </div>
+      </div>
+
+      <div class="hero__palco" data-entrada style="--i:2">
+        <div class="hero__forma" aria-hidden="true"></div>
+        <img class="hero__produto" src="assets/images/produtos/Hagil_Bovinos_Bovinos de Corte_Dynamis MH1000.png"
+             alt="Embalagem do Dynamis MH1000, modificador orgânico Hágil"
+             width="1024" height="1024" fetchpriority="high">
+        <span class="hero__chip hero__chip--a"><span class="gota" aria-hidden="true"></span>Modificador orgânico</span>
+        <span class="hero__chip hero__chip--b"><span class="gota" aria-hidden="true"></span>Reg. MAPA · Uso veterinário</span>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ===== Barra de credibilidade ===== -->
+  <section class="credibilidade" aria-label="Credenciais da Hágil">
+    <div class="container credibilidade__grid">
+      <div class="credibilidade__item" data-reveal style="--i:0">
+        <strong>2009</strong>
+        <span>Fundação em Teófilo Otoni · MG</span>
+      </div>
+      <div class="credibilidade__item" data-reveal style="--i:1">
+        <strong>1º</strong>
+        <span>Laboratório homeopático veterinário registrado no MAPA</span>
+      </div>
+      <div class="credibilidade__item" data-reveal style="--i:2">
+        <strong>ISO + IBD</strong>
+        <span>Certificações 9001 · 14001 · orgânicos</span>
+      </div>
+      <div class="credibilidade__item" data-reveal style="--i:3">
+        <strong>5</strong>
+        <span>Regiões do Brasil com distribuidores</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Produtos em destaque ===== -->
+  <section class="secao destaques">
+    <div class="container">
+      <div class="secao-head secao-head--linha" data-reveal>
+        <div>
+          <p class="eyebrow"><span class="gota" aria-hidden="true"></span>Produtos em destaque</p>
+          <h2>A embalagem carrega a promessa. O campo confirma.</h2>
+        </div>
+        <a class="btn btn--fantasma" href="produtos.html">Ver linha completa
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+
+      <div class="destaques__grid">
+        <a class="destaque" href="produtos.html" data-reveal style="--i:0">
+          <div class="destaque__img">
+            <img src="assets/images/produtos/Hagil_Bovinos_Bovinos de Corte_Dynamis MH1000.png" alt="Embalagem do Dynamis MH1000" loading="lazy">
+          </div>
+          <div class="destaque__corpo">
+            <p class="eyebrow">Modificador orgânico</p>
+            <h3>Dynamis MH1000</h3>
+            <p>Energia vital em equilíbrio para máxima saúde, desempenho e resistência do rebanho.</p>
+            <span class="destaque__link">Ver detalhes
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </span>
+          </div>
+        </a>
+
+        <a class="destaque" href="produtos.html" data-reveal style="--i:1">
+          <div class="destaque__img">
+            <img src="assets/images/produtos/Hagil_Bovinos_Bovinos 1ª Fase_Máximo Baby H1000.png" alt="Embalagem do Máximo Baby" loading="lazy">
+          </div>
+          <div class="destaque__corpo">
+            <p class="eyebrow">Linha Máximo · fase inicial</p>
+            <h3>Máximo Baby</h3>
+            <p>Cuidado completo desde o primeiro dia: força, proteção e desenvolvimento.</p>
+            <span class="destaque__link">Ver detalhes
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </span>
+          </div>
+        </a>
+
+        <a class="destaque" href="produtos.html" data-reveal style="--i:2">
+          <div class="destaque__img">
+            <img src="assets/images/produtos/Hagil_Bovinos_Bovinos 1ª Fase_Enthérikos.png" alt="Embalagem do Enthérikos" loading="lazy">
+          </div>
+          <div class="destaque__corpo">
+            <p class="eyebrow">Saúde digestiva</p>
+            <h3>Enthérikos</h3>
+            <p>Controle eficaz das diarreias, com equilíbrio natural e carência zero.</p>
+            <span class="destaque__link">Ver detalhes
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Empresa ===== -->
+  <section class="secao secao--nevoa" id="empresa">
+    <div class="container empresa__grid">
+      <div class="empresa__texto" data-reveal>
+        <p class="eyebrow"><span class="gota" aria-hidden="true"></span>A empresa</p>
+        <h2>Um laboratório pioneiro, do interior de Minas para todo o Brasil.</h2>
+        <p>A Hágil Terapêutica nasceu em 2009, em Teófilo Otoni (MG), com uma convicção: levar ao mercado produtos não tóxicos, livres de resíduos, que não agridem o animal, as pessoas nem o meio ambiente — e que ainda fortalecem o sistema imunológico e nutricional do rebanho.</p>
+        <p>Primeiro laboratório homeopático veterinário registrado no MAPA, reúne especialistas dedicados à criação, desenvolvimento e produção de cada fórmula. E vai além da venda: seus distribuidores prestam assistência técnica ao produtor, de acordo com a necessidade de cada propriedade.</p>
+        <div class="empresa__fatos">
+          <div>
+            <strong>Teófilo Otoni</strong>
+            <span>Sede e laboratório · MG</span>
+          </div>
+          <div>
+            <strong>Norte ao Sul</strong>
+            <span>Rede própria de distribuição</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="mvv">
+        <div class="mvv__card" data-reveal style="--i:0">
+          <h3><span class="gota" aria-hidden="true"></span>Missão</h3>
+          <p>Desenvolver, produzir e comercializar medicamentos homeopáticos de qualidade, altamente eficazes para a saúde animal, gerando resultados que satisfaçam às necessidades dos clientes.</p>
+        </div>
+        <div class="mvv__card" data-reveal style="--i:1">
+          <h3><span class="gota" aria-hidden="true"></span>Visão</h3>
+          <p>Manter-se como empresa de referência em soluções práticas e sustentáveis aos produtores e técnicos do agronegócio.</p>
+        </div>
+        <div class="mvv__card" data-reveal style="--i:2">
+          <h3><span class="gota" aria-hidden="true"></span>Valores</h3>
+          <ul>
+            <li><span class="gota" aria-hidden="true"></span>Respeito e valorização dos clientes, distribuidores e funcionários</li>
+            <li><span class="gota" aria-hidden="true"></span>Honestidade e ética</li>
+            <li><span class="gota" aria-hidden="true"></span>Desenvolvimento sustentável</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container politica-integrada" data-reveal>
+      <div class="politica-integrada__cabecalho">
+        <p class="eyebrow"><span class="gota" aria-hidden="true"></span>Sistema de Gestão Integrada</p>
+        <h2>Política Integrada · V.03</h2>
+        <p><strong>Escopo:</strong> Projeto, desenvolvimento, produção de produtos veterinários homeopáticos no município de Teófilo Otoni - Minas Gerais; comercialização e prestação de assistência técnica em todo território Nacional.</p>
+      </div>
+      <ol class="politica-integrada__lista">
+        <li>Desenvolver, produzir e comercializar medicamentos homeopáticos com tecnologia e segurança para a saúde animal.</li>
+        <li>Atender aos requisitos legais.</li>
+        <li>Ter um consumo consciente, levar a todos envolvidos esta vivência para proteger nossa “Casa Comum”.</li>
+        <li>Minimizar aspectos relacionados à degradação ambiental.</li>
+        <li>Reduzir o consumo dos recursos naturais.</li>
+        <li>Melhorar de forma contínua o sistema de Gestão Integrada, para aumentar o desempenho ambiental e a qualidade dos produtos.</li>
+        <li>Gerar benefícios e resultados que atendam às necessidades dos clientes e colaboradores.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ===== Diferenciais ===== -->
+  <section class="secao" id="diferenciais">
+    <div class="container">
+      <div class="secao-head" data-reveal>
+        <p class="eyebrow"><span class="gota" aria-hidden="true"></span>Diferenciais</p>
+        <h2>O que torna a Hágil referência em homeopatia animal.</h2>
+      </div>
+
+      <div class="difs__grid">
+        <div class="dif" data-reveal style="--i:0">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19C5 9 12 4 20 4c0 8-5 15-15 15Z"/><path d="M5 19c3-5 7-9 11-11"/></svg>
+          <h3>Livre de resíduos</h3>
+          <p>Produtos não tóxicos, sem carência e sem resíduos nos alimentos.</p>
+        </div>
+        <div class="dif" data-reveal style="--i:1">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 3h4M11 3v5.2L5.6 17.4A2 2 0 0 0 7.4 20h9.2a2 2 0 0 0 1.8-2.6L13 8.2V3"/><path d="M8.6 14.5h6.8"/></svg>
+          <h3>Tecnologia</h3>
+          <p>Produção com rigor técnico e controle de qualidade em cada lote.</p>
+        </div>
+        <div class="dif" data-reveal style="--i:2">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3s6 6.5 6 11a6 6 0 1 1-12 0c0-4.5 6-11 6-11Z"/><path d="M10 14h4M12 12v4"/></svg>
+          <h3>Homeopatia veterinária</h3>
+          <p>Especialistas dedicados à criação e ao desenvolvimento de cada fórmula.</p>
+        </div>
+        <div class="dif" data-reveal style="--i:3">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6"/><path d="m14.5 14.5 5.5 5.5"/><path d="M7.5 10a2.5 2.5 0 0 1 2.5-2.5"/></svg>
+          <h3>Pesquisa</h3>
+          <p>Desenvolvimento contínuo, orientado por resultados práticos no campo.</p>
+        </div>
+        <div class="dif" data-reveal style="--i:4">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="10.5" r="7"/><path d="m9.3 10.5 2 2 3.6-3.6"/><path d="M8.4 16.6 7 21l5-2 5 2-1.4-4.4"/></svg>
+          <h3>Qualidade certificada</h3>
+          <p>Sistema de gestão integrada certificado ISO 9001 e ISO 14001.</p>
+        </div>
+        <div class="dif" data-reveal style="--i:5">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21v-8"/><path d="M12 13c0-4-3-6.5-7.5-6.5C4.5 11 7.5 13 12 13Z"/><path d="M12 11c0-3.2 2.6-5.2 6.5-5.2 0 3.7-2.6 5.2-6.5 5.2Z"/></svg>
+          <h3>Sustentabilidade</h3>
+          <p>Respeito ao animal, às pessoas e ao meio ambiente em todo o ciclo.</p>
+        </div>
+        <div class="dif" data-reveal style="--i:6">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 13a7.5 7.5 0 0 1 15 0"/><rect x="3" y="13" width="4" height="6" rx="2"/><rect x="17" y="13" width="4" height="6" rx="2"/><path d="M19 19v.5a2.5 2.5 0 0 1-2.5 2.5H13"/></svg>
+          <h3>Assistência técnica</h3>
+          <p>Distribuidores preparados para orientar cada propriedade.</p>
+        </div>
+        <div class="dif" data-reveal style="--i:7">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-5.4-7-11a7 7 0 0 1 14 0c0 5.6-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          <h3>Abrangência nacional</h3>
+          <p>Presença e suporte nas cinco regiões do Brasil.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Trajetória ===== -->
+  <section class="secao secao--nevoa trajetoria">
+    <div class="container">
+      <div class="secao-head" data-reveal>
+        <p class="eyebrow"><span class="gota" aria-hidden="true"></span>Trajetória</p>
+        <h2>Uma história escrita em gotas.</h2>
+      </div>
+
+      <div class="trajetoria__trilha">
+        <div class="marco" data-reveal style="--i:0">
+          <strong>2009</strong>
+          <span>Fundação do laboratório em Teófilo Otoni, Minas Gerais.</span>
+        </div>
+        <div class="marco" data-reveal style="--i:1">
+          <strong>Pioneirismo</strong>
+          <span>1º laboratório homeopático veterinário registrado no MAPA.</span>
+        </div>
+        <div class="marco" data-reveal style="--i:2">
+          <strong>Expansão</strong>
+          <span>Rede de distribuidores nas cinco regiões do Brasil.</span>
+        </div>
+        <div class="marco" data-reveal style="--i:3">
+          <strong>ISO 9001 · 14001</strong>
+          <span>Sistema de gestão integrada certificado.</span>
+        </div>
+        <div class="marco" data-reveal style="--i:4">
+          <strong>IBD</strong>
+          <span>Certificação da maior certificadora de orgânicos da América Latina.</span>
+        </div>
+        <div class="marco" data-reveal style="--i:5">
+          <strong>Hoje</strong>
+          <span>Linha completa multiespécie — da produção animal à linha Pet.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Conteúdo editorial ===== -->
+  <section class="secao" id="conteudo">
+    <div class="container">
+      <div class="secao-head secao-head--linha" data-reveal>
+        <div>
+          <p class="eyebrow"><span class="gota" aria-hidden="true"></span>Conhecimento</p>
+          <h2>Informativos, artigos e notícias do campo.</h2>
+          <p>O conteúdo técnico da Hágil, editado para leitura — não para download em lista.</p>
+        </div>
+        <a class="btn btn--fantasma" href="#conteudo">Ver todo o conteúdo</a>
+      </div>
+
+      <div class="editorial__grid">
+        <a class="editorial__capa" href="#conteudo" data-reveal>
+          <p class="eyebrow eyebrow--luz"><span class="gota" aria-hidden="true"></span>Informativo · Nº 82</p>
+          <h3>Senepol da Grama</h3>
+          <p>Endecthon e Ecthon Pour-On no controle de parasitas externos: a experiência de manejo com o rebanho Senepol.</p>
+          <span class="destaque__link">Ler informativo
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </span>
+        </a>
+
+        <div class="editorial__lista" data-reveal>
+          <a class="editorial__item" href="#conteudo">
+            <span class="editorial__tipo">Artigo</span>
+            <h4>A proteção natural da glândula mamária</h4>
+            <span class="editorial__data">26/08/2025</span>
+          </a>
+          <a class="editorial__item" href="#conteudo">
+            <span class="editorial__tipo">Informativo</span>
+            <h4>Nº 68 — Tudo sobre homeopatia</h4>
+            <span class="editorial__data">06/02/2026</span>
+          </a>
+          <a class="editorial__item" href="#conteudo">
+            <span class="editorial__tipo">Artigo</span>
+            <h4>Calcarea Carbonica, a construtora da homeopatia</h4>
+            <span class="editorial__data">15/03/2021</span>
+          </a>
+          <a class="editorial__item" href="#conteudo">
+            <span class="editorial__tipo">Notícia</span>
+            <h4>Canadá abre mercado para carne bovina e suína do Brasil</h4>
+            <span class="editorial__data">15/03/2022</span>
+          </a>
+          <a class="editorial__item" href="#conteudo">
+            <span class="editorial__tipo">Informativo</span>
+            <h4>Nº 74 — O melhor para o seu pet</h4>
+            <span class="editorial__data">06/02/2026</span>
+          </a>
+          <a class="editorial__item" href="#conteudo">
+            <span class="editorial__tipo">Artigo</span>
+            <h4>Silicea, a força interior</h4>
+            <span class="editorial__data">22/02/2021</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Vídeos ===== -->
+  <section class="secao secao--nevoa">
+    <div class="container">
+      <div class="secao-head" data-reveal>
+        <p class="eyebrow"><span class="gota" aria-hidden="true"></span>Vídeos</p>
+        <h2>A Hágil em movimento.</h2>
+      </div>
+
+      <div class="videos__grid">
+        <div class="videos__principal" data-reveal>
+          <iframe src="https://www.youtube.com/embed/9ubW5n6POeA?rel=0"
+                  title="Vídeo: Medicamentos Hágil Terapêutica — animais de produção"
+                  loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen></iframe>
+        </div>
+
+        <div class="videos__lista" data-reveal style="--i:1">
+          <h3>Mais vídeos</h3>
+          <a class="video-item" href="https://www.youtube.com/user/hagilterapeutica" target="_blank" rel="noopener">
+            <span class="video-item__play" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg>
+            </span>
+            <span><span>Institucional</span><strong>Vídeo institucional Hágil Terapêutica</strong></span>
+          </a>
+          <a class="video-item" href="https://www.youtube.com/user/hagilterapeutica" target="_blank" rel="noopener">
+            <span class="video-item__play" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg>
+            </span>
+            <span><span>Vídeo aula</span><strong>Homeopatia metabólica e seu estímulo modulador</strong></span>
+          </a>
+          <a class="video-item" href="https://www.youtube.com/user/hagilterapeutica" target="_blank" rel="noopener">
+            <span class="video-item__play" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg>
+            </span>
+            <span><span>Histórias de sucesso</span><strong>Fernando Henrique — Agro Minas</strong></span>
+          </a>
+          <a class="video-item" href="https://www.youtube.com/user/hagilterapeutica" target="_blank" rel="noopener">
+            <span class="video-item__play" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg>
+            </span>
+            <span><span>Histórias de sucesso</span><strong>Elenir Ceolin — Homeopampa</strong></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Distribuidores ===== -->
+  <section class="secao" id="distribuidores">
+    <div class="container dist__grid">
+      <div class="dist__mapa" data-reveal>
+        <svg id="mapa-brasil" viewBox="0 0 448 416" role="img" aria-labelledby="mapa-titulo mapa-desc">
+          <title id="mapa-titulo">Mapa de distribuidores Hágil no Brasil</title>
+          <desc id="mapa-desc">Os pontos representam distribuidores e pontos de venda publicados pela Hágil. Use os filtros e a lista para consultar os dados em formato textual.</desc>
+        </svg>
+        <p class="dist__mapa-legenda"><span aria-hidden="true"></span>Ponto representativo da área de cobertura</p>
+      </div>
+
+      <div class="dist__info" data-reveal style="--i:1">
+        <p class="eyebrow"><span class="gota" aria-hidden="true"></span>Rede nacional</p>
+        <h2>Sempre existe um distribuidor Hágil perto da sua porteira.</h2>
+        <p>Presente nas cinco regiões do Brasil, a rede Hágil vai além da venda: cada distribuidor presta assistência técnica de acordo com a necessidade da sua propriedade.</p>
+        <div class="dist__linhas" role="group" aria-label="Filtrar distribuidores por segmento">
+          <button type="button" class="dist__filtro ativo" data-segmento="todos" aria-pressed="true">Todos</button>
+          <button type="button" class="dist__filtro" data-segmento="grandes" aria-pressed="false"><span class="gota" aria-hidden="true"></span>Grandes animais</button>
+          <button type="button" class="dist__filtro" data-segmento="pet" aria-pressed="false"><span class="gota" aria-hidden="true"></span>Pet</button>
+        </div>
+        <span class="dist__regioes">Norte · Nordeste · Centro-Oeste · Sudeste · Sul</span>
+        <button class="btn btn--primario" type="button" id="abrir-modal-distribuidores">Consultar distribuidores
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Certificações ===== -->
+  <section class="secao secao--escura certs">
+    <div class="container">
+      <div class="secao-head" data-reveal>
+        <p class="eyebrow eyebrow--luz"><span class="gota" aria-hidden="true"></span>Certificações</p>
+        <h2>Qualidade que não depende de discurso.</h2>
+        <p>Gestão, meio ambiente e produção orgânica auditados por quem mais entende do assunto.</p>
+      </div>
+
+      <div class="certs__grid">
+        <div class="cert cert--iso" data-reveal style="--i:0">
+          <img class="cert__marca cert__marca--iso" src="assets/images/certificacoes/iso-9001-14001.png"
+               alt="Selo ISO 9001 e ISO 14001 · Sistema de Gestão Integrada · ABNT Certificadora"
+               width="1026" height="891" loading="lazy">
+          <div class="cert__normas">
+            <div>
+              <h3>ISO 9001 · Gestão da qualidade</h3>
+              <p>Excelência em gestão e otimização de processos, do desenvolvimento à entrega.</p>
+            </div>
+            <div>
+              <h3>ISO 14001 · Gestão ambiental</h3>
+              <p>Sistema de gestão ambiental eficaz, com redução do consumo de recursos naturais.</p>
+            </div>
+          </div>
+        </div>
+        <div class="cert" data-reveal style="--i:1">
+          <img class="cert__marca cert__marca--ibd" src="assets/images/certificacoes/ibd.jpeg"
+               alt="Selo IBD · Insumo aprovado" width="1043" height="1043" loading="lazy">
+          <h3>Orgânicos e sustentáveis</h3>
+          <p>Certificação da maior certificadora de produtos orgânicos da América Latina.</p>
+        </div>
+      </div>
+
+      <p class="certs__mapa-nota" data-reveal>
+        <span class="gota" aria-hidden="true"></span>
+        Registro no Ministério da Agricultura, Pecuária e Abastecimento · MAPA
+      </p>
+    </div>
+  </section>
+
+  <!-- ===== CTA final ===== -->
+  <section class="secao cta-final">
+    <div class="container" data-reveal>
+      <p class="eyebrow"><span class="gota" aria-hidden="true"></span>Catálogo completo</p>
+      <h2>Uma linha para cada fase<br>do ciclo produtivo.</h2>
+      <p>Da reprodução à imunidade, da digestão ao equilíbrio metabólico — para aves, bovinos, equinos, ovinos, suínos, caprinos, bubalinos, peixes e pets.</p>
+      <a class="btn btn--primario" href="produtos.html#catalogo-grid">Visualizar catálogo completo
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<dialog class="dist-modal" id="modal-distribuidores" aria-labelledby="dist-modal-titulo" aria-describedby="dist-modal-nota">
+  <div class="dist-modal__painel">
+    <header class="dist-modal__cabecalho">
+      <div>
+        <p class="eyebrow"><span class="gota" aria-hidden="true"></span>Diretório por região</p>
+        <h2 id="dist-modal-titulo">Distribuidores Hágil</h2>
+        <p id="dist-contagem" aria-live="polite">Carregando distribuidores…</p>
+      </div>
+      <button class="dist-modal__fechar" type="button" id="fechar-modal-distribuidores" aria-label="Fechar diretório de distribuidores">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19"/></svg>
+        <span>Fechar</span>
+      </button>
+    </header>
+    <div class="dist-modal__corpo">
+      <p class="dist-modal__nota" id="dist-modal-nota">Dados oficiais capturados em 24/08/2026. Confirme disponibilidade e área de atendimento antes da compra.</p>
+      <div class="dist__lista" id="dist-lista"></div>
+      <p class="dist__vazio" id="dist-vazio" hidden>Nenhum distribuidor encontrado para este segmento.</p>
+    </div>
+  </div>
+</dialog>
+
+<!-- ===== Footer ===== -->
+<footer class="footer" id="contato">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__marca">
+        <img src="assets/images/marca/logo-hagil-branco-oficial.png" alt="Hágil Terapêutica">
+        <p>Laboratório especializado em medicamentos homeopáticos de uso veterinário. Teófilo Otoni · Minas Gerais.</p>
+      </div>
+      <div>
+        <h4>Contato</h4>
+        <ul>
+          <li><a href="tel:+553335211928">(33) 3521-1928</a></li>
+          <li><a href="tel:+5533999709559">(33) 99970-9559</a></li>
+          <li><a href="mailto:contato@hagil.com.br">contato@hagil.com.br</a></li>
+          <li>Rua Alzira Lopes de Souza, 98<br>Ipiranga · Teófilo Otoni/MG</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Atendimento</h4>
+        <ul>
+          <li>Segunda a quinta<br>07h30 às 18h30</li>
+          <li>Sexta-feira<br>07h30 às 17h30</li>
+          <li>Almoço: 12h às 14h</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Navegação</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="produtos.html">Produtos</a></li>
+          <li><a href="#empresa">Empresa</a></li>
+          <li><a href="#distribuidores">Distribuidores</a></li>
+          <li><a href="https://www.instagram.com/hagilterapeutica/" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://www.youtube.com/user/hagilterapeutica" target="_blank" rel="noopener">YouTube</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__base">
+      <span>© Hágil Terapêutica — Todos os direitos reservados</span>
+      <span class="conceito">Projeto conceitual de redesign · estudo de UI/UX</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/distribuidores.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

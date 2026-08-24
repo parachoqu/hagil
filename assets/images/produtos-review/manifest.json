@@ -1,0 +1,1175 @@
+{
+  "target_size": 1024,
+  "model": "isnet-general-use",
+  "source_count": 167,
+  "unique_hash_count": 40,
+  "items": [
+    {
+      "hash": "2947b4273bd875fc6a339299e1a1e1731d53f521e2a645ba6754b2c4512e20e9",
+      "representative": "assets/images/produtos/Hagil_Aves_Aves de Corte_Curae HC1000.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Aves_Aves de Corte_Curae HC1000.jpg",
+        "assets/images/produtos/Hagil_Aves_Aves de Postura_Curae HC1000.jpg",
+        "assets/images/produtos/Hagil_Bovinos_Bovinos 1ª Fase_Curae HC1000.jpg",
+        "assets/images/produtos/Hagil_Bubalinos_Curae HC1000.jpg",
+        "assets/images/produtos/Hagil_Caprinos_Curae HC1000.jpg",
+        "assets/images/produtos/Hagil_Equinos_Curae HC1000.jpg",
+        "assets/images/produtos/Hagil_Ovinos_Curae HC1000.jpg",
+        "assets/images/produtos/Hagil_Peixes_Curae HC1000.jpg",
+        "assets/images/produtos/Hagil_Suínos_Curae HC1000.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/2947b4273bd875fc6a339299e1a1e1731d53f521e2a645ba6754b2c4512e20e9.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/2947b4273bd875fc6a339299e1a1e1731d53f521e2a645ba6754b2c4512e20e9.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.42442,
+        "bbox": [
+          212,
+          123,
+          811,
+          901
+        ]
+      }
+    },
+    {
+      "hash": "0b8195d019f5bda0ed0b1e7512bf846de0100942decbf4817754b683d90f5f4a",
+      "representative": "assets/images/produtos/Hagil_Aves_Aves de Corte_Dynamis MH1000.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Aves_Aves de Corte_Dynamis MH1000.jpg",
+        "assets/images/produtos/Hagil_Bovinos_Bovinos 1ª Fase_Dynamis MH1000.jpg",
+        "assets/images/produtos/Hagil_Bovinos_Bovinos de Corte_Dynamis MH1000.jpg",
+        "assets/images/produtos/Hagil_Bovinos_Bovinos de Leite_Dynamis MH1000.jpg",
+        "assets/images/produtos/Hagil_Bubalinos_Dynamis MH1000.jpg",
+        "assets/images/produtos/Hagil_Caprinos_Dynamis MH1000.jpg",
+        "assets/images/produtos/Hagil_Equinos_Dynamis MH1000.jpg",
+        "assets/images/produtos/Hagil_Ovinos_Dynamis MH1000.jpg",
+        "assets/images/produtos/Hagil_Peixes_Dynamis MH1000.jpg",
+        "assets/images/produtos/Hagil_Suínos_Dynamis MH1000.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/0b8195d019f5bda0ed0b1e7512bf846de0100942decbf4817754b683d90f5f4a.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/0b8195d019f5bda0ed0b1e7512bf846de0100942decbf4817754b683d90f5f4a.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.42169,
+        "bbox": [
+          216,
+          123,
+          809,
+          900
+        ]
+      }
+    },
+    {
+      "hash": "4541cc161ca08a42d7698dc9493510ac70d556aceaceb10a95c7c6f128e7aee4",
+      "representative": "assets/images/produtos/Hagil_Aves_Aves de Corte_Endecthon HP1000.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Aves_Aves de Corte_Endecthon HP1000.jpg",
+        "assets/images/produtos/Hagil_Aves_Aves de Postura_Endecthon HP1000.jpg",
+        "assets/images/produtos/Hagil_Bovinos_Bovinos 1ª Fase_Endecthon HP1000.jpg",
+        "assets/images/produtos/Hagil_Bovinos_Bovinos de Corte_Endecthon HP1000.jpg",
+        "assets/images/produtos/Hagil_Bovinos_Bovinos de Leite_Endecthon HP1000.jpg",
+        "assets/images/produtos/Hagil_Bubalinos_Endecthon HP1000.jpg",
+        "assets/images/produtos/Hagil_Caprinos_Endecthon HP1000.jpg",
+        "assets/images/produtos/Hagil_Equinos_Endecthon HP1000.jpg",
+        "assets/images/produtos/Hagil_Ovinos_Endecthon HP1000.jpg",
+        "assets/images/produtos/Hagil_Peixes_Endecthon HP1000.jpg",
+        "assets/images/produtos/Hagil_Suínos_Endecthon HP1000.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/4541cc161ca08a42d7698dc9493510ac70d556aceaceb10a95c7c6f128e7aee4.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/4541cc161ca08a42d7698dc9493510ac70d556aceaceb10a95c7c6f128e7aee4.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.41934,
+        "bbox": [
+          216,
+          123,
+          807,
+          898
+        ]
+      }
+    },
+    {
+      "hash": "1431be24736f6367a407350c8c33ce0b243e16ec92da5b7a020e89bc86a7a51e",
+      "representative": "assets/images/produtos/Hagil_Aves_Aves de Corte_Hepathor H1000.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Aves_Aves de Corte_Hepathor H1000.jpg",
+        "assets/images/produtos/Hagil_Aves_Aves de Postura_Hepathor H1000.jpg",
+        "assets/images/produtos/Hagil_Bovinos_Bovinos 1ª Fase_Hepathor H1000.jpg",
+        "assets/images/produtos/Hagil_Bovinos_Bovinos de Corte_Hepathor H1000.jpg",
+        "assets/images/produtos/Hagil_Bovinos_Bovinos de Leite_Hepathor H1000.jpg",
+        "assets/images/produtos/Hagil_Bubalinos_Hepathor H1000.jpg",
+        "assets/images/produtos/Hagil_Caprinos_Hepathor H1000.jpg",
+        "assets/images/produtos/Hagil_Equinos_Hepathor H1000.jpg",
+        "assets/images/produtos/Hagil_Ovinos_Hepathor H1000.jpg",
+        "assets/images/produtos/Hagil_Peixes_Hepathor H1000.jpg",
+        "assets/images/produtos/Hagil_Suínos_Hepathor H1000.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/1431be24736f6367a407350c8c33ce0b243e16ec92da5b7a020e89bc86a7a51e.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/1431be24736f6367a407350c8c33ce0b243e16ec92da5b7a020e89bc86a7a51e.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.41909,
+        "bbox": [
+          215,
+          123,
+          809,
+          901
+        ]
+      }
+    },
+    {
+      "hash": "e22ccd84edb7a7ffd15f8c672324c0522f7175af63854beb1bfd0d9941051025",
+      "representative": "assets/images/produtos/Hagil_Aves_Aves de Corte_Macru H1000.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Aves_Aves de Corte_Macru H1000.jpg",
+        "assets/images/produtos/Hagil_Aves_Aves de Postura_Macru H1000.jpg",
+        "assets/images/produtos/Hagil_Bovinos_Bovinos 1ª Fase_Macru H1000.jpg",
+        "assets/images/produtos/Hagil_Bovinos_Bovinos de Corte_Macru H1000.jpg",
+        "assets/images/produtos/Hagil_Bovinos_Bovinos de Leite_Macru H1000.jpg",
+        "assets/images/produtos/Hagil_Bubalinos_Macru H1000.jpg",
+        "assets/images/produtos/Hagil_Caprinos_Macru H1000.jpg",
+        "assets/images/produtos/Hagil_Equinos_Macru H1000.jpg",
+        "assets/images/produtos/Hagil_Ovinos_Macru H1000.jpg",
+        "assets/images/produtos/Hagil_Peixes_Macru H1000.jpg",
+        "assets/images/produtos/Hagil_Suínos_Macru H1000.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/e22ccd84edb7a7ffd15f8c672324c0522f7175af63854beb1bfd0d9941051025.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/e22ccd84edb7a7ffd15f8c672324c0522f7175af63854beb1bfd0d9941051025.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.36746,
+        "bbox": [
+          223,
+          123,
+          801,
+          901
+        ]
+      }
+    },
+    {
+      "hash": "3b522199458638d72080ef54edce313db92ebd2a444ee51eeaa64fdf7445dd3f",
+      "representative": "assets/images/produtos/Hagil_Aves_Aves de Corte_Máximo L H1000.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Aves_Aves de Corte_Máximo L H1000.jpg",
+        "assets/images/produtos/Hagil_Aves_Aves de Postura_Máximo L H1000.jpg",
+        "assets/images/produtos/Hagil_Bovinos_Bovinos de Corte_Máximo L H1000.jpg",
+        "assets/images/produtos/Hagil_Bovinos_Bovinos de Leite_Máximo L H1000.jpg",
+        "assets/images/produtos/Hagil_Bubalinos_Máximo L H1000.jpg",
+        "assets/images/produtos/Hagil_Caprinos_Máximo L H1000.jpg",
+        "assets/images/produtos/Hagil_Equinos_Máximo L H1000.jpg",
+        "assets/images/produtos/Hagil_Ovinos_Máximo L H1000.jpg",
+        "assets/images/produtos/Hagil_Suínos_Máximo L H1000.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/3b522199458638d72080ef54edce313db92ebd2a444ee51eeaa64fdf7445dd3f.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/3b522199458638d72080ef54edce313db92ebd2a444ee51eeaa64fdf7445dd3f.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.41882,
+        "bbox": [
+          216,
+          123,
+          807,
+          899
+        ]
+      }
+    },
+    {
+      "hash": "49e55bcbf6b5892ec6bf5d8b23a0022985c9dfa79ae4d1c6b9f2302cdc0cbe2d",
+      "representative": "assets/images/produtos/Hagil_Aves_Aves de Corte_Verruther HP1000.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Aves_Aves de Corte_Verruther HP1000.jpg",
+        "assets/images/produtos/Hagil_Aves_Aves de Postura_Verruther HP1000.jpg",
+        "assets/images/produtos/Hagil_Bovinos_Bovinos 1ª Fase_Verruther HP1000.jpg",
+        "assets/images/produtos/Hagil_Bovinos_Bovinos de Corte_Verruther HP1000.jpg",
+        "assets/images/produtos/Hagil_Bovinos_Bovinos de Leite_Verruther HP1000.jpg",
+        "assets/images/produtos/Hagil_Bubalinos_Verruther HP1000.jpg",
+        "assets/images/produtos/Hagil_Caprinos_Verruther HP1000.jpg",
+        "assets/images/produtos/Hagil_Equinos_Verruther HP1000.jpg",
+        "assets/images/produtos/Hagil_Ovinos_Verruther HP1000.jpg",
+        "assets/images/produtos/Hagil_Peixes_Verruther HP1000.jpg",
+        "assets/images/produtos/Hagil_Suínos_Verruther HP1000.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/49e55bcbf6b5892ec6bf5d8b23a0022985c9dfa79ae4d1c6b9f2302cdc0cbe2d.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/49e55bcbf6b5892ec6bf5d8b23a0022985c9dfa79ae4d1c6b9f2302cdc0cbe2d.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.41792,
+        "bbox": [
+          216,
+          123,
+          807,
+          901
+        ]
+      }
+    },
+    {
+      "hash": "0ff1e52141548995ce0c3287e537db859e099d93f00f1609dc5784ebc1ae6313",
+      "representative": "assets/images/produtos/Hagil_Aves_Aves de Postura_Ciclantur H1000.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Aves_Aves de Postura_Ciclantur H1000.jpg",
+        "assets/images/produtos/Hagil_Bovinos_Bovinos de Corte_Ciclantur H1000.jpg",
+        "assets/images/produtos/Hagil_Bovinos_Bovinos de Leite_Ciclantur H1000.jpg",
+        "assets/images/produtos/Hagil_Bubalinos_Ciclantur H1000.jpg",
+        "assets/images/produtos/Hagil_Caprinos_Ciclantur H1000.jpg",
+        "assets/images/produtos/Hagil_Equinos_Ciclantur H1000.jpg",
+        "assets/images/produtos/Hagil_Ovinos_Ciclantur H1000.jpg",
+        "assets/images/produtos/Hagil_Suínos_Ciclantur H1000.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/0ff1e52141548995ce0c3287e537db859e099d93f00f1609dc5784ebc1ae6313.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/0ff1e52141548995ce0c3287e537db859e099d93f00f1609dc5784ebc1ae6313.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.4243,
+        "bbox": [
+          215,
+          123,
+          811,
+          901
+        ]
+      }
+    },
+    {
+      "hash": "cc7385b4e0190d66ebb5549373df1d898f9cfa5857a276980eec63bab2fd4b14",
+      "representative": "assets/images/produtos/Hagil_Aves_Aves de Postura_Dynamis MH1000.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Aves_Aves de Postura_Dynamis MH1000.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/cc7385b4e0190d66ebb5549373df1d898f9cfa5857a276980eec63bab2fd4b14.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/cc7385b4e0190d66ebb5549373df1d898f9cfa5857a276980eec63bab2fd4b14.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.381,
+        "bbox": [
+          210,
+          124,
+          811,
+          900
+        ]
+      }
+    },
+    {
+      "hash": "2e8eb993f141446b2a05a41310269c769c2715a66b84314c8912019e870041b6",
+      "representative": "assets/images/produtos/Hagil_Bovinos_Bovinos 1ª Fase_Aliviatto.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Bovinos_Bovinos 1ª Fase_Aliviatto.jpg",
+        "assets/images/produtos/Hagil_Bovinos_Bovinos de Corte_Aliviatto.jpg",
+        "assets/images/produtos/Hagil_Bovinos_Bovinos de Leite_Aliviatto.jpg",
+        "assets/images/produtos/Hagil_Bubalinos_Aliviatto.jpg",
+        "assets/images/produtos/Hagil_Caprinos_Aliviatto.jpg",
+        "assets/images/produtos/Hagil_Equinos_Aliviatto.jpg",
+        "assets/images/produtos/Hagil_Ovinos_Aliviatto.jpg",
+        "assets/images/produtos/Hagil_Pet_Aliviatto.jpg",
+        "assets/images/produtos/Hagil_Suínos_Aliviatto.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/2e8eb993f141446b2a05a41310269c769c2715a66b84314c8912019e870041b6.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/2e8eb993f141446b2a05a41310269c769c2715a66b84314c8912019e870041b6.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.22165,
+        "bbox": [
+          327,
+          123,
+          700,
+          901
+        ]
+      }
+    },
+    {
+      "hash": "b5bb202871a6a8515b89092c950c9646698091f6dbc7981ff3981cf868a84c1f",
+      "representative": "assets/images/produtos/Hagil_Bovinos_Bovinos 1ª Fase_Ecthon HB1000.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Bovinos_Bovinos 1ª Fase_Ecthon HB1000.jpg",
+        "assets/images/produtos/Hagil_Bovinos_Bovinos de Corte_Ecthon HB1000.jpg",
+        "assets/images/produtos/Hagil_Bovinos_Bovinos de Leite_Ecthon HB1000.jpg",
+        "assets/images/produtos/Hagil_Bubalinos_Ecthon HB1000.jpg",
+        "assets/images/produtos/Hagil_Caprinos_Ecthon HB1000.jpg",
+        "assets/images/produtos/Hagil_Equinos_Ecthon HB1000.jpg",
+        "assets/images/produtos/Hagil_Pet_Ecthon HB1000.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/b5bb202871a6a8515b89092c950c9646698091f6dbc7981ff3981cf868a84c1f.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/b5bb202871a6a8515b89092c950c9646698091f6dbc7981ff3981cf868a84c1f.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.30501,
+        "bbox": [
+          275,
+          123,
+          748,
+          901
+        ]
+      }
+    },
+    {
+      "hash": "e78bcf20de10e12ead2a550f5fe81b954b1e95bec504457f1c71a8ce124370ad",
+      "representative": "assets/images/produtos/Hagil_Bovinos_Bovinos 1ª Fase_Ecthon Pour-On.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Bovinos_Bovinos 1ª Fase_Ecthon Pour-On.jpg",
+        "assets/images/produtos/Hagil_Bovinos_Bovinos de Corte_Ecthon Pour-On.jpg",
+        "assets/images/produtos/Hagil_Bovinos_Bovinos de Leite_Ecthon Pour-On.jpg",
+        "assets/images/produtos/Hagil_Bubalinos_Ecthon Pour-On.jpg",
+        "assets/images/produtos/Hagil_Caprinos_Ecthon Pour-On.jpg",
+        "assets/images/produtos/Hagil_Equinos_Ecthon Pour-On.jpg",
+        "assets/images/produtos/Hagil_Suínos_Ecthon Pour-On.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/e78bcf20de10e12ead2a550f5fe81b954b1e95bec504457f1c71a8ce124370ad.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/e78bcf20de10e12ead2a550f5fe81b954b1e95bec504457f1c71a8ce124370ad.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.30204,
+        "bbox": [
+          245,
+          125,
+          779,
+          900
+        ]
+      }
+    },
+    {
+      "hash": "8e6fe76c06a97f4a1ac4b6afb1216708173f87d4223584dce85f59e6c0dfa078",
+      "representative": "assets/images/produtos/Hagil_Bovinos_Bovinos 1ª Fase_Enthérikos.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Bovinos_Bovinos 1ª Fase_Enthérikos.jpg",
+        "assets/images/produtos/Hagil_Bovinos_Bovinos de Corte_Enthérikos.jpg",
+        "assets/images/produtos/Hagil_Bovinos_Bovinos de Leite_Enthérikos.jpg",
+        "assets/images/produtos/Hagil_Bubalinos_Enthérikos.jpg",
+        "assets/images/produtos/Hagil_Caprinos_Enthérikos.jpg",
+        "assets/images/produtos/Hagil_Equinos_Enthérikos.jpg",
+        "assets/images/produtos/Hagil_Ovinos_Enthérikos.jpg",
+        "assets/images/produtos/Hagil_Suínos_Enthérikos.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/8e6fe76c06a97f4a1ac4b6afb1216708173f87d4223584dce85f59e6c0dfa078.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/8e6fe76c06a97f4a1ac4b6afb1216708173f87d4223584dce85f59e6c0dfa078.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.17314,
+        "bbox": [
+          123,
+          362,
+          900,
+          661
+        ]
+      }
+    },
+    {
+      "hash": "266adf3a2f3b2d8914027dc1803b082133096290c1843d423cc2ca57f892670d",
+      "representative": "assets/images/produtos/Hagil_Bovinos_Bovinos 1ª Fase_Máximo Baby H1000.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Bovinos_Bovinos 1ª Fase_Máximo Baby H1000.jpg",
+        "assets/images/produtos/Hagil_Bubalinos_Máximo Baby H1000.jpg",
+        "assets/images/produtos/Hagil_Caprinos_Máximo Baby H1000.jpg",
+        "assets/images/produtos/Hagil_Equinos_Máximo Baby H1000.jpg",
+        "assets/images/produtos/Hagil_Ovinos_Máximo Baby H1000.jpg",
+        "assets/images/produtos/Hagil_Suínos_Máximo Baby H1000.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/266adf3a2f3b2d8914027dc1803b082133096290c1843d423cc2ca57f892670d.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/266adf3a2f3b2d8914027dc1803b082133096290c1843d423cc2ca57f892670d.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.42126,
+        "bbox": [
+          213,
+          123,
+          810,
+          901
+        ]
+      }
+    },
+    {
+      "hash": "6afa582090b9bc8b317a69ddc2a390715ce7051dd2108f5fa9abdc90220c255b",
+      "representative": "assets/images/produtos/Hagil_Bovinos_Bovinos de Corte_Curae HC1000.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Bovinos_Bovinos de Corte_Curae HC1000.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/6afa582090b9bc8b317a69ddc2a390715ce7051dd2108f5fa9abdc90220c255b.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/6afa582090b9bc8b317a69ddc2a390715ce7051dd2108f5fa9abdc90220c255b.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.41873,
+        "bbox": [
+          216,
+          125,
+          807,
+          901
+        ]
+      }
+    },
+    {
+      "hash": "cede08be417349c7f432cb446f74e66c1a7534e175062566007c171dbec5d85b",
+      "representative": "assets/images/produtos/Hagil_Bovinos_Bovinos de Corte_Masthe HMC1000.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Bovinos_Bovinos de Corte_Masthe HMC1000.jpg",
+        "assets/images/produtos/Hagil_Bovinos_Bovinos de Leite_Masthe HMC1000.jpg",
+        "assets/images/produtos/Hagil_Bubalinos_Masthe HMC1000.jpg",
+        "assets/images/produtos/Hagil_Caprinos_Masthe HMC1000.jpg",
+        "assets/images/produtos/Hagil_Equinos_Masthe HMC1000.jpg",
+        "assets/images/produtos/Hagil_Ovinos_Masthe HMC1000.jpg",
+        "assets/images/produtos/Hagil_Suínos_Masthe HMC1000.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/cede08be417349c7f432cb446f74e66c1a7534e175062566007c171dbec5d85b.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/cede08be417349c7f432cb446f74e66c1a7534e175062566007c171dbec5d85b.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.43452,
+        "bbox": [
+          206,
+          123,
+          818,
+          901
+        ]
+      }
+    },
+    {
+      "hash": "5a3322897fb36c12f38a2731818de30cfbca9b80c63d5b3ba59ddf89ac2fbe1c",
+      "representative": "assets/images/produtos/Hagil_Bovinos_Bovinos de Corte_Máximo C H1000.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Bovinos_Bovinos de Corte_Máximo C H1000.jpg",
+        "assets/images/produtos/Hagil_Bubalinos_Máximo C H1000.jpg",
+        "assets/images/produtos/Hagil_Caprinos_Máximo C H1000.jpg",
+        "assets/images/produtos/Hagil_Equinos_Máximo C H1000.jpg",
+        "assets/images/produtos/Hagil_Ovinos_Máximo C H1000.jpg",
+        "assets/images/produtos/Hagil_Peixes_Máximo C H1000.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/5a3322897fb36c12f38a2731818de30cfbca9b80c63d5b3ba59ddf89ac2fbe1c.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/5a3322897fb36c12f38a2731818de30cfbca9b80c63d5b3ba59ddf89ac2fbe1c.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.42337,
+        "bbox": [
+          213,
+          123,
+          809,
+          901
+        ]
+      }
+    },
+    {
+      "hash": "beb397f1beeba2a9c5b523cf3e2a9fefb38aa0330406894cb6ad707abdd190d2",
+      "representative": "assets/images/produtos/Hagil_Bovinos_Bovinos de Corte_Reprodução Gold.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Bovinos_Bovinos de Corte_Reprodução Gold.jpg",
+        "assets/images/produtos/Hagil_Bovinos_Bovinos de Leite_Reprodução Gold.jpg",
+        "assets/images/produtos/Hagil_Bubalinos_Reprodução Gold.jpg",
+        "assets/images/produtos/Hagil_Caprinos_Reprodução Gold.jpg",
+        "assets/images/produtos/Hagil_Equinos_Reprodução Gold.jpg",
+        "assets/images/produtos/Hagil_Ovinos_Reprodução Gold.jpg",
+        "assets/images/produtos/Hagil_Suínos_Reprodução Gold.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/beb397f1beeba2a9c5b523cf3e2a9fefb38aa0330406894cb6ad707abdd190d2.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/beb397f1beeba2a9c5b523cf3e2a9fefb38aa0330406894cb6ad707abdd190d2.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.41991,
+        "bbox": [
+          216,
+          123,
+          807,
+          901
+        ]
+      }
+    },
+    {
+      "hash": "51420c454a4a301dc68482309f0bc1a2108eabe2510de92d11c0a250ea3991e7",
+      "representative": "assets/images/produtos/Hagil_Bovinos_Bovinos de Leite_IntraMasthe 10.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Bovinos_Bovinos de Leite_IntraMasthe 10.jpg",
+        "assets/images/produtos/Hagil_Bubalinos_intramasthe-10.jpg",
+        "assets/images/produtos/Hagil_Caprinos_intramasthe-10.jpg",
+        "assets/images/produtos/Hagil_Equinos_intramasthe-10.jpg",
+        "assets/images/produtos/Hagil_Ovinos_IntraMasthe 10.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/51420c454a4a301dc68482309f0bc1a2108eabe2510de92d11c0a250ea3991e7.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/51420c454a4a301dc68482309f0bc1a2108eabe2510de92d11c0a250ea3991e7.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.33904,
+        "bbox": [
+          230,
+          123,
+          792,
+          899
+        ]
+      }
+    },
+    {
+      "hash": "936ec6166092e497abd801ad94e4f27fd508e09e1500bd632c11fe2c1319f1ee",
+      "representative": "assets/images/produtos/Hagil_Bovinos_Bovinos de Leite_Qualis H1000.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Bovinos_Bovinos de Leite_Qualis H1000.jpg",
+        "assets/images/produtos/Hagil_Bubalinos_Qualis H1000.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/936ec6166092e497abd801ad94e4f27fd508e09e1500bd632c11fe2c1319f1ee.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/936ec6166092e497abd801ad94e4f27fd508e09e1500bd632c11fe2c1319f1ee.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.37933,
+        "bbox": [
+          212,
+          123,
+          811,
+          901
+        ]
+      }
+    },
+    {
+      "hash": "b0a61e1a83444cbf1a0b9783ecd490430b320f61e2aeacc569fd6a9a8024ff97",
+      "representative": "assets/images/produtos/Hagil_Caprinos_Virtus HV1000.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Caprinos_Virtus HV1000.jpg",
+        "assets/images/produtos/Hagil_Ovinos_Virtus HV1000.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/b0a61e1a83444cbf1a0b9783ecd490430b320f61e2aeacc569fd6a9a8024ff97.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/b0a61e1a83444cbf1a0b9783ecd490430b320f61e2aeacc569fd6a9a8024ff97.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.40753,
+        "bbox": [
+          218,
+          123,
+          806,
+          901
+        ]
+      }
+    },
+    {
+      "hash": "fa341db689dc01c3e7afea0289b4a323e616feac4949efb0e92e24d072a44348",
+      "representative": "assets/images/produtos/Hagil_Peixes_HMAIS H1000.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Peixes_HMAIS H1000.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/fa341db689dc01c3e7afea0289b4a323e616feac4949efb0e92e24d072a44348.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/fa341db689dc01c3e7afea0289b4a323e616feac4949efb0e92e24d072a44348.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.38165,
+        "bbox": [
+          211,
+          123,
+          813,
+          901
+        ]
+      }
+    },
+    {
+      "hash": "7c329b3dafb1e948c7631212f78d2858def826530b8fbdf75e05a4b084c51401",
+      "representative": "assets/images/produtos/Hagil_Pet_Actio Creme para Pentear.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Pet_Actio Creme para Pentear.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/7c329b3dafb1e948c7631212f78d2858def826530b8fbdf75e05a4b084c51401.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/7c329b3dafb1e948c7631212f78d2858def826530b8fbdf75e05a4b084c51401.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.31207,
+        "bbox": [
+          225,
+          123,
+          796,
+          901
+        ]
+      }
+    },
+    {
+      "hash": "089a498f8f23efe9321fa52cded10de541fe985254ffb3cba0c787fb6e6b1e8e",
+      "representative": "assets/images/produtos/Hagil_Pet_Actio Shampoo.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Pet_Actio Shampoo.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/089a498f8f23efe9321fa52cded10de541fe985254ffb3cba0c787fb6e6b1e8e.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/089a498f8f23efe9321fa52cded10de541fe985254ffb3cba0c787fb6e6b1e8e.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.27679,
+        "bbox": [
+          297,
+          125,
+          728,
+          901
+        ]
+      }
+    },
+    {
+      "hash": "4749a712387f38d0f90d1fdac4e361487b3552e0d73a2ccd2caf80de32665c61",
+      "representative": "assets/images/produtos/Hagil_Pet_Actio.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Pet_Actio.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/4749a712387f38d0f90d1fdac4e361487b3552e0d73a2ccd2caf80de32665c61.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/4749a712387f38d0f90d1fdac4e361487b3552e0d73a2ccd2caf80de32665c61.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.42456,
+        "bbox": [
+          179,
+          123,
+          841,
+          901
+        ]
+      }
+    },
+    {
+      "hash": "27702afd5018166b79330ba62c7aee68c705ae6eeaeba8e5daea34e894fea1a9",
+      "representative": "assets/images/produtos/Hagil_Pet_Andhir.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Pet_Andhir.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/27702afd5018166b79330ba62c7aee68c705ae6eeaeba8e5daea34e894fea1a9.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/27702afd5018166b79330ba62c7aee68c705ae6eeaeba8e5daea34e894fea1a9.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.41997,
+        "bbox": [
+          184,
+          123,
+          839,
+          901
+        ]
+      }
+    },
+    {
+      "hash": "f57085acf8e56dd995af8c0fde14cab42e4ec6ad86b544fc98a14a7529519c10",
+      "representative": "assets/images/produtos/Hagil_Pet_Arlevh.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Pet_Arlevh.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/f57085acf8e56dd995af8c0fde14cab42e4ec6ad86b544fc98a14a7529519c10.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/f57085acf8e56dd995af8c0fde14cab42e4ec6ad86b544fc98a14a7529519c10.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.41886,
+        "bbox": [
+          183,
+          123,
+          841,
+          898
+        ]
+      }
+    },
+    {
+      "hash": "9ecc90af5cf66e84c0f2d5f4d4cd15718645b111608130e9b8f523dcd741c14f",
+      "representative": "assets/images/produtos/Hagil_Pet_Avivar pet.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Pet_Avivar pet.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/9ecc90af5cf66e84c0f2d5f4d4cd15718645b111608130e9b8f523dcd741c14f.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/9ecc90af5cf66e84c0f2d5f4d4cd15718645b111608130e9b8f523dcd741c14f.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.41534,
+        "bbox": [
+          186,
+          125,
+          837,
+          901
+        ]
+      }
+    },
+    {
+      "hash": "5cf0c3d006c1e8c9da721b8ca109446b7e18e10f895de4f82b9351186c7d0315",
+      "representative": "assets/images/produtos/Hagil_Pet_Billifort.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Pet_Billifort.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/5cf0c3d006c1e8c9da721b8ca109446b7e18e10f895de4f82b9351186c7d0315.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/5cf0c3d006c1e8c9da721b8ca109446b7e18e10f895de4f82b9351186c7d0315.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.42439,
+        "bbox": [
+          181,
+          123,
+          842,
+          898
+        ]
+      }
+    },
+    {
+      "hash": "de99051a328fa8aa58b4c82109ec0d08a345a0aa2ece7f8a09c7be31aaa922e5",
+      "representative": "assets/images/produtos/Hagil_Pet_Curae PET.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Pet_Curae PET.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/de99051a328fa8aa58b4c82109ec0d08a345a0aa2ece7f8a09c7be31aaa922e5.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/de99051a328fa8aa58b4c82109ec0d08a345a0aa2ece7f8a09c7be31aaa922e5.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.17189,
+        "bbox": [
+          152,
+          123,
+          871,
+          901
+        ]
+      }
+    },
+    {
+      "hash": "87b3e49d54992440a28b386331491dc5cf1803a43f0bd6fdd45e30146722373b",
+      "representative": "assets/images/produtos/Hagil_Pet_Dhermus Creme.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Pet_Dhermus Creme.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/87b3e49d54992440a28b386331491dc5cf1803a43f0bd6fdd45e30146722373b.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/87b3e49d54992440a28b386331491dc5cf1803a43f0bd6fdd45e30146722373b.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.15018,
+        "bbox": [
+          388,
+          123,
+          635,
+          901
+        ]
+      }
+    },
+    {
+      "hash": "df82de1dd4309e0c1c46fe0f910549d8b7e60aca68f18e5b3b55b5730b910bd0",
+      "representative": "assets/images/produtos/Hagil_Pet_Dhermus.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Pet_Dhermus.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/df82de1dd4309e0c1c46fe0f910549d8b7e60aca68f18e5b3b55b5730b910bd0.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/df82de1dd4309e0c1c46fe0f910549d8b7e60aca68f18e5b3b55b5730b910bd0.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.42264,
+        "bbox": [
+          183,
+          123,
+          841,
+          900
+        ]
+      }
+    },
+    {
+      "hash": "39c9c2a016a931c46556f8953c4c6333af6347b698dbc80e1485da6577556730",
+      "representative": "assets/images/produtos/Hagil_Pet_Durin.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Pet_Durin.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/39c9c2a016a931c46556f8953c4c6333af6347b698dbc80e1485da6577556730.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/39c9c2a016a931c46556f8953c4c6333af6347b698dbc80e1485da6577556730.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.42172,
+        "bbox": [
+          183,
+          123,
+          841,
+          900
+        ]
+      }
+    },
+    {
+      "hash": "6bf300840b6819b674a27925cde06578158821198cf34ea669546bb89ca36d44",
+      "representative": "assets/images/produtos/Hagil_Pet_Dynamis pet.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Pet_Dynamis pet.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/6bf300840b6819b674a27925cde06578158821198cf34ea669546bb89ca36d44.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/6bf300840b6819b674a27925cde06578158821198cf34ea669546bb89ca36d44.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.42467,
+        "bbox": [
+          123,
+          205,
+          901,
+          819
+        ]
+      }
+    },
+    {
+      "hash": "013203c92ca63ab9970390c3eaebcbc7c55bfc5ac599a29a09c8b9897180f527",
+      "representative": "assets/images/produtos/Hagil_Pet_Enthérikos Pet.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Pet_Enthérikos Pet.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/013203c92ca63ab9970390c3eaebcbc7c55bfc5ac599a29a09c8b9897180f527.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/013203c92ca63ab9970390c3eaebcbc7c55bfc5ac599a29a09c8b9897180f527.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.16648,
+        "bbox": [
+          123,
+          365,
+          901,
+          658
+        ]
+      }
+    },
+    {
+      "hash": "003de1f6b8a7429d232fd287a1010edcad6f0ce27a2927145bacc4e285ce8560",
+      "representative": "assets/images/produtos/Hagil_Pet_Ethos.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Pet_Ethos.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/003de1f6b8a7429d232fd287a1010edcad6f0ce27a2927145bacc4e285ce8560.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/003de1f6b8a7429d232fd287a1010edcad6f0ce27a2927145bacc4e285ce8560.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.42504,
+        "bbox": [
+          183,
+          123,
+          841,
+          901
+        ]
+      }
+    },
+    {
+      "hash": "5a4d01a1a7eed4ab8b4f1db19a5ec2c898a2dbe13d507cc9ac0ea7b8f344efe6",
+      "representative": "assets/images/produtos/Hagil_Pet_Muhlus.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Pet_Muhlus.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/5a4d01a1a7eed4ab8b4f1db19a5ec2c898a2dbe13d507cc9ac0ea7b8f344efe6.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/5a4d01a1a7eed4ab8b4f1db19a5ec2c898a2dbe13d507cc9ac0ea7b8f344efe6.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.41124,
+        "bbox": [
+          183,
+          123,
+          841,
+          901
+        ]
+      }
+    },
+    {
+      "hash": "50a6eb723f018c4b84874a4c2e52aaf36fca47aea4f9eccae67ed49fe7f926bd",
+      "representative": "assets/images/produtos/Hagil_Pet_Olhim.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Pet_Olhim.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/50a6eb723f018c4b84874a4c2e52aaf36fca47aea4f9eccae67ed49fe7f926bd.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/50a6eb723f018c4b84874a4c2e52aaf36fca47aea4f9eccae67ed49fe7f926bd.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.17661,
+        "bbox": [
+          134,
+          123,
+          886,
+          901
+        ]
+      }
+    },
+    {
+      "hash": "46bebb26e0129d80bf0c21b1641f1e0b76945db314a91dd3bccccc01bb3bcbb6",
+      "representative": "assets/images/produtos/Hagil_Pet_Pipih pet.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Pet_Pipih pet.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/46bebb26e0129d80bf0c21b1641f1e0b76945db314a91dd3bccccc01bb3bcbb6.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/46bebb26e0129d80bf0c21b1641f1e0b76945db314a91dd3bccccc01bb3bcbb6.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.41932,
+        "bbox": [
+          186,
+          125,
+          837,
+          901
+        ]
+      }
+    },
+    {
+      "hash": "0d8eebe8bd5b7dd15ed7d7a9201826dfea72826e56394f7856654c45736cfb71",
+      "representative": "assets/images/produtos/Hagil_Pet_Silencio.jpg",
+      "copies": [
+        "assets/images/produtos/Hagil_Pet_Silencio.jpg"
+      ],
+      "png": "assets/images/produtos-review/processed-by-hash/0d8eebe8bd5b7dd15ed7d7a9201826dfea72826e56394f7856654c45736cfb71.png",
+      "validation": {
+        "file": "assets/images/produtos-review/processed-by-hash/0d8eebe8bd5b7dd15ed7d7a9201826dfea72826e56394f7856654c45736cfb71.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "alpha": [
+          0,
+          255
+        ],
+        "coverage": 0.42676,
+        "bbox": [
+          183,
+          123,
+          842,
+          901
+        ]
+      }
+    }
+  ]
+}

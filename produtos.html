@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Produtos — Hágil Terapêutica</title>
+<meta name="description" content="Catálogo de medicamentos homeopáticos veterinários Hágil — redesign conceitual (estudo de UI/UX).">
+<link rel="icon" type="image/png" href="img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="site-header__logo" href="index.html" aria-label="Hágil Terapêutica — página inicial">
+      <img src="img/logo.png" alt="Hágil Terapêutica">
+    </a>
+    <button class="menu-toggle" aria-expanded="false" aria-controls="menu-principal">Menu</button>
+    <nav class="site-nav" id="menu-principal" aria-label="Navegação principal">
+      <a href="index.html#empresa">Empresa</a>
+      <a href="index.html#diferenciais">Diferenciais</a>
+      <a href="index.html#conteudo">Conteúdo</a>
+      <a href="index.html#distribuidores">Distribuidores</a>
+      <a class="btn btn--primario ativo" href="produtos.html" aria-current="page">Produtos</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- ===== Intro do catálogo ===== -->
+  <section class="catalogo-hero">
+    <div class="container">
+      <p class="eyebrow" data-entrada style="--i:0"><span class="gota" aria-hidden="true"></span>Catálogo · uso veterinário</p>
+      <h1 data-entrada style="--i:1">A linha completa Hágil.</h1>
+      <p data-entrada style="--i:2">Medicamentos homeopáticos para cada espécie e cada fase do ciclo produtivo — todos livres de resíduos, sem carência e com a assinatura de qualidade Hágil.</p>
+      <a class="btn btn--primario catalogo-hero__acao" href="#catalogo-grid" data-entrada style="--i:3">Visualizar catálogo completo
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== Filtros por categoria ===== -->
+  <div class="filtros">
+    <div class="container filtros__inner">
+      <div class="filtros__lista" id="filtros-lista" role="group" aria-label="Filtrar produtos por categoria"></div>
+      <span class="filtros__contagem" id="filtros-contagem" aria-live="polite"></span>
+    </div>
+  </div>
+
+  <!-- ===== Grade de produtos ===== -->
+  <section class="catalogo">
+    <div class="container">
+      <div class="catalogo__grid" id="catalogo-grid"></div>
+      <p class="catalogo__nota">Catálogo visual reorganizado a partir das imagens de produtos da Hágil. Consulte sempre o material técnico oficial para indicações e modo de uso.</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===== Modal de produto ("bula premium") ===== -->
+<div class="modal" id="modal-produto" role="dialog" aria-modal="true" aria-labelledby="modal-titulo" hidden>
+  <button class="modal__backdrop" type="button" aria-label="Fechar detalhes do produto" tabindex="-1"></button>
+
+  <button class="modal__sair" type="button" id="modal-sair">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
+    Sair
+  </button>
+
+  <div class="modal__painel">
+    <div class="modal__visual" id="modal-visual"></div>
+    <div class="modal__conteudo" id="modal-conteudo"></div>
+  </div>
+</div>
+
+<!-- ===== Footer ===== -->
+<footer class="footer" id="contato">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__marca">
+        <img src="assets/images/marca/logo-hagil-branco-oficial.png" alt="Hágil Terapêutica">
+        <p>Laboratório especializado em medicamentos homeopáticos de uso veterinário. Teófilo Otoni · Minas Gerais.</p>
+      </div>
+      <div>
+        <h4>Contato</h4>
+        <ul>
+          <li><a href="tel:+553335211928">(33) 3521-1928</a></li>
+          <li><a href="tel:+5533999709559">(33) 99970-9559</a></li>
+          <li><a href="mailto:contato@hagil.com.br">contato@hagil.com.br</a></li>
+          <li>Rua Alzira Lopes de Souza, 98<br>Ipiranga · Teófilo Otoni/MG</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Atendimento</h4>
+        <ul>
+          <li>Segunda a quinta<br>07h30 às 18h30</li>
+          <li>Sexta-feira<br>07h30 às 17h30</li>
+          <li>Almoço: 12h às 14h</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Navegação</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="produtos.html">Produtos</a></li>
+          <li><a href="index.html#empresa">Empresa</a></li>
+          <li><a href="index.html#distribuidores">Distribuidores</a></li>
+          <li><a href="https://www.instagram.com/hagilterapeutica/" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://www.youtube.com/user/hagilterapeutica" target="_blank" rel="noopener">YouTube</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__base">
+      <span>© Hágil Terapêutica — Todos os direitos reservados</span>
+      <span class="conceito">Projeto conceitual de redesign · estudo de UI/UX</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script src="js/produtos.js"></script>
+</body>
+</html>

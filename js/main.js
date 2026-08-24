@@ -1,0 +1,253 @@
+/* Hágil Terapêutica — redesign conceitual
+   Comportamentos comuns: header, menu, reveals e mapa de distribuição. */
+
+(function () {
+  "use strict";
+
+  /* ---------- Header: estado ao rolar ---------- */
+  const header = document.querySelector(".site-header");
+  const aoRolar = () => header.classList.toggle("rolou", window.scrollY > 24);
+  aoRolar();
+  window.addEventListener("scroll", aoRolar, { passive: true });
+
+  /* ---------- Menu mobile ---------- */
+  const toggle = document.querySelector(".menu-toggle");
+  const nav = document.querySelector(".site-nav");
+  if (toggle && nav) {
+    toggle.addEventListener("click", () => {
+      const aberto = nav.classList.toggle("aberto");
+      toggle.setAttribute("aria-expanded", String(aberto));
+    });
+    nav.addEventListener("click", (e) => {
+      if (e.target.closest("a")) {
+        nav.classList.remove("aberto");
+        toggle.setAttribute("aria-expanded", "false");
+      }
+    });
+  }
+
+  /* ---------- Reveals no scroll ---------- */
+  const revelaveis = document.querySelectorAll("[data-reveal]");
+  if ("IntersectionObserver" in window && revelaveis.length) {
+    const io = new IntersectionObserver(
+      (entradas) => {
+        entradas.forEach((entrada) => {
+          if (entrada.isIntersecting) {
+            entrada.target.classList.add("visivel");
+            io.unobserve(entrada.target);
+          }
+        });
+      },
+      { threshold: 0.16, rootMargin: "0px 0px -6% 0px" }
+    );
+    revelaveis.forEach((el) => io.observe(el));
+  } else {
+    revelaveis.forEach((el) => el.classList.add("visivel"));
+  }
+
+  /* ---------- Diretório estático e mapa de distribuidores ---------- */
+  const svgMapa = document.getElementById("mapa-brasil");
+  const listaDist = document.getElementById("dist-lista");
+  const contagemDist = document.getElementById("dist-contagem");
+  const vazioDist = document.getElementById("dist-vazio");
+  const modalDist = document.getElementById("modal-distribuidores");
+  const abrirModalDist = document.getElementById("abrir-modal-distribuidores");
+  const fecharModalDist = document.getElementById("fechar-modal-distribuidores");
+  const dadosDist = window.HAGIL_DISTRIBUIDORES;
+
+  if (svgMapa && listaDist && contagemDist && modalDist && abrirModalDist && fecharModalDist && dadosDist) {
+    const ns = "http://www.w3.org/2000/svg";
+    const coords = {
+      AC: [-9.974, -67.81], AL: [-9.665, -35.735], AP: [0.035, -51.07],
+      AM: [-3.119, -60.02], BA: [-12.971, -38.501], CE: [-3.732, -38.527],
+      DF: [-15.794, -47.883], ES: [-20.315, -40.312], GO: [-16.686, -49.264],
+      MA: [-2.53, -44.302], MT: [-15.601, -56.097], MS: [-20.469, -54.62],
+      MG: [-19.916, -43.934], PA: [-1.455, -48.49], PB: [-7.119, -34.845],
+      PR: [-25.429, -49.271], PE: [-8.047, -34.877], PI: [-5.091, -42.803],
+      RJ: [-22.907, -43.173], RN: [-5.795, -35.209], RS: [-30.034, -51.217],
+      RO: [-8.761, -63.9], RR: [2.823, -60.675], SC: [-27.595, -48.548],
+      SP: [-23.55, -46.633], SE: [-10.947, -37.073], TO: [-10.184, -48.333]
+    };
+    const projecao = { minLon: -73.9833, maxLat: 5.2718, escala: 9.739693866, x: 33.196475256, y: 18 };
+    const ordemRegioes = ["Norte", "Nordeste", "Centro-Oeste", "Sudeste", "Sul"];
+    const escapa = (valor) => String(valor || "")
+      .replaceAll("&", "&amp;").replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;").replaceAll('"', "&quot;");
+    let segmentoAtivo = "todos";
+    let selecionado = "";
+    let origemModal = null;
+
+    const pontoProjetado = (uf, indice, total) => {
+      const [lat, lon] = coords[uf] || [-15.8, -47.9];
+      const baseX = projecao.x + (lon - projecao.minLon) * projecao.escala;
+      const baseY = projecao.y + (projecao.maxLat - lat) * projecao.escala;
+      if (total === 1) return [baseX, baseY];
+      const anel = Math.floor(indice / 8) + 1;
+      const posicao = indice % 8;
+      const raio = 5.2 * anel;
+      const angulo = (Math.PI * 2 * posicao / Math.min(8, total)) - Math.PI / 2;
+      return [baseX + Math.cos(angulo) * raio, baseY + Math.sin(angulo) * raio];
+    };
+
+    const destaca = (id, rolar) => {
+      selecionado = id;
+      document.querySelectorAll(".dist-marker, .dist-card").forEach((el) => {
+        el.classList.toggle("selecionado", el.dataset.id === id);
+        if (el.classList.contains("dist-marker")) {
+          if (el.dataset.id === id) el.setAttribute("aria-current", "true");
+          else el.removeAttribute("aria-current");
+        }
+      });
+      const ficha = document.getElementById("dist-" + id);
+      if (ficha && rolar) {
+        ficha.scrollIntoView({ behavior: "smooth", block: "center" });
+        const titulo = ficha.querySelector("h5");
+        if (titulo) {
+          titulo.tabIndex = -1;
+          titulo.focus({ preventScroll: true });
+        }
+      }
+    };
+
+    const renderizaMapa = (itens) => {
+      svgMapa.querySelectorAll(".brasil-base, .dist-marker").forEach((el) => el.remove());
+      const brasil = document.createElementNS(ns, "path");
+      brasil.setAttribute("class", "brasil-base");
+      brasil.setAttribute("d", dadosDist.brasilPath);
+      svgMapa.insertBefore(brasil, svgMapa.firstElementChild?.nextSibling || null);
+
+      const porUf = itens.reduce((grupos, item) => {
+        (grupos[item.uf] ||= []).push(item);
+        return grupos;
+      }, {});
+      Object.values(porUf).forEach((grupo) => {
+        grupo.forEach((item, indice) => {
+          const [cx, cy] = pontoProjetado(item.uf, indice, grupo.length);
+          const link = document.createElementNS(ns, "a");
+          link.setAttribute("href", "#dist-" + item.id);
+          link.setAttribute("class", "dist-marker dist-marker--" + item.segmento);
+          link.setAttribute("data-id", item.id);
+          link.setAttribute("aria-label", `${item.nome}, ${item.cidade}/${item.uf}`);
+          const titulo = document.createElementNS(ns, "title");
+          titulo.textContent = `${item.nome} — ${item.cidade}/${item.uf}`;
+          const alvo = document.createElementNS(ns, "circle");
+          alvo.setAttribute("class", "dist-marker__alvo");
+          alvo.setAttribute("cx", cx); alvo.setAttribute("cy", cy); alvo.setAttribute("r", 28);
+          const halo = document.createElementNS(ns, "circle");
+          halo.setAttribute("class", "dist-marker__halo");
+          halo.setAttribute("cx", cx); halo.setAttribute("cy", cy); halo.setAttribute("r", 5.4);
+          const ponto = document.createElementNS(ns, "circle");
+          ponto.setAttribute("class", "dist-marker__ponto");
+          ponto.setAttribute("cx", cx); ponto.setAttribute("cy", cy); ponto.setAttribute("r", 2.5);
+          link.append(titulo, alvo, halo, ponto);
+          link.addEventListener("click", (evento) => {
+            evento.preventDefault();
+            abreDiretorio(item.id, link);
+          });
+          svgMapa.appendChild(link);
+        });
+      });
+    };
+
+    const contatos = (item) => {
+      const links = [];
+      if (item.telefone) {
+        const numero = item.telefone.split("/")[0].replace(/\D/g, "");
+        links.push(`<a href="tel:+55${numero}">${escapa(item.telefone)}</a>`);
+      }
+      if (item.email) links.push(`<a href="mailto:${escapa(item.email)}">${escapa(item.email)}</a>`);
+      if (item.href) links.push(`<a href="${escapa(item.href)}" target="_blank" rel="noopener">Abrir contato ou ficha</a>`);
+      return links.join("");
+    };
+
+    const renderizaLista = (itens) => {
+      listaDist.innerHTML = ordemRegioes.map((regiao) => {
+        const regionais = itens.filter((item) => item.regiao === regiao);
+        if (!regionais.length) return "";
+        const fichas = regionais.map((item) => {
+          const cobertura = item.segmento === "grandes" && item.cobertura > 1
+            ? ` · cobertura cadastrada em ${item.cobertura} municípios${item.ufs?.length ? ` (${item.ufs.join(", ")})` : ""}` : "";
+          return `<article class="dist-card${selecionado === item.id ? " selecionado" : ""}" id="dist-${escapa(item.id)}" data-id="${escapa(item.id)}">
+            <span class="dist-card__segmento">${item.segmento === "pet" ? "Pet" : "Grandes animais"}</span>
+            <h5>${escapa(item.nome)}</h5>
+            <p class="dist-card__local">${escapa(item.cidade)}/${escapa(item.uf)}${escapa(cobertura)}</p>
+            <div class="dist-card__contatos">${contatos(item)}</div>
+          </article>`;
+        }).join("");
+        return `<section class="dist-regiao" aria-labelledby="regiao-${regiao.toLowerCase().replace(/[^a-z]/g, "-")}">
+          <h4 id="regiao-${regiao.toLowerCase().replace(/[^a-z]/g, "-")}">${regiao} · ${regionais.length}</h4>
+          <div class="dist-regiao__grid">${fichas}</div>
+        </section>`;
+      }).join("");
+      vazioDist.hidden = itens.length > 0;
+      contagemDist.textContent = `${itens.length} ${itens.length === 1 ? "distribuidor" : "distribuidores"} encontrados`;
+      listaDist.querySelectorAll(".dist-card").forEach((ficha) => {
+        ficha.addEventListener("click", () => destaca(ficha.dataset.id, false));
+      });
+    };
+
+    const itensAtivos = () => segmentoAtivo === "todos"
+        ? dadosDist.items : dadosDist.items.filter((item) => item.segmento === segmentoAtivo);
+
+    const abreDiretorio = (id, origem) => {
+      const itens = itensAtivos();
+      selecionado = id && itens.some((item) => item.id === id) ? id : "";
+      renderizaLista(itens);
+      origemModal = origem || document.activeElement;
+      if (typeof modalDist.showModal === "function") modalDist.showModal();
+      else modalDist.setAttribute("open", "");
+      document.body.classList.add("dist-modal-aberto");
+      window.requestAnimationFrame(() => {
+        if (selecionado) destaca(selecionado, true);
+        else fecharModalDist.focus();
+      });
+    };
+
+    const fechaDiretorio = () => {
+      if (typeof modalDist.close === "function" && modalDist.open) modalDist.close();
+      else {
+        modalDist.removeAttribute("open");
+        document.body.classList.remove("dist-modal-aberto");
+        if (origemModal && document.contains(origemModal)) origemModal.focus();
+      }
+    };
+
+    const atualizaMapa = () => {
+      const itens = itensAtivos();
+      if (!itens.some((item) => item.id === selecionado)) selecionado = "";
+      renderizaMapa(itens);
+    };
+
+    document.querySelectorAll("[data-segmento]").forEach((botao) => {
+      botao.addEventListener("click", () => {
+        segmentoAtivo = botao.dataset.segmento;
+        selecionado = "";
+        document.querySelectorAll("[data-segmento]").forEach((item) => {
+          const ativo = item === botao;
+          item.setAttribute("aria-pressed", String(ativo));
+          item.classList.toggle("ativo", ativo);
+        });
+        atualizaMapa();
+      });
+    });
+    abrirModalDist.addEventListener("click", () => abreDiretorio("", abrirModalDist));
+    fecharModalDist.addEventListener("click", fechaDiretorio);
+    modalDist.addEventListener("cancel", (evento) => {
+      evento.preventDefault();
+      fechaDiretorio();
+    });
+    modalDist.addEventListener("close", () => {
+      document.body.classList.remove("dist-modal-aberto");
+      if (origemModal && document.contains(origemModal)) origemModal.focus();
+      origemModal = null;
+    });
+    modalDist.addEventListener("click", (evento) => {
+      if (evento.target !== modalDist) return;
+      const caixa = modalDist.getBoundingClientRect();
+      const fora = evento.clientX < caixa.left || evento.clientX > caixa.right ||
+        evento.clientY < caixa.top || evento.clientY > caixa.bottom;
+      if (fora) fechaDiretorio();
+    });
+    atualizaMapa();
+  }
+})();
