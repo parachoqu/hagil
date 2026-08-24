@@ -384,36 +384,6 @@ button{ font: inherit; color: inherit; }
 .hero__chip--a{ top: 16%; left: 2%; }
 .hero__chip--b{ bottom: 13%; right: 0; }
 
-/* fauna: camada intermediária entre a gota e a embalagem */
-.hero__fauna{
-  --fauna-esq: -8%;   /* sangria na goteira, sem alcançar a coluna de texto */
-  --fauna-dir: -6%;
-  position: absolute;
-  inset: 0 var(--fauna-dir) 0 var(--fauna-esq);
-  z-index: 1;         /* gota (auto) < fauna (1) < produto (2) < chips (3) */
-  pointer-events: none;
-  filter:
-    saturate(.96) contrast(.97)
-    drop-shadow(0 10px 12px rgba(6, 20, 11, .32));
-}
-.hero__fauna img{
-  position: absolute;
-  left: var(--x);
-  bottom: var(--b);
-  width: var(--w);
-  height: auto;
-  transform: var(--flip, none);
-}
-/* recortes claros pedem um segundo apoio, curto, para não sumirem na gota */
-.hero__fauna--zebu,
-.hero__fauna--galinha{ filter: drop-shadow(0 1px 2px rgba(6, 20, 11, .42)); }
-
-.hero__fauna--cavalo { --x: 0;     --b: 4.5%; --w: 21.6%; }
-.hero__fauna--zebu   { --x: 21.2%; --b: 9.8%; --w: 19.5%; --flip: scaleX(-1); }
-.hero__fauna--bovinos{ --x: 65%;   --b: 6.8%; --w: 38.7%; }
-.hero__fauna--suino  { --x: 54%;   --b: 3.2%; --w: 24.7%; }
-.hero__fauna--galinha{ --x: 82.5%; --b: 2.8%; --w: 8.6%; }
-
 /* entrada orquestrada */
 @keyframes sobe{
   from{ opacity: 0; transform: translateY(18px); }
@@ -1917,20 +1887,6 @@ body.modal-travado{ overflow: hidden; }
 /* ============================================================
    Responsivo
    ============================================================ */
-@media (max-width: 1400px){
-  /* a margem da página encolhe: a fauna recua para dentro do palco */
-  .hero__fauna{ --fauna-dir: 0%; }
-  .hero__fauna--suino  { --x: 56%; }
-  .hero__fauna--bovinos{ --x: 63%; --w: 37%; }
-}
-
-@media (max-width: 1279px){
-  /* goteira mais estreita: menos sangria para não encostar no texto */
-  .hero__fauna{ --fauna-esq: -4%; }
-  /* desktop compacto: o zebu já representa os bovinos */
-  .hero__fauna--bovinos{ display: none; }
-}
-
 @media (max-width: 1080px){
   .difs__grid{ grid-template-columns: repeat(2, 1fr); }
   .trajetoria__trilha{
@@ -1964,7 +1920,6 @@ body.modal-travado{ overflow: hidden; }
   .hero__grid{ grid-template-columns: 1fr; }
   .hero__palco{ order: -1; min-height: 360px; }
   .hero__chip--a{ left: 0; }
-  .hero__fauna{ display: none; }   /* direção de arte de tablet/mobile em etapa própria */
 
   .credibilidade__grid{ grid-template-columns: repeat(2, 1fr); }
   .credibilidade__item{ border-left: 0; padding-inline: 0; }
