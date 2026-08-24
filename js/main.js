@@ -1,4 +1,4 @@
-/* Hágil Terapêutica — redesign conceitual
+/* Hágil Terapêutica - redesign conceitual
    Comportamentos comuns: header, menu, reveals e mapa de distribuição. */
 
 (function () {
@@ -53,6 +53,8 @@
   const modalDist = document.getElementById("modal-distribuidores");
   const abrirModalDist = document.getElementById("abrir-modal-distribuidores");
   const fecharModalDist = document.getElementById("fechar-modal-distribuidores");
+  const distBuscaInput = document.getElementById("dist-busca-input");
+  const distBuscaLimpar = document.getElementById("dist-busca-limpar");
   const dadosDist = window.HAGIL_DISTRIBUIDORES;
 
   if (svgMapa && listaDist && contagemDist && modalDist && abrirModalDist && fecharModalDist && dadosDist) {
@@ -73,7 +75,15 @@
     const escapa = (valor) => String(valor || "")
       .replaceAll("&", "&amp;").replaceAll("<", "&lt;")
       .replaceAll(">", "&gt;").replaceAll('"', "&quot;");
+    const normaliza = (str) =>
+      String(str || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .trim();
+
     let segmentoAtivo = "todos";
+    let termoBusca = "";
     let selecionado = "";
     let origemModal = null;
 
@@ -129,7 +139,7 @@
           link.setAttribute("data-id", item.id);
           link.setAttribute("aria-label", `${item.nome}, ${item.cidade}/${item.uf}`);
           const titulo = document.createElementNS(ns, "title");
-          titulo.textContent = `${item.nome} — ${item.cidade}/${item.uf}`;
+          titulo.textContent = `${item.nome} - ${item.cidade}/${item.uf}`;
           const alvo = document.createElementNS(ns, "circle");
           alvo.setAttribute("class", "dist-marker__alvo");
           alvo.setAttribute("cx", cx); alvo.setAttribute("cy", cy); alvo.setAttribute("r", 28);
@@ -166,7 +176,7 @@
         if (!regionais.length) return "";
         const fichas = regionais.map((item) => {
           const cobertura = item.segmento === "grandes" && item.cobertura > 1
-            ? ` · cobertura cadastrada em ${item.cobertura} municípios${item.ufs?.length ? ` (${item.ufs.join(", ")})` : ""}` : "";
+            ? ` • cobertura cadastrada em ${item.cobertura} municípios${item.ufs?.length ? ` (${item.ufs.join(", ")})` : ""}` : "";
           return `<article class="dist-card${selecionado === item.id ? " selecionado" : ""}" id="dist-${escapa(item.id)}" data-id="${escapa(item.id)}">
             <span class="dist-card__segmento">${item.segmento === "pet" ? "Pet" : "Grandes animais"}</span>
             <h5>${escapa(item.nome)}</h5>
@@ -175,21 +185,58 @@
           </article>`;
         }).join("");
         return `<section class="dist-regiao" aria-labelledby="regiao-${regiao.toLowerCase().replace(/[^a-z]/g, "-")}">
-          <h4 id="regiao-${regiao.toLowerCase().replace(/[^a-z]/g, "-")}">${regiao} · ${regionais.length}</h4>
+          <h4 id="regiao-${regiao.toLowerCase().replace(/[^a-z]/g, "-")}">${regiao} • ${regionais.length}</h4>
           <div class="dist-regiao__grid">${fichas}</div>
         </section>`;
       }).join("");
       vazioDist.hidden = itens.length > 0;
-      contagemDist.textContent = `${itens.length} ${itens.length === 1 ? "distribuidor" : "distribuidores"} encontrados`;
+      if (itens.length === 0) {
+        vazioDist.textContent = termoBusca
+          ? `Nenhum distribuidor encontrado para "${termoBusca}".`
+          : "Nenhum distribuidor encontrado para este segmento.";
+      }
+      const sufixoBusca = termoBusca ? ` para "${termoBusca}"` : "";
+      contagemDist.textContent = `${itens.length} ${itens.length === 1 ? "distribuidor encontrado" : "distribuidores encontrados"}${sufixoBusca}`;
       listaDist.querySelectorAll(".dist-card").forEach((ficha) => {
         ficha.addEventListener("click", () => destaca(ficha.dataset.id, false));
       });
     };
 
-    const itensAtivos = () => segmentoAtivo === "todos"
-        ? dadosDist.items : dadosDist.items.filter((item) => item.segmento === segmentoAtivo);
+    const itensAtivos = () => {
+      let base = segmentoAtivo === "todos"
+        ? dadosDist.items
+        : dadosDist.items.filter((item) => item.segmento === segmentoAtivo);
+
+      if (termoBusca) {
+        const termo = normaliza(termoBusca);
+        const termoDigitos = termoBusca.replace(/\D/g, "");
+        base = base.filter((item) => {
+          const nome = normaliza(item.nome);
+          const cidade = normaliza(item.cidade);
+          const uf = normaliza(item.uf);
+          const regiao = normaliza(item.regiao);
+          const ufs = normaliza((item.ufs || []).join(" "));
+          const email = normaliza(item.email);
+          const tel = String(item.telefone || "").replace(/\D/g, "");
+
+          return (
+            nome.includes(termo) ||
+            cidade.includes(termo) ||
+            uf.includes(termo) ||
+            regiao.includes(termo) ||
+            ufs.includes(termo) ||
+            email.includes(termo) ||
+            (termoDigitos.length >= 2 && tel.includes(termoDigitos))
+          );
+        });
+      }
+      return base;
+    };
 
     const abreDiretorio = (id, origem) => {
+      termoBusca = "";
+      if (distBuscaInput) distBuscaInput.value = "";
+      if (distBuscaLimpar) distBuscaLimpar.hidden = true;
       const itens = itensAtivos();
       selecionado = id && itens.some((item) => item.id === id) ? id : "";
       renderizaLista(itens);
@@ -199,6 +246,7 @@
       document.body.classList.add("dist-modal-aberto");
       window.requestAnimationFrame(() => {
         if (selecionado) destaca(selecionado, true);
+        else if (distBuscaInput) distBuscaInput.focus();
         else fecharModalDist.focus();
       });
     };
@@ -213,10 +261,31 @@
     };
 
     const atualizaMapa = () => {
-      const itens = itensAtivos();
+      const itens = segmentoAtivo === "todos"
+        ? dadosDist.items
+        : dadosDist.items.filter((item) => item.segmento === segmentoAtivo);
       if (!itens.some((item) => item.id === selecionado)) selecionado = "";
       renderizaMapa(itens);
     };
+
+    if (distBuscaInput) {
+      distBuscaInput.addEventListener("input", (e) => {
+        termoBusca = e.target.value;
+        if (distBuscaLimpar) {
+          distBuscaLimpar.hidden = !termoBusca;
+        }
+        renderizaLista(itensAtivos());
+      });
+      if (distBuscaLimpar) {
+        distBuscaLimpar.addEventListener("click", () => {
+          distBuscaInput.value = "";
+          termoBusca = "";
+          distBuscaLimpar.hidden = true;
+          distBuscaInput.focus();
+          renderizaLista(itensAtivos());
+        });
+      }
+    }
 
     document.querySelectorAll("[data-segmento]").forEach((botao) => {
       botao.addEventListener("click", () => {
@@ -228,6 +297,9 @@
           item.classList.toggle("ativo", ativo);
         });
         atualizaMapa();
+        if (modalDist.open || modalDist.hasAttribute("open")) {
+          renderizaLista(itensAtivos());
+        }
       });
     });
     abrirModalDist.addEventListener("click", () => abreDiretorio("", abrirModalDist));

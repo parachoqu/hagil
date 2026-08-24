@@ -1,4 +1,4 @@
-/* Hágil Terapêutica — catálogo de produtos gerado a partir das imagens finais. */
+/* Hágil Terapêutica - catálogo de produtos gerado a partir das imagens finais. */
 
 (function () {
   "use strict";

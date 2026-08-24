@@ -39,7 +39,8 @@ except ImportError:  # Deterministic local fallback for environments without ONN
 
 ROOT = Path(__file__).resolve().parents[1]
 PRODUCT_DIR = ROOT / "assets/images/produtos"
-REVIEW_DIR = ROOT / "assets/images/produtos-review"
+BACKUP_ROOT = ROOT / "backups/product-images"
+REVIEW_DIR = ROOT / "prints/product-images-review"
 MANIFEST_PATH = ROOT / "assets/images/produtos_upscale_manifest.json"
 OFFICIAL_BASE = "https://www.hagil.com.br/"
 USER_AGENT = "Mozilla/5.0 (compatible; HagilProductImageUpgrade/1.0)"
@@ -531,9 +532,7 @@ def validate_png(path: Path) -> dict[str, object]:
 
 
 def make_backup(products: list[LocalProduct]) -> Path:
-    backup = ROOT / "assets/images" / time.strftime(
-        "produtos_backup_before_official_hd_%Y%m%d_%H%M%S"
-    )
+    backup = BACKUP_ROOT / time.strftime("official-hd-before_%Y%m%d_%H%M%S")
     backup.mkdir(parents=True, exist_ok=False)
     for product in products:
         shutil.copy2(product.path, backup / product.path.name)

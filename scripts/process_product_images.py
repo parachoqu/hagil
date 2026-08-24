@@ -16,8 +16,8 @@ from rembg import new_session, remove
 
 ROOT = Path(__file__).resolve().parents[1]
 PRODUCT_DIR = ROOT / "assets" / "images" / "produtos"
-BACKUP_DIR = ROOT / "assets" / "images" / "produtos-original-jpg-backup"
-REVIEW_DIR = ROOT / "assets" / "images" / "produtos-review"
+BACKUP_DIR = ROOT / "backups" / "product-images" / "original-jpg"
+REVIEW_DIR = ROOT / "prints" / "product-images-review"
 HASH_DIR = REVIEW_DIR / "processed-by-hash"
 MANIFEST = REVIEW_DIR / "manifest.json"
 TARGET_SIZE = 1024
