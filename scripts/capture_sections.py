@@ -6,6 +6,7 @@ import re
 import asyncio
 import subprocess
 import base64
+import shutil
 from pathlib import Path
 
 # Clear proxy variables for local loopback
@@ -134,7 +135,36 @@ class CDPClient:
             `;
             document.head.appendChild(style);
         """)
+        await self.force_eager_images()
         await asyncio.sleep(0.2)
+
+    async def force_eager_images(self):
+        """Carrega tudo que está marcado como lazy e espera a decodificação.
+
+        `Page.captureScreenshot` com `captureBeyondViewport` amplia o clipe
+        sem rolar a página, então o IntersectionObserver de `loading="lazy"`
+        nunca dispara para o que está abaixo da dobra. As capturas de página
+        inteira saíam com blocos de cor sólida no lugar das fotografias —
+        um falso negativo que faz o projeto parecer quebrado quando não está.
+        """
+        await self.eval("""
+            (() => {
+                document.querySelectorAll('img[loading="lazy"]')
+                    .forEach(img => { img.loading = 'eager'; });
+                return document.querySelectorAll('img').length;
+            })()
+        """)
+        # Espera as imagens completarem, com teto para não travar a captura.
+        for _ in range(40):
+            pendentes = await self.eval("""
+                [...document.querySelectorAll('img')].filter(i => !i.complete).length
+            """)
+            try:
+                if int(pendentes) == 0:
+                    break
+            except (TypeError, ValueError):
+                break
+            await asyncio.sleep(0.1)
 
     async def capture_element(self, selector, filepath, padding=0):
         box = await self.eval(f"""
@@ -230,19 +260,33 @@ async def main():
     server = subprocess.Popen(["python3", "-m", "http.server", str(PORT)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     time.sleep(0.5)
 
-    print("Launching Chromium...")
+    # Porta livre e perfil descartável por execução. Com porta e diretório
+    # fixos, um Chromium que não encerrou na rodada anterior deixa um
+    # SingletonLock que faz o novo processo sair na hora — e o script
+    # falhava com "Failed to find DevTools WebSocket URL" sem dizer por quê.
+    import socket
+    import tempfile
+
+    with socket.socket() as s:
+        s.bind(("127.0.0.1", 0))
+        debug_port = s.getsockname()[1]
+    perfil = tempfile.mkdtemp(prefix="cdp-sections-")
+
+    print(f"Launching Chromium (porta {debug_port})...")
     chrome = subprocess.Popen([
         "/usr/bin/chromium",
         "--headless=new",
         "--no-sandbox",
         "--disable-gpu",
-        "--remote-debugging-port=9222",
-        "--user-data-dir=/tmp/cdp-sections-dir-v2",
+        f"--remote-debugging-port={debug_port}",
+        f"--user-data-dir={perfil}",
         "about:blank"
     ], stderr=subprocess.PIPE, text=True)
 
     ws_url = None
+    diagnostico = []
     for line in chrome.stderr:
+        diagnostico.append(line.rstrip())
         m = re.search(r"DevTools listening on (ws://[^\s]+)", line)
         if m:
             ws_url = m.group(1)
@@ -250,6 +294,8 @@ async def main():
 
     if not ws_url:
         print("Failed to find DevTools WebSocket URL")
+        for linha in diagnostico[-15:]:
+            print("  chromium:", linha)
         chrome.terminate()
         server.terminate()
         return
@@ -275,47 +321,52 @@ async def main():
         # Section 02: Espécies
         await cdp.capture_element("section.secao.especies", OUTPUT_DIR / "02_home_especies.png")
 
-        # Section 03: Campanhas (Slide 1: Dynamis)
-        await cdp.eval("""
-            (() => {
+        # Section 03: Campanhas — um capítulo por captura.
+        #
+        # Forçar `trilha.scrollLeft` não funciona aqui: a captura usa
+        # `captureBeyondViewport`, que refaz o layout da página e zera o
+        # scroll horizontal da trilha. As três capturas saíam idênticas ao
+        # capítulo 1 mesmo com o carrossel funcionando.
+        #
+        # Então navega-se pelo controle real — o mesmo caminho do usuário —
+        # e os banners fora de vista são ocultados. Sem trilha rolável não há
+        # scroll para o relayout perder, e o que sobra na captura é
+        # exatamente o capítulo pedido.
+        ISOLA_CAPITULO = """
+            (n => {
+                const banners = [...document.querySelectorAll('[data-carrossel-banner]')];
+                const marcas = document.querySelectorAll('[data-carrossel-para]');
+                if (marcas[n]) marcas[n].click();
+                banners.forEach((b, i) => { b.style.display = i === n ? '' : 'none'; });
                 const trilha = document.querySelector('[data-carrossel-trilha]');
                 if (trilha) {
-                    trilha.style.scrollBehavior = 'auto';
-                    trilha.style.scrollSnapType = 'none';
+                    trilha.style.overflow = 'hidden';
                     trilha.scrollLeft = 0;
                 }
-            })()
-        """)
-        await asyncio.sleep(0.3)
-        await cdp.capture_element("section.campanhas", OUTPUT_DIR / "03_home_campanhas_slide1_dynamis.png")
+            })(%d)
+        """
 
-        # Section 03: Campanhas (Slide 2: Máximo Baby)
+        for indice, nome in enumerate([
+            "03_home_campanhas_capitulo1_dynamis.png",
+            "04_home_campanhas_capitulo2_maximo_baby.png",
+            "05_home_campanhas_capitulo3_entherikos.png",
+        ]):
+            await cdp.eval(ISOLA_CAPITULO % indice)
+            await asyncio.sleep(1.0)
+            await cdp.capture_element("section.campanhas", OUTPUT_DIR / nome)
+
+        # Restaura a trilha para as capturas seguintes da mesma página.
         await cdp.eval("""
             (() => {
+                document.querySelectorAll('[data-carrossel-banner]')
+                    .forEach(b => { b.style.display = ''; });
                 const trilha = document.querySelector('[data-carrossel-trilha]');
-                if (trilha) {
-                    const btns = document.querySelectorAll('[data-carrossel-para]');
-                    if (btns[1]) btns[1].setAttribute('aria-current', 'true');
-                    trilha.scrollLeft = trilha.clientWidth;
-                }
+                if (trilha) trilha.style.overflow = '';
+                const marcas = document.querySelectorAll('[data-carrossel-para]');
+                if (marcas[0]) marcas[0].click();
             })()
         """)
-        await asyncio.sleep(0.3)
-        await cdp.capture_element("section.campanhas", OUTPUT_DIR / "04_home_campanhas_slide2_maximo_baby.png")
-
-        # Section 03: Campanhas (Slide 3: Enthérikos)
-        await cdp.eval("""
-            (() => {
-                const trilha = document.querySelector('[data-carrossel-trilha]');
-                if (trilha) {
-                    const btns = document.querySelectorAll('[data-carrossel-para]');
-                    if (btns[2]) btns[2].setAttribute('aria-current', 'true');
-                    trilha.scrollLeft = trilha.clientWidth * 2;
-                }
-            })()
-        """)
-        await asyncio.sleep(0.3)
-        await cdp.capture_element("section.campanhas", OUTPUT_DIR / "05_home_campanhas_slide3_entherikos.png")
+        await asyncio.sleep(0.6)
 
         # Section 04: Destaques de Produtos
         await cdp.capture_element("section.secao.destaques", OUTPUT_DIR / "06_home_destaques_produtos.png")
@@ -465,6 +516,7 @@ async def main():
         await cdp.close()
         chrome.terminate()
         server.terminate()
+        shutil.rmtree(perfil, ignore_errors=True)
 
 if __name__ == "__main__":
     asyncio.run(main())

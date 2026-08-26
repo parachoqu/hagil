@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Catálogo | Hágil Terapêutica</title>
-<meta name="description" content="Catálogo de medicamentos homeopáticos veterinários Hágil por espécie, fase e linha (estudo de UI/UX).">
+<meta name="description" content="Catálogo de medicamentos homeopáticos veterinários Hágil por espécie, fase e necessidade (estudo de UI/UX).">
 <link rel="icon" type="image/png" href="img/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -40,13 +40,32 @@
       <img src="assets/images/campo/hero/campo-hero-16x9.webp" alt="" width="1920" height="1080" fetchpriority="high">
     </picture>
     <div class="catalogo-hero__veu" aria-hidden="true"></div>
+
+    <!-- A prateleira sobre a qual o catálogo abre. Espaço negativo
+         deliberado vira acervo: as embalagens aparecem antes de
+         qualquer filtro, cortadas pela borda inferior da seção. -->
+    <!-- A prateleira sobre a qual o catálogo abre. Três embalagens
+         bastam: o espaço negativo vira acervo entrevisto sem virar
+         grade. A profundidade é óptica — escala, oclusão e foco.
+         Nenhuma delas é alterada em cor: a regra do sistema é que o
+         packshot nunca recebe grading. -->
+    <div class="catalogo-hero__prateleira" aria-hidden="true">
+      <img src="assets/images/produtos/otimizados/Hagil_Bovinos_Bovinos de Corte_Reprodução Gold.webp" alt="" width="845" height="1100" loading="lazy" decoding="async">
+      <img src="assets/images/produtos/otimizados/Hagil_Bovinos_Bovinos 1ª Fase_Máximo Baby H1000.webp" alt="" width="845" height="1100" loading="lazy" decoding="async">
+      <img src="assets/images/produtos/otimizados/Hagil_Bovinos_Bovinos de Corte_Dynamis MH1000.webp" alt="" width="828" height="1100" loading="lazy" decoding="async">
+    </div>
+
     <div class="container catalogo-hero__inner">
       <p class="eyebrow" data-entrada style="--i:1">Catálogo · uso veterinário</p>
-      <h1 id="catalogo-titulo" data-entrada style="--i:2">Catálogo de Produtos Hágil</h1>
+      <h1 id="catalogo-titulo" data-entrada style="--i:2">Soluções veterinárias para cada fase do ciclo.</h1>
       <p class="catalogo-hero__lead" data-entrada style="--i:3">Medicamentos homeopáticos veterinários para nove espécies, formulados para desempenho e equilíbrio livre de resíduos.</p>
-      <dl class="catalogo-hero__numeros" data-entrada style="--i:4">
+    </div>
+
+    <div class="container catalogo-hero__base" data-entrada style="--i:4">
+      <dl class="catalogo-hero__numeros">
         <div><dt>Produtos</dt><dd>38</dd></div>
         <div><dt>Espécies</dt><dd>9</dd></div>
+        <div><dt>Registro</dt><dd>MAPA</dd></div>
       </dl>
     </div>
   </section>
@@ -60,7 +79,7 @@
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
-          <input type="search" id="catalogo-busca" class="busca__campo" placeholder="Buscar por produto ou linha — Dynamis, Curae, Máximo…" aria-label="Buscar produto no catálogo" autocomplete="off" spellcheck="false">
+          <input type="search" id="catalogo-busca" class="busca__campo" placeholder="Buscar produto — Dynamis, Curae, Máximo…" aria-label="Buscar produto no catálogo" autocomplete="off" spellcheck="false">
           <button type="button" id="catalogo-busca-limpar" class="busca__limpar" aria-label="Limpar busca" hidden>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"></path></svg>
           </button>

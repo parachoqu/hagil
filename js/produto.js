@@ -3,7 +3,7 @@
    Lê ?id=<slug> e monta a página a partir de js/catalogo.js.
 
    Regra que governa esta página: o design não inventa informação
-   veterinária. Espécie, fase e linha vêm da estrutura oficial e são
+   veterinária. Espécie, fase e família vêm da estrutura oficial e são
    exibidas. Benefício, indicações, composição, modo de uso e registro
    ficam marcados como pendentes até o responsável técnico preenchê-los
    em scripts/gerar_catalogo.py — nunca preenchidos aqui.
@@ -73,14 +73,28 @@
     );
   }
 
-  const taxonomia = [
-    produto.categoriaRotulo,
-    produto.segmentos && produto.segmentos.length ? produto.segmentos.join(", ") : produto.segmento,
-    produto.familia
-  ]
+  /* Taxonomia em dois pesos.
+
+     Juntar todos os segmentos num único <li> produzia uma pílula de
+     cinco fases atravessando a hero — um bloco gráfico competindo
+     com o nome do produto. Aqui a informação se separa pelo que ela
+     é: duas etiquetas para o que identifica o produto (alcance e
+     família) e uma legenda de uma linha para as fases, que são
+     detalhe de bula, não identidade. */
+  const etiquetas = [produto.categoriaRotulo, produto.familia]
     .filter(Boolean)
     .map((t) => "<li>" + esc(t) + "</li>")
     .join("");
+
+  const fases = (produto.segmentos && produto.segmentos.length)
+    ? produto.segmentos
+    : (produto.segmento ? [produto.segmento] : []);
+
+  const legendaFases = fases.length
+    ? '<p class="produto__fases">' +
+      fases.map((f) => "<span>" + esc(f) + "</span>").join("") +
+      "</p>"
+    : "";
 
   raiz.innerHTML =
     /* ---------- Hero com a atmosfera da espécie ---------- */
@@ -105,7 +119,8 @@
     (produto.beneficio
       ? '<p class="campaign__apoio">' + esc(produto.beneficio) + "</p>"
       : "") +
-    '<ul class="produto__taxonomia">' + taxonomia + "</ul>" +
+    '<ul class="produto__taxonomia">' + etiquetas + "</ul>" +
+    legendaFases +
     '<a class="btn btn--luz" href="index.html#distribuidores">Falar com um distribuidor ' +
     setaSVG + "</a>" +
     "</div>" +

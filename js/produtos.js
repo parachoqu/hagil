@@ -14,7 +14,6 @@
   if (!dados) return;
 
   const PRODUTOS = dados.produtos;
-  const FAMILIAS = dados.familias;
   const POR_PAGINA = 24;
 
   const ESPECIES = [
@@ -33,18 +32,16 @@
   const grid = document.getElementById("catalogo-grid");
   const listaEspecies = document.getElementById("filtros-especies");
   const listaSegmentos = document.getElementById("filtros-segmentos");
-  const listaFamilias = document.getElementById("filtros-familias");
   const contagem = document.getElementById("filtros-contagem");
   const campoBusca = document.getElementById("catalogo-busca");
   const limparBusca = document.getElementById("catalogo-busca-limpar");
   const vazio = document.getElementById("catalogo-vazio");
   const limparTudo = document.getElementById("catalogo-limpar");
-  const destaques = document.getElementById("catalogo-destaques");
   const sentinela = document.getElementById("catalogo-sentinela");
 
   if (!grid) return;
 
-  const estado = { especie: "todos", segmento: "", familia: "", busca: "", visiveis: POR_PAGINA };
+  const estado = { especie: "todos", segmento: "", busca: "", visiveis: POR_PAGINA };
   let resultados = PRODUTOS;
 
   /* ---------- Utilidades ---------- */
@@ -110,10 +107,6 @@
     return [...vistos.entries()];
   }
 
-  function familiasDisponiveis() {
-    return [];
-  }
-
   /* ---------- Render dos filtros ---------- */
 
   function montaEspecies() {
@@ -150,11 +143,6 @@
         '<button class="filtro filtro--fino" type="button" data-segmento="' + esc(valor) + '"' +
         ' aria-pressed="' + (estado.segmento === valor) + '">' + esc(rotulo) + "</button>"
       ).join("");
-  }
-
-  function montaFamilias() {
-    if (!listaFamilias) return;
-    listaFamilias.innerHTML = "";
   }
 
   /* ---------- Render da grade ---------- */
@@ -207,41 +195,16 @@
 
   // Estado vazio útil: aponta qual filtro está restringindo demais.
   function sugestao() {
-    if (estado.busca && (estado.especie !== "todos" || estado.familia)) {
-      return "Tente buscar sem os filtros de espécie e linha.";
+    if (estado.busca && estado.especie !== "todos") {
+      return "Tente buscar sem o filtro de espécie.";
     }
-    if (estado.busca) return "Verifique a grafia ou busque pelo nome da linha, como Dynamis ou Curae.";
-    if (estado.familia && estado.especie !== "todos") {
-      return "Essa linha não atende à espécie selecionada.";
-    }
+    if (estado.busca) return "Verifique a grafia ou busque pelo nome do produto, como Dynamis ou Curae.";
+    if (estado.segmento) return "Nenhuma solução dessa fase atende à espécie selecionada.";
     return "Ajuste os filtros para ver mais resultados.";
   }
 
   function temFiltro() {
-    return estado.especie !== "todos" || estado.segmento || estado.familia || estado.busca;
-  }
-
-  /* ---------- Destaques editoriais ----------
-     Descoberta antes do acervo: três linhas com presença, no topo,
-     antes da grade completa. */
-  function montaDestaques() {
-    if (!destaques) return;
-    const mostrar = !temFiltro();
-    destaques.hidden = !mostrar;
-    if (!mostrar || destaques.dataset.pronto) return;
-
-    destaques.innerHTML = FAMILIAS.slice(0, 3).map((f, i) =>
-      '<a class="destaque-linha" href="?familia=' + encodeURIComponent(f.slug) + '" style="--i:' + i + '">' +
-      '<span class="destaque-linha__img"><img src="' + esc(f.capa) + '" alt="" ' +
-      'width="346" height="460" loading="lazy" decoding="async"></span>' +
-      '<span class="destaque-linha__corpo">' +
-      '<span class="eyebrow">Linha ' + esc(f.nome) + "</span>" +
-      "<strong>" + esc(f.total) + " apresentações</strong>" +
-      "<span>" + esc(f.especies.join(" · ")) + "</span>" +
-      '<span class="destaque__link">Ver a linha ' + setaSVG + "</span>" +
-      "</span></a>"
-    ).join("");
-    destaques.dataset.pronto = "1";
+    return estado.especie !== "todos" || estado.segmento || estado.busca;
   }
 
   /* ---------- URL compartilhável ---------- */
@@ -250,7 +213,6 @@
     const params = new URLSearchParams();
     if (estado.especie !== "todos") params.set("especie", estado.especie);
     if (estado.segmento) params.set("segmento", estado.segmento);
-    if (estado.familia) params.set("familia", estado.familia);
     if (estado.busca) params.set("q", estado.busca);
     const query = params.toString();
     const url = window.location.pathname + (query ? "?" + query : "");
@@ -262,7 +224,6 @@
     const especie = params.get("especie") || "todos";
     estado.especie = ESPECIES.some(([v]) => v === especie) ? especie : "todos";
     estado.segmento = params.get("segmento") || "";
-    estado.familia = params.get("familia") || "";
     estado.busca = params.get("q") || "";
     if (campoBusca) campoBusca.value = estado.busca;
   }
@@ -274,15 +235,12 @@
     resultados = filtra();
     montaEspecies();
     montaSegmentos();
-    montaFamilias();
-    montaDestaques();
     montaGrid(preservaScroll);
   }
 
   function limparFiltros() {
     estado.especie = "todos";
     estado.segmento = "";
-    estado.familia = "";
     estado.busca = "";
     if (campoBusca) campoBusca.value = "";
     if (limparBusca) limparBusca.hidden = true;
@@ -305,17 +263,6 @@
     estado.segmento = valor;
     aplica();
   });
-
-  if (listaFamilias) {
-    listaFamilias.addEventListener("click", (e) => {
-      const botao = e.target.closest("[data-familia]");
-      if (!botao) return;
-      const valor = botao.dataset.familia;
-      if (valor === estado.familia) return;
-      estado.familia = valor;
-      aplica();
-    });
-  }
 
   if (campoBusca) {
     let timer = 0;

@@ -93,6 +93,10 @@
   --sombra-2: 0 18px 44px -18px rgba(11, 33, 23, .28);
   --sombra-produto: 0 22px 22px rgba(11, 33, 23, .38);
 
+  /* Anel de foco: floresta é o padrão, para as superfícies claras.
+     Ver a lista de exceções escuras junto de :focus-visible. */
+  --foco: var(--floresta);
+
   --dur: .45s;
   --ease: cubic-bezier(.33, 1, .5, 1);
   --header-h: 92px;
@@ -196,10 +200,36 @@ button {
   color: inherit;
 }
 
+/* O anel de foco é contextual porque o sistema tem os dois fundos.
+   A lima dá 8,89:1 sobre o profundo e apenas 1,67:1 sobre o creme —
+   nas superfícies claras ela some, e a WCAG 2.2 pede 3:1 para o
+   indicador de foco. O padrão é o verde-floresta; as superfícies
+   escuras, listadas adiante, trocam para a lima. */
 :focus-visible {
-  outline: 2px solid var(--lima);
+  outline: 2px solid var(--foco);
   outline-offset: 3px;
   border-radius: 4px;
+}
+
+/* Superfícies escuras: aqui é a lima que passa nos 3:1, e o
+   floresta desapareceria contra o próprio fundo da campanha. */
+.campaign,
+.campanha,
+.catalogo-hero,
+.produto-hero,
+.produto-cta,
+.secao--tecnica,
+.editorial__capa,
+.destaque--amplo,
+.especie a,
+.footer {
+  --foco: var(--lima);
+}
+
+/* O capítulo claro volta ao padrão escuro: o editorial do Máximo
+   Baby vive sobre a névoa, não sobre a cor da campanha. */
+.campanha--baby {
+  --foco: var(--marinho);
 }
 
 ::selection {
@@ -629,7 +659,11 @@ button {
   height: 100%;
   object-fit: cover;
   object-position: var(--foto-pos);
-  scale: var(--foto-zoom, 1);
+  /* --foto-espelho: -1 inverte a fotografia no eixo X. É direção de
+     arte, não truque: nenhuma das fotos tem texto ou assimetria que
+     denuncie o espelho, e inverter é o que permite trazer o assunto
+     para o lado onde o palco daquele capítulo vive. */
+  scale: calc(var(--foto-zoom, 1) * var(--foto-espelho, 1)) var(--foto-zoom, 1);
   translate: var(--foto-desloc, 0) 0;
 }
 
@@ -688,8 +722,13 @@ button {
   object-fit: contain;
   object-position: bottom;
   z-index: 2;
+  /* Duas sombras, dois papéis. A curta e escura diz onde a pata TOCA
+     o chão; a longa e difusa é a luz do ambiente. Como `drop-shadow`
+     segue a silhueta do recorte, o contato acompanha a escala do
+     animal sem depender de elipse posicionada à mão. */
   filter: saturate(.92) brightness(.95)
-    drop-shadow(0 14px 16px rgba(11, 33, 23, .34));
+    drop-shadow(0 5px 4px rgba(11, 33, 23, .5))
+    drop-shadow(0 16px 18px rgba(11, 33, 23, .3));
 }
 
 /* O packshot lidera: maior contraste, sombra própria, nunca deformado.
@@ -704,7 +743,10 @@ button {
   object-fit: contain;
   object-position: bottom;
   z-index: 3;
-  filter: drop-shadow(var(--sombra-produto));
+  /* Mesmo contrato do animal: contato curto somado à sombra ambiente.
+     O contraste da embalagem é maior — ela lidera a cena. */
+  filter: drop-shadow(0 7px 6px rgba(11, 33, 23, .55))
+    drop-shadow(var(--sombra-produto));
   transition: transform var(--dur) var(--ease),
     filter var(--dur) var(--ease);
 }
@@ -772,42 +814,128 @@ button {
   margin-top: var(--e-2);
 }
 
-/* ---------- Temas ----------
-   Mesma estrutura e tipografia. Muda a fotografia, a atmosfera e
-   onde o assunto vive dentro do quadro. */
+/* ---------- Direção de cena por capítulo ----------
+   A moldura, a proporção e a tipografia são as mesmas nos três
+   banners: é isso que os mantém no mesmo sistema. O que muda é a
+   DIREÇÃO — hora do dia, altura do horizonte, lado do editorial e
+   posição do palco. Cada capítulo precisa ser reconhecível reduzido
+   a uma miniatura, antes de qualquer leitura.
+
+                Dynamis        Máximo Baby     Enthérikos
+     emoção     força          cuidado         equilíbrio
+     hora       fim de tarde   manhã clara     luz de curral
+     editorial  esquerda       DIREITA         esquerda estreita
+     horizonte  baixo          alto            médio
+     tinta      branca         marinho         branca
+   ============================================================ */
+
+/* CAPÍTULO 01 — força e energia.
+   Horizonte baixo e muito céu para dar escala; o pasto em primeiro
+   plano ganha textura com um zoom leve. */
 .campanha--dynamis {
   --campaign-bg: #174A34;
   --campaign-accent: #C38B32;
-  --foto-pos: 34% 62%;
+  --foto-pos: 34% 66%;
   --foto-pos-cena: 68% 58%;
-  --packshot-x: 18%;
-  --animal-x: -2%;
-  --animal-h: 34%;
+  --foto-zoom: 1.06;
+  --packshot-x: 22%;
+  --animal-x: -4%;
+  --animal-h: 38%;
   --baseline: 16%;
 }
 
-/* A matriz e o bezerro reais da fotografia caem exatamente sobre o
-   palco, em todos os viewports. Com o zebu recortado preservado,
-   dois grupos de nelore brancos disputariam a mesma cena — então o
-   enquadramento escolhe o pasto aberto e o recorte assume a matriz
-   em primeiro plano, sozinho. Ver o relatório: é o único desvio
-   consciente do briefing nesta campanha. */
+/* CAPÍTULO 02 — cuidado e desenvolvimento.
+   O único capítulo claro e o único com o editorial à direita. A
+   fotografia é espelhada para trazer matriz e bezerro ao terço
+   esquerdo, onde o palco agora vive. */
 .campanha--baby {
   --campaign-bg: #64BFC9;
   --campaign-accent: #A9C84F;
-  --foto-pos: 0% 62%;
-  --foto-pos-cena: 82% 62%;
-  --packshot-x: 14%;
-  --animal-x: 8%;
-  --animal-h: 44%;
-  --baseline: 15%;
-}
-
-/* Sobre o céu claro a tinta escura é a que passa em AA. */
-.campanha--baby {
+  --foto-espelho: -1;
+  --foto-pos: 50% 58%;
+  --foto-pos-cena: 30% 60%;
+  /* A matriz e o bezerro espelhados caem entre 13% e 26% do quadro.
+     A embalagem entra à DIREITA deles, encostando de leve: ao lado,
+     nunca por cima do assunto da fotografia. */
+  --packshot-x: 56%;
+  --baseline: 17%;
+  /* O sachê de 400g é fisicamente pequeno. Uma embalagem menor é
+     mais verdadeira aqui e deixa o par respirar no campo aberto. */
+  --banner-packshot: clamp(11rem, 18vw, 17rem);
   color: var(--marinho);
 }
 
+/* CAPÍTULO 03 — equilíbrio e manejo.
+   Registro documental: coluna editorial mais estreita, título menor,
+   e a embalagem deitada assentada na terra batida do curral. */
+.campanha--entherikos {
+  --campaign-bg: #0F2C4C;
+  --campaign-accent: #64BFC9;
+  --foto-pos: 30% 58%;
+  --foto-pos-cena: 78% 54%;
+  /* A embalagem deitada assenta na terra batida do primeiro plano,
+     à esquerda do produtor. Menor e mais baixa: presença clara e
+     perspectiva correta, sem disputar a cena com as pessoas. */
+  --packshot-x: 30%;
+  --baseline: 10%;
+}
+
+.campanha--entherikos .campanha__packshot--largo {
+  width: clamp(15rem, 26vw, 24rem);
+  max-width: 62%;
+}
+
+.campanha--entherikos .campanha__editorial {
+  width: min(38%, 29rem);
+}
+
+.campanha--entherikos .campanha__editorial h3 {
+  font-size: var(--t-h2);
+  line-height: var(--t-h2-lh);
+}
+
+/* ---------- Inversão do capítulo claro ----------
+   Editorial à direita, palco à esquerda, fotografia espelhada. É a
+   troca de lado — não a cor — que torna o capítulo reconhecível na
+   periferia da visão. */
+.campanha--espelhada {
+  flex-direction: row-reverse;
+}
+
+.campanha--espelhada .campanha__editorial {
+  margin-left: 0;
+  margin-right: max(var(--banner-area-segura),
+      (100% - var(--container)) / 2 + var(--banner-area-segura));
+}
+
+.campanha--espelhada .campanha__palco {
+  inset: 0 54% 0 0;
+}
+
+/* O packshot passa a se ancorar pela esquerda: no palco espelhado
+   `right` afastaria a embalagem do assunto da fotografia. */
+.campanha--espelhada .campanha__packshot {
+  right: auto;
+  left: var(--packshot-x);
+}
+
+/* O capítulo claro pede um scrim quase branco, não um bloco de cor.
+   Uma chapa de ciano sobre a foto inteira infantiliza a marca e
+   apaga o verde-dourado do pasto; a névoa protege a leitura da
+   tinta marinho e devolve a fotografia à manhã que ela tem. */
+.campanha--espelhada .campanha__veu {
+  background:
+    linear-gradient(266deg,
+      color-mix(in srgb, var(--nevoa) 90%, transparent) 0 24%,
+      color-mix(in srgb, var(--nevoa) 60%, transparent) 48%,
+      color-mix(in srgb, var(--campaign-bg) 16%, transparent) 64%,
+      transparent 86%),
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--ceu) 16%, transparent) 0%,
+      transparent 32%);
+}
+
+/* Sobre o céu claro a tinta escura é a que passa em AA. */
 .campanha--baby .campanha__editorial h3 {
   color: var(--marinho);
 }
@@ -820,36 +948,73 @@ button {
   color: rgba(15, 44, 76, .84);
 }
 
-.campanha--baby .campanha__prova li {
-  border-color: rgba(15, 44, 76, .3);
-  color: rgba(15, 44, 76, .9);
-}
-
 /* .78 caía para 4,27:1 sobre o azul-céu — abaixo do AA para o corpo
    pequeno da ficha. */
+/* .78 caía para 4,27:1 sobre o azul-céu — abaixo do AA para o corpo
+   pequeno da ficha. Sobre a névoa clara o filete de lima também
+   desaparece: aqui ele é verde-floresta. */
 .campanha--baby .campanha__ficha {
   color: rgba(15, 44, 76, .92);
+  border-left-color: var(--floresta);
 }
 
-/* Sem recorte de animal: a fotografia já traz produtor e bezerros.
-   A embalagem fica sobre a terra batida, separada das pessoas. */
-.campanha--entherikos {
-  --campaign-bg: #0F2C4C;
-  --campaign-accent: #64BFC9;
-  --foto-pos: 26% 58%;
-  --foto-pos-cena: 80% 54%;
-  --packshot-x: 18%;
-  --baseline: 20%;
+/* ---------- Passagem entre capítulos ----------
+   Um gesto orquestrado, não efeitos espalhados: a régua desenha, a
+   coluna editorial entra em cascata curta e a embalagem sobe e
+   assenta. `:not([inert])` é o gancho gratuito — o carrossel já
+   marca como inert todo banner fora de vista, então a animação
+   reinicia sozinha a cada troca de capítulo, sem estado extra em JS.
+   `prefers-reduced-motion` zera tudo no bloco global do fim. */
+@keyframes capitulo-entra {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
 }
 
-/* ---------- Barra de controles ----------
-   Régua editorial em vez de pontos: os três segmentos prolongam as
-   linhas já usadas em .secao-head--linha e .cert--texto. */
+@keyframes capitulo-assenta {
+  from {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+}
+
+.campanhas[data-modo="carrossel"] .campanha:not([inert]) .campanha__editorial>* {
+  animation: capitulo-entra 520ms var(--ease) backwards;
+}
+
+.campanhas[data-modo="carrossel"] .campanha:not([inert]) .campanha__editorial>*:nth-child(1) { animation-delay: 80ms; }
+.campanhas[data-modo="carrossel"] .campanha:not([inert]) .campanha__editorial>*:nth-child(2) { animation-delay: 140ms; }
+.campanhas[data-modo="carrossel"] .campanha:not([inert]) .campanha__editorial>*:nth-child(3) { animation-delay: 200ms; }
+.campanhas[data-modo="carrossel"] .campanha:not([inert]) .campanha__editorial>*:nth-child(4) { animation-delay: 250ms; }
+.campanhas[data-modo="carrossel"] .campanha:not([inert]) .campanha__editorial>*:nth-child(5) { animation-delay: 300ms; }
+
+.campanhas[data-modo="carrossel"] .campanha:not([inert]) .campanha__packshot {
+  animation: capitulo-assenta 620ms var(--ease) 120ms backwards;
+}
+
+.campanhas[data-modo="carrossel"] .campanha:not([inert]) .campanha__animal {
+  animation: capitulo-assenta 620ms var(--ease) 60ms backwards;
+}
+
+/* ---------- Régua de capítulos ----------
+   A ASSINATURA DO SISTEMA.
+
+   Não é um indicador de slide: é o índice de uma campanha em três
+   capítulos. Cada segmento carrega índice, nome e fase, e o trilho
+   do capítulo ativo se preenche com a cor daquela campanha —
+   ocre, céu, marinho. O preenchimento desenha da esquerda para a
+   direita: a leitura é de virar a página, não de trocar de slide.
+
+   O mesmo gesto — um trilho que se preenche com a cor do estado
+   ativo — reaparece nos filtros do catálogo. Um dispositivo só,
+   dizendo "onde você está", em dois contextos.
+   ============================================================ */
 .campanhas__barra {
   display: flex;
-  align-items: center;
-  gap: var(--e-4);
-  margin-top: var(--e-5);
+  align-items: flex-start;
+  gap: clamp(var(--e-3), 2vw, var(--e-5));
+  margin-top: var(--e-6);
 }
 
 .campanhas__seta {
@@ -859,6 +1024,7 @@ button {
   justify-content: center;
   width: 44px;
   height: 44px;
+  margin-top: .1rem;
   border-radius: 50%;
   border: 1px solid var(--hairline);
   background: transparent;
@@ -886,77 +1052,140 @@ button {
   cursor: default;
 }
 
-.campanhas__posicao {
-  flex: 1;
-  display: flex;
-  align-items: baseline;
-  gap: .45rem;
-  font-family: var(--f-mono);
-  font-size: var(--t-eyebrow);
-  font-weight: 600;
-  letter-spacing: .16em;
-  text-transform: uppercase;
-  color: var(--musgo);
-  min-width: 0;
-}
-
-.campanhas__posicao-indice {
-  font-size: var(--t-label);
-  color: var(--floresta);
-}
-
-.campanhas__posicao-nome {
-  color: var(--ink);
-  letter-spacing: .1em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.campanhas__posicao-nome::before {
-  content: "· ";
-  color: var(--musgo);
-}
-
+/* Colunas iguais: os três capítulos têm o mesmo peso no índice,
+   por mais que os nomes tenham larguras diferentes. */
 .campanhas__regua {
-  display: flex;
-  align-items: center;
-  gap: var(--e-2);
+  flex: 1;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: clamp(var(--e-4), 3vw, var(--e-7));
   list-style: none;
   margin: 0;
   padding: 0;
+  min-width: 0;
 }
 
-.campanhas__regua button {
-  display: block;
-  width: 44px;
-  height: 44px;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  cursor: pointer;
+/* Duas cores por capítulo, porque filete e texto têm exigências
+   diferentes.
+
+   --cap-cor é a identidade dominante da campanha e vive no filete,
+   que é elemento gráfico e não precisa de razão de contraste. Sobre
+   o creme, ocre / céu / marinho são três filetes inequívocos.
+
+   --cap-tinta é a versão escura da mesma família, para o índice.
+   Ocre e céu sobre creme dão 2,61:1 e 1,87:1 — reprovam em AA para
+   texto pequeno. A família se mantém, o valor desce. */
+.campanhas__capitulo[data-capitulo="dynamis"] {
+  --cap-cor: var(--ocre);
+  --cap-tinta: var(--floresta);
 }
 
-/* O filete vive dentro do alvo de 44px, que permanece invisível. */
-.campanhas__regua button::before {
-  content: "";
-  display: block;
+.campanhas__capitulo[data-capitulo="baby"] {
+  --cap-cor: var(--ceu);
+  --cap-tinta: #17555F;
+}
+
+.campanhas__capitulo[data-capitulo="entherikos"] {
+  --cap-cor: var(--marinho);
+  --cap-tinta: var(--marinho);
+}
+
+.campanhas__capitulo button {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: var(--e-3);
+  row-gap: .3rem;
   width: 100%;
-  height: 3px;
+  min-height: 44px;
+  padding: var(--e-2) 0 var(--e-3);
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+}
+
+.campanhas__capitulo-indice {
+  grid-column: 1;
+  font-family: var(--f-mono);
+  font-size: var(--t-eyebrow);
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--musgo);
+  transition: color var(--dur) var(--ease);
+}
+
+.campanhas__capitulo-trilho {
+  grid-column: 2;
+  position: relative;
+  height: 2px;
   border-radius: 999px;
   background: var(--hairline);
-  transition: background var(--dur) var(--ease),
-    transform var(--dur) var(--ease);
+  overflow: hidden;
 }
 
-.campanhas__regua button:hover::before {
-  background: var(--musgo);
+/* O preenchimento é uma camada própria em vez de background-size:
+   assim o desenho da esquerda para a direita é composto na GPU. */
+.campanhas__capitulo-preenche {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--cap-cor, var(--floresta));
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 560ms var(--ease);
 }
 
-.campanhas__regua button[aria-current="true"]::before {
-  background: var(--floresta);
-  transform: scaleY(1.7);
+.campanhas__capitulo-nome {
+  grid-column: 1 / -1;
+  font-family: var(--f-display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--musgo);
+  transition: color var(--dur) var(--ease);
 }
+
+/* Sem opacidade: a .68 a fase caía para 2,80:1. O estado ativo já é
+   dito pelo filete preenchido, pelo índice colorido e pelo nome em
+   tinta cheia — um quarto sinal não acrescenta nada e custava a
+   legibilidade. */
+.campanhas__capitulo-fase {
+  grid-column: 1 / -1;
+  font-family: var(--f-mono);
+  font-size: var(--t-eyebrow);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--musgo);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Hover: o trilho antecipa o capítulo sem preenchê-lo. */
+.campanhas__capitulo button:hover .campanhas__capitulo-trilho {
+  background: color-mix(in srgb, var(--cap-cor) 34%, transparent);
+}
+
+.campanhas__capitulo button:hover .campanhas__capitulo-nome {
+  color: var(--ink);
+}
+
+/* Capítulo ativo: o trilho se desenha e o nome ganha a tinta cheia. */
+.campanhas__capitulo button[aria-current="true"] .campanhas__capitulo-preenche {
+  transform: scaleX(1);
+}
+
+.campanhas__capitulo button[aria-current="true"] .campanhas__capitulo-indice {
+  color: var(--cap-tinta);
+}
+
+.campanhas__capitulo button[aria-current="true"] .campanhas__capitulo-nome {
+  color: var(--ink);
+}
+
 
 /* ---------- Tablet: menos sobreposição, packshot preservado ---------- */
 @media (max-width: 1279px) {
@@ -973,6 +1202,10 @@ button {
     inset: 0 0 0 50%;
   }
 
+  .campanha--espelhada .campanha__palco {
+    inset: 0 50% 0 0;
+  }
+
   /* Os animais recuam e descem antes de encolher. */
   .campanha__animal {
     width: 50%;
@@ -981,16 +1214,22 @@ button {
   }
 
   .campanha--dynamis {
-    --foto-pos: 40% 62%;
+    --foto-pos: 40% 64%;
+    --animal-h: 34%;
   }
 
   .campanha--baby {
-    --foto-pos: 26% 64%;
+    --foto-pos: 50% 60%;
+    --packshot-x: 4%;
   }
 
   .campanha--entherikos {
-    --foto-pos: 22% 58%;
-    --packshot-x: 8%;
+    --foto-pos: 26% 58%;
+    --packshot-x: 16%;
+  }
+
+  .campanha--entherikos .campanha__editorial {
+    width: min(46%, 27rem);
   }
 }
 
@@ -1052,8 +1291,20 @@ button {
         transparent 44%);
   }
 
-  .campanha__palco {
+  .campanha__palco,
+  .campanha--espelhada .campanha__palco {
     inset: 0;
+  }
+
+  /* No quadro vertical a inversão perde função: com o editorial
+     empilhado acima da cena não há lado a inverter, e manter o
+     espelho só faria a embalagem trocar de canto sem motivo. */
+  .campanha--espelhada {
+    flex-direction: column;
+  }
+
+  .campanha--espelhada .campanha__editorial {
+    margin-right: 0;
   }
 
   .campanha__animal {
@@ -1065,6 +1316,11 @@ button {
     height: clamp(11rem, 40vw, 15rem);
     right: 8%;
     max-width: 46%;
+  }
+
+  .campanha--espelhada .campanha__packshot {
+    left: auto;
+    right: 8%;
   }
 
   /* `translate` (propriedade individual) faz a centragem para que o
@@ -1079,6 +1335,7 @@ button {
 
   .campanha--dynamis {
     --baseline: 12%;
+    --foto-zoom: 1;
   }
 
   .campanha--baby {
@@ -1087,15 +1344,52 @@ button {
 
   .campanha--entherikos {
     --baseline: 16%;
+    --packshot-x: 8%;
   }
 
+  .campanha--entherikos .campanha__editorial {
+    width: auto;
+  }
+
+  .campanha--entherikos .campanha__editorial h3 {
+    font-size: var(--t-h2);
+  }
+
+  /* A régua encolhe antes de perder informação: primeiro some a
+     fase, depois o nome. O índice e o filete colorido bastam para
+     orientar num quadro estreito. */
   .campanhas__barra {
-    gap: var(--e-2);
+    gap: var(--e-3);
   }
 
-  /* O nome sai; índice e régua bastam para orientar. */
-  .campanhas__posicao-nome {
+  .campanhas__regua {
+    gap: var(--e-4);
+  }
+
+  .campanhas__capitulo-fase {
     display: none;
+  }
+
+  .campanhas__capitulo-nome {
+    font-size: .8125rem;
+  }
+}
+
+/* Abaixo de 560px não cabem três nomes lado a lado. Some o dos
+   capítulos inativos e fica o do ativo: a régua continua mostrando
+   onde se está, e o índice continua mostrando quantos são. */
+@media (max-width: 560px) {
+  .campanhas__capitulo-nome {
+    display: none;
+  }
+
+  .campanhas__capitulo button[aria-current="true"] .campanhas__capitulo-nome {
+    display: block;
+  }
+
+  .campanhas__capitulo button {
+    align-content: start;
+    padding-bottom: var(--e-2);
   }
 }
 
@@ -1313,7 +1607,7 @@ button {
   content: "";
   position: absolute;
   inset: auto 0 0 0;
-  height: 12%;
+  height: 6%;
   z-index: 5;
   pointer-events: none;
   background: linear-gradient(180deg,
@@ -1334,6 +1628,12 @@ button {
   right: 4%;
 }
 
+/* 46ch: o apoio para antes do palco, em vez de correr por baixo
+   dos animais. */
+.hero .campaign__apoio {
+  max-width: 46ch;
+}
+
 .hero__titulo {
   font-size: var(--t-display);
   line-height: var(--t-display-lh);
@@ -1347,37 +1647,35 @@ button {
   display: block;
 }
 
-/* Chips flutuantes: prova rápida, ancorada ao palco. */
+/* Uma legenda, não duas pílulas.
+   Dois selos brancos flutuando sobre a cena leem como interface
+   sobreposta a uma campanha. Sobra um, em creme e monoespaçado,
+   ancorado à base da embalagem: legenda editorial, do mesmo
+   material tipográfico das fichas e da régua. */
 .hero__chip {
   position: absolute;
   z-index: 5;
   display: inline-flex;
   align-items: center;
   gap: .55rem;
-  padding: .6rem 1rem;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, .94);
+  padding: .55rem .95rem;
+  border-radius: var(--r-controle);
+  background: color-mix(in srgb, var(--creme) 94%, transparent);
   color: var(--profundo);
   font-family: var(--f-mono);
   font-size: var(--t-eyebrow);
   font-weight: 600;
   letter-spacing: .1em;
   text-transform: uppercase;
-  box-shadow: var(--sombra-2);
+  box-shadow: 0 10px 24px -12px rgba(11, 33, 23, .5);
   white-space: nowrap;
 }
 
-/* Os chips ancoram no produto e na linha de chão — não flutuam. */
-.hero__chip--a {
-  bottom: 58%;
-  right: 2%;
-}
-
-/* Ancorado à linha de chão da fauna, longe da faixa de transição
-   que dissolve a base da hero na seção seguinte. */
+/* Encostada na base da embalagem, à esquerda dela: a legenda
+   pertence ao produto, não ao quadro. */
 .hero__chip--b {
-  bottom: 12%;
-  left: 0;
+  bottom: calc(var(--baseline) + 1%);
+  right: 30%;
 }
 
 /* ---------- Fauna: dois planos, um chão só ----------
@@ -1407,24 +1705,35 @@ button {
   max-width: 60%;
   object-fit: contain;
   object-position: bottom left;
+  /* Contato curto somado à sombra ambiente, o mesmo contrato dos
+     banners de campanha: é o par de sombras que assenta o recorte. */
   filter: saturate(.9) brightness(.94)
-    drop-shadow(0 12px 14px rgba(11, 33, 23, .4));
+    drop-shadow(0 5px 4px rgba(11, 33, 23, .5))
+    drop-shadow(0 15px 16px rgba(11, 33, 23, .34));
 }
 
 .hero__fauna--traseira .hero__fauna__item {
-  filter: saturate(.78) brightness(.82) blur(.4px)
-    drop-shadow(0 10px 12px rgba(11, 33, 23, .34));
+  opacity: .82;
+  filter: saturate(.52) brightness(.74) sepia(.14) blur(1.4px)
+    drop-shadow(0 8px 10px rgba(11, 33, 23, .3));
 }
 
 /* O produto domina a escala; a fauna sustenta a cena sem competir. */
+/* O zebu é o plano de fundo, não um segundo protagonista. Ele é
+   cinza e frio; a fotografia é fim de tarde quente. Empatado em
+   escala com a boiada avermelhada, a diferença de temperatura
+   denuncia a colagem. Recuado — menor, mais alto na cena, mais
+   dessaturado e desfocado — ele volta a ser o que deve ser:
+   profundidade. */
 .hero__fauna--zebu {
-  left: 0;
-  height: 40%;
+  left: 4%;
+  height: 24%;
+  bottom: calc(var(--baseline) + 9%);
 }
 
 .hero__fauna--bovinos {
-  left: 18%;
-  height: 34%;
+  left: 16%;
+  height: 35%;
 }
 
 /* ---------- Barra de claims sob o palco ---------- */
@@ -1547,13 +1856,8 @@ button {
     height: clamp(14rem, 32vw, 20rem);
   }
 
-  .hero__chip--a {
-    bottom: 66%;
-    right: 0;
-  }
-
   .hero__chip--b {
-    display: none;
+    right: 4%;
   }
 
   .hero__fauna--zebu {
@@ -1567,43 +1871,94 @@ button {
 }
 
 /* Mobile: os planos se separam em vez de se sobreporem.
-   Identificação e texto → CTAs → produto e animal → continuidade.
-   Nada de order: a ordem do DOM já é essa. */
+   CENA PRIMEIRO.
+
+   Na desktop a mensagem e a cena convivem lado a lado. Num quadro
+   estreito isso vira uma pilha: título, parágrafo, três claims e
+   dois botões antes de qualquer produto ou animal — a fotografia
+   fica atrás do texto e ninguém a vê.
+
+   Aqui a abertura tem narrativa própria, de capa editorial. A
+   fotografia deixa de ser fundo e vira a cena de cima, com o
+   produto e a boiada dentro dela. A mensagem vem logo abaixo,
+   sobre o profundo — e é sobre o profundo, não sobre creme, porque
+   a lima da assinatura reprova em AA sobre fundo claro e trocá-la
+   custaria a cor da marca.
+
+   Critério: em 390x844 a embalagem precisa aparecer dentro do
+   primeiro viewport. */
 @media (max-width: 767px) {
   .hero {
+    /* A cena ocupa pouco mais da metade da tela: alta o bastante
+       para a fotografia respirar, baixa o bastante para a headline
+       aparecer sem rolagem. */
+    --hero-cena: min(118vw, 58svh);
     min-height: 0;
+    display: flex;
+    flex-direction: column;
+    background: var(--profundo);
+  }
+
+  /* A fotografia e o véu param onde a cena acaba. */
+  .hero .campaign__media,
+  .hero .campaign__veil {
+    inset: 0 0 auto 0;
+    height: var(--hero-cena);
   }
 
   .hero .campaign__media img {
-    object-position: 50% 62%;
+    object-position: 50% 58%;
+  }
+
+  /* Véu leve, só o necessário para o logo e o menu sobreviverem no
+     topo. Abaixo disso a fotografia é fotografia. */
+  .hero .campaign__veil {
+    background: linear-gradient(180deg,
+        color-mix(in srgb, var(--profundo) 62%, transparent) 0%,
+        color-mix(in srgb, var(--profundo) 14%, transparent) 26%,
+        transparent 52%,
+        color-mix(in srgb, var(--profundo) 34%, transparent) 92%,
+        var(--profundo) 100%);
   }
 
   .hero .campaign__inner {
-    grid-template-columns: 1fr;
-    padding-top: calc(var(--header-h) + 1.5rem);
-    padding-bottom: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding-top: 0;
+    padding-bottom: var(--e-8);
+  }
+
+  /* A cena sobe para o topo. É o único `order` do sistema, e ele
+     existe porque a ordem de leitura no mobile é outra: a marca e a
+     cena primeiro, a mensagem depois. */
+  .hero .campaign__stage {
+    order: -1;
+    height: var(--hero-cena);
+    min-height: 0;
   }
 
   .hero .campaign__content {
     max-width: none;
+    padding-top: var(--e-6);
+    gap: var(--e-4);
   }
 
-  .hero .campaign__stage {
-    min-height: 20rem;
-  }
-
-  /* Sobre a foto vertical o texto ocupa o topo: o véu vira vertical
-     para proteger a leitura sem apagar o pasto. */
-  .hero .campaign__veil {
-    background: linear-gradient(180deg,
-        color-mix(in srgb, var(--campaign-bg) 80%, transparent) 0%,
-        color-mix(in srgb, var(--campaign-bg) 54%, transparent) 44%,
-        color-mix(in srgb, var(--campaign-bg) 74%, transparent) 78%,
-        color-mix(in srgb, var(--campaign-bg) 88%, transparent) 100%);
+  /* Em duas linhas a pílula de lima vira uma mancha no topo da
+     mensagem. Sobre o profundo, filete e texto dizem o mesmo com
+     um terço do peso. */
+  .hero .campaign__content .eyebrow {
+    display: block;
+    padding: 0 0 0 var(--e-3);
+    border-radius: 0;
+    border-left: 2px solid var(--lima);
+    background: none;
+    color: var(--lima);
+    line-height: 1.5;
   }
 
   .hero .campaign__product {
-    height: clamp(13rem, 46vw, 18rem);
+    height: min(38vh, 62vw);
     right: 50%;
     transform: translateX(50%);
   }
@@ -1612,18 +1967,70 @@ button {
     display: none;
   }
 
+  /* Um grupo só, encostando na base da embalagem. */
   .hero__fauna--bovinos {
-    left: 2%;
-    height: 24%;
-    opacity: .9;
+    left: 3%;
+    height: 23%;
+    opacity: .95;
+  }
+
+  .hero__fauna--traseira {
+    display: none;
+  }
+
+  /* Três claims em uma linha, separados por filete — no lugar de
+     três marcadores empilhados comendo meia tela. */
+  .hero__claims {
+    gap: 0;
+    column-gap: var(--e-3);
+    row-gap: var(--e-2);
+  }
+
+  .hero__claims li {
+    font-family: var(--f-mono);
+    font-size: .6875rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, .8);
+    gap: 0;
+  }
+
+  .hero__claims li:not(:last-child)::after {
+    content: "";
+    width: 1px;
+    height: .8em;
+    margin-left: var(--e-3);
+    background: rgba(255, 255, 255, .3);
+  }
+
+  .hero__claims .gota {
+    display: none;
+  }
+
+  /* Dois botões cheios disputam o mesmo passo. O segundo vira link. */
+  .hero__acoes {
+    align-items: center;
+    gap: var(--e-5);
+  }
+
+  .hero__acoes .btn--fantasma-luz {
+    min-height: 44px;
+    padding-inline: 0;
+    border-color: transparent;
+    background: none;
+    text-decoration: underline;
+    text-underline-offset: .3em;
+    text-decoration-color: rgba(255, 255, 255, .35);
   }
 
   .hero__rolar {
     display: none;
   }
 
+  /* A hero já termina no profundo: a faixa de dissolução em creme
+     apareceria como uma mancha atrás dos botões. */
   .hero::after {
-    height: 8%;
+    display: none;
   }
 }
 
@@ -2939,12 +3346,22 @@ body.dist-modal-aberto {
    ============================================================ */
 
 /* ---------- Abertura ---------- */
+/* ---------- Abertura do catálogo ----------
+   Continuidade com a home: mesma fotografia, mesma luz, mesmo
+   contrato de véu direcional. O que muda é o assunto — aqui o
+   protagonista é o acervo.
+
+   O véu antigo ia de 78% a 92% de profundo e apagava a fotografia:
+   o lado direito lia como vazio, não como respiro. Agora o gradiente
+   é direcional — denso onde o texto vive, quase limpo no terço
+   direito, onde a prateleira assenta.
+   ============================================================ */
 .catalogo-hero {
   position: relative;
   isolation: isolate;
   overflow: hidden;
   padding-top: calc(var(--header-h) + clamp(3rem, 7vw, 6rem));
-  padding-bottom: clamp(3rem, 6vw, 5rem);
+  padding-bottom: 0;
   color: #fff;
   background: var(--profundo);
 }
@@ -2959,20 +3376,28 @@ body.dist-modal-aberto {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: 50% 62%;
 }
 
 .catalogo-hero__veu {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(180deg,
-      color-mix(in srgb, var(--profundo) 78%, transparent) 0%,
-      color-mix(in srgb, var(--profundo) 92%, transparent) 100%);
+  background:
+    linear-gradient(96deg,
+        color-mix(in srgb, var(--profundo) 92%, transparent) 0 30%,
+        color-mix(in srgb, var(--profundo) 62%, transparent) 58%,
+        color-mix(in srgb, var(--profundo) 26%, transparent) 82%,
+        color-mix(in srgb, var(--profundo) 12%, transparent) 100%),
+    linear-gradient(180deg,
+        color-mix(in srgb, var(--profundo) 46%, transparent) 0%,
+        transparent 26%,
+        color-mix(in srgb, var(--profundo) 58%, transparent) 100%);
 }
 
 .catalogo-hero__inner {
   position: relative;
-  z-index: 2;
+  z-index: 3;
 }
 
 .catalogo-hero h1 {
@@ -2981,109 +3406,117 @@ body.dist-modal-aberto {
   letter-spacing: -0.035em;
   font-weight: 800;
   margin-top: var(--e-4);
+  max-width: 18ch;
 }
 
 .catalogo-hero__lead {
   margin-top: var(--e-5);
-  max-width: 52ch;
+  max-width: 46ch;
   font-size: var(--t-body-l);
   line-height: var(--t-body-l-lh);
   color: rgba(255, 255, 255, .8);
 }
 
+/* ---------- A prateleira ----------
+   Uma fileira baixa de embalagens, alinhadas na mesma linha de chão,
+   com sobreposição parcial e cortadas pela borda inferior da seção.
+   Não é uma grade: é o acervo entrevisto, a estante sobre a qual o
+   catálogo abre.
+
+   A profundidade é óptica — escala, oclusão e profundidade de campo.
+   Nenhuma embalagem recebe grading de cor: a regra do sistema vale
+   aqui como vale nos banners. */
+.catalogo-hero__prateleira {
+  position: absolute;
+  right: max(var(--margem), (100% - var(--container)) / 2);
+  bottom: 0;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  pointer-events: none;
+}
+
+.catalogo-hero__prateleira img {
+  width: auto;
+  object-fit: contain;
+  object-position: bottom;
+  /* Cortadas pela borda inferior: a estante continua abaixo do
+     quadro, e é esse corte que a faz parecer acervo e não vitrine. */
+  transform: translateY(16%);
+}
+
+.catalogo-hero__prateleira img:nth-child(1) {
+  height: clamp(9rem, 15vw, 14rem);
+  margin-right: -3.5rem;
+  filter: blur(1.6px) drop-shadow(0 12px 14px rgba(0, 0, 0, .55));
+}
+
+.catalogo-hero__prateleira img:nth-child(2) {
+  height: clamp(10.5rem, 18vw, 17rem);
+  margin-right: -3rem;
+  filter: blur(.6px) drop-shadow(0 14px 16px rgba(0, 0, 0, .55));
+}
+
+.catalogo-hero__prateleira img:nth-child(3) {
+  height: clamp(12rem, 22vw, 21rem);
+  filter: drop-shadow(0 8px 7px rgba(0, 0, 0, .6))
+    drop-shadow(0 22px 26px rgba(0, 0, 0, .45));
+}
+
+/* ---------- Base técnica ----------
+   Os números deixam de ser um par solto e passam a assentar sobre a
+   linha que separa a abertura da barra de filtros. Vernáculo de
+   ficha: rótulo em mono, valor em display. */
+.catalogo-hero__base {
+  position: relative;
+  z-index: 4;
+  margin-top: clamp(3rem, 8vw, 6rem);
+  padding-top: var(--e-5);
+  padding-bottom: var(--e-5);
+  border-top: 1px solid var(--hairline-luz);
+}
+
 .catalogo-hero__numeros {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--e-8);
-  margin: var(--e-7) 0 0;
+  align-items: baseline;
+  gap: 0;
+  margin: 0;
+}
+
+.catalogo-hero__numeros>div {
+  padding-inline: clamp(var(--e-5), 4vw, var(--e-8));
+  border-left: 1px solid var(--hairline-luz);
+}
+
+.catalogo-hero__numeros>div:first-child {
+  padding-left: 0;
+  border-left: 0;
 }
 
 .catalogo-hero__numeros dt {
   font-family: var(--f-mono);
   font-size: var(--t-eyebrow);
-  letter-spacing: .12em;
+  letter-spacing: .16em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, .55);
-  margin-bottom: .2rem;
+  color: rgba(255, 255, 255, .58);
+  margin-bottom: .3rem;
 }
 
 .catalogo-hero__numeros dd {
   margin: 0;
   font-family: var(--f-display);
-  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-size: clamp(1.5rem, 2.4vw, 2.125rem);
   font-weight: 800;
   line-height: 1;
   letter-spacing: -0.03em;
   color: var(--lima);
 }
 
-/* ---------- Descoberta antes do acervo ---------- */
-.secao--curta {
-  padding-block: clamp(3rem, 6vw, 5rem);
-}
-
-.destaques-linhas {
-  background: var(--creme);
-}
-
-.destaques-linhas__grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--gutter);
-}
-
-.destaque-linha {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: center;
-  gap: var(--e-5);
-  padding: var(--e-5);
-  border-radius: var(--r-card);
-  background: var(--branco);
-  border: 1px solid var(--hairline);
-  text-decoration: none;
-  color: inherit;
-  transition: transform 320ms var(--ease), box-shadow 320ms var(--ease);
-}
-
-.destaque-linha:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--sombra-2);
-}
-
-.destaque-linha__img {
-  display: grid;
-  place-items: center;
-  width: 5.5rem;
-  height: 6.5rem;
-}
-
-.destaque-linha__img img {
-  max-width: 100%;
-  max-height: 100%;
-  width: auto;
-  filter: drop-shadow(0 10px 12px rgba(11, 33, 23, .24));
-}
-
-.destaque-linha__corpo {
-  display: flex;
-  flex-direction: column;
-  gap: .3rem;
-  min-width: 0;
-}
-
-.destaque-linha__corpo strong {
-  font-family: var(--f-display);
-  font-size: 1.25rem;
-  letter-spacing: -0.02em;
-}
-
-.destaque-linha__corpo>span:not(.eyebrow):not(.destaque__link) {
-  font-size: .85rem;
-  color: var(--musgo);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+@media (max-width: 1100px) {
+  .catalogo-hero__prateleira img:first-child {
+    display: none;
+  }
 }
 
 /* ---------- Busca e filtros ----------
@@ -3238,18 +3671,68 @@ body.dist-modal-aberto {
   color: #fff;
 }
 
+/* ---------- Fase: a régua de capítulos, de novo ----------
+   O filtro de fase é a mesma informação que a régua das campanhas
+   organiza na home — onde no ciclo produtivo estamos. Então recebe
+   o mesmo dispositivo: um trilho que se preenche da esquerda para a
+   direita sob o rótulo ativo.
+
+   Um gesto gráfico só, dizendo "onde você está", nos dois lugares
+   em que o sistema precisa dizer isso. E o efeito colateral é
+   bem-vindo: a segunda fileira de pílulas desaparece e a barra de
+   filtros fica com um peso só. */
 .filtro--fino {
   /* Aparência compacta, área de toque cheia: o sistema exige 44px e
      isso vale também para os filtros secundários. */
+  position: relative;
   min-height: 44px;
-  padding: .4rem .85rem;
+  padding: .4rem .3rem;
   font-size: .66rem;
+  color: var(--musgo);
+  background: transparent;
+  border-color: transparent;
+  border-radius: 0;
+}
+
+.filtro--fino::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: .55rem;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--hairline);
+}
+
+.filtro--fino::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: .55rem;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--floresta);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 420ms var(--ease);
+  z-index: 1;
+}
+
+.filtro--fino:hover {
+  color: var(--ink);
   background: transparent;
 }
 
 .filtro--fino[aria-pressed="true"] {
-  background: var(--ink);
-  border-color: var(--ink);
+  color: var(--ink);
+  background: transparent;
+  border-color: transparent;
+}
+
+.filtro--fino[aria-pressed="true"]::before {
+  transform: scaleX(1);
 }
 
 /* A espécie ativa assume a cor da sua atmosfera: o filtro deixa de ser
@@ -3314,24 +3797,28 @@ body.dist-modal-aberto {
   padding: 0;
 }
 
+/* A moldura recua para que a embalagem avance. Um filete de contorno
+   por card, multiplicado por 38 itens, monta uma grade de caixas —
+   o que se vê é o gradeado, não os produtos. Com o fundo branco
+   sobre o creme da seção o card já se delimita sozinho; o filete
+   volta só no hover, junto da elevação. */
 .card-prod a {
   display: flex;
   flex-direction: column;
   height: 100%;
   border-radius: var(--r-card);
   background: var(--branco);
-  border: 1px solid var(--hairline);
+  border: 1px solid transparent;
   text-decoration: none;
   color: inherit;
   overflow: hidden;
-  transition: transform 300ms var(--ease), box-shadow 300ms var(--ease),
-    border-color 300ms var(--ease);
+  box-shadow: 0 1px 2px rgba(11, 33, 23, .05);
+  transition: transform 300ms var(--ease), box-shadow 300ms var(--ease);
 }
 
 .card-prod a:hover {
   transform: translateY(-6px);
   box-shadow: var(--sombra-2);
-  border-color: transparent;
 }
 
 /* A embalagem vem primeiro e vem grande: o rótulo precisa ser legível
@@ -3345,11 +3832,15 @@ body.dist-modal-aberto {
     radial-gradient(70% 60% at 50% 88%, var(--card-tema, rgba(23, 74, 52, .09)), transparent 70%);
 }
 
+/* Mesmo contrato de sombra dos banners e da página de produto: uma
+   curta de contato e uma ampla de ambiente. É o que faz a embalagem
+   pousar sobre a poça de luz do card em vez de pairar sobre ela. */
 .card-prod__img img {
   width: auto;
   max-height: 11rem;
-  filter: drop-shadow(0 12px 14px rgba(11, 33, 23, .22));
-  transition: transform 300ms var(--ease);
+  filter: drop-shadow(0 4px 3px rgba(11, 33, 23, .34))
+    drop-shadow(0 14px 16px rgba(11, 33, 23, .2));
+  transition: transform 300ms var(--ease), filter 300ms var(--ease);
 }
 
 .card-prod__img--largo img {
@@ -3357,8 +3848,12 @@ body.dist-modal-aberto {
   max-width: 100%;
 }
 
+/* No hover a embalagem sobe e a sombra de contato afrouxa: o produto
+   se descola do card, em vez de deslizar com a sombra colada. */
 .card-prod a:hover .card-prod__img img {
   transform: translateY(-6px);
+  filter: drop-shadow(0 9px 7px rgba(11, 33, 23, .26))
+    drop-shadow(0 20px 22px rgba(11, 33, 23, .2));
 }
 
 .card-prod__corpo {
@@ -3454,35 +3949,63 @@ body.dist-modal-aberto {
   position: absolute;
   inset: 0;
   z-index: 0;
+  overflow: hidden;
 }
 
+/* `opacity: .5` sobre uma cor chapada lavava a fotografia: a espécie
+   virava uma mancha bege e o animal sumia. A imagem volta à
+   opacidade plena; a atmosfera passa a vir do véu direcional e de
+   uma camada de tinta em `multiply`, que escurece sem descolorir. */
 .produto-hero__media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: .5;
+  object-position: 50% 52%;
 }
 
-/* Cada espécie traz sua atmosfera para a hero do produto. Todos os
-   tons são escuros o bastante para sustentar texto branco em AA. */
-.produto-hero[data-tema="bovinos"] { --produto-bg: #6B4E27; }
-.produto-hero[data-tema="equinos"] { --produto-bg: #174A34; }
-.produto-hero[data-tema="suinos"] { --produto-bg: #8C4429; }
-.produto-hero[data-tema="aves"] { --produto-bg: #8A6220; }
-.produto-hero[data-tema="pet"] { --produto-bg: #245D66; }
-.produto-hero[data-tema="caprinos"] { --produto-bg: #5E5238; }
-.produto-hero[data-tema="ovinos"] { --produto-bg: #554B3D; }
+/* A tinta da espécie entra em gradiente, não chapada: densa do lado
+   do texto, quase ausente sobre o palco. Uma camada uniforme lê como
+   filtro; em degradê lê como distância. */
+.produto-hero__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(96deg,
+      var(--produto-bg, var(--floresta)) 0 28%,
+      color-mix(in srgb, var(--produto-bg, var(--floresta)) 58%, transparent) 62%,
+      color-mix(in srgb, var(--produto-bg, var(--floresta)) 20%, transparent) 100%);
+  mix-blend-mode: multiply;
+  opacity: .6;
+}
+
+/* Cada espécie traz sua atmosfera para a hero do produto, e as nove
+   saem da paleta Campo Vivo com a semântica que o sistema dá a cada
+   cor — não de marrons avulsos. Produção bovina no verde-floresta e
+   no ocre; primeira fase e pet no céu; ciência e água no marinho;
+   manejo e calor na terra. Todos escuros o bastante para sustentar
+   texto branco em AA. */
+.produto-hero[data-tema="bovinos"] { --produto-bg: #1D5136; }
 .produto-hero[data-tema="bubalinos"] { --produto-bg: #0B2117; }
+.produto-hero[data-tema="equinos"] { --produto-bg: #3F5B2E; }
+.produto-hero[data-tema="suinos"] { --produto-bg: #8A4630; }
+.produto-hero[data-tema="aves"] { --produto-bg: #8A6220; }
+.produto-hero[data-tema="caprinos"] { --produto-bg: #5C5A2E; }
+.produto-hero[data-tema="ovinos"] { --produto-bg: #4A5540; }
+.produto-hero[data-tema="pet"] { --produto-bg: #1C5A69; }
 .produto-hero[data-tema="peixes"] { --produto-bg: #0F2C4C; }
 
 .produto-hero__veu {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(90deg,
-      color-mix(in srgb, var(--produto-bg, var(--floresta)) 94%, transparent) 0 40%,
-      color-mix(in srgb, var(--produto-bg, var(--floresta)) 55%, transparent) 76%,
-      color-mix(in srgb, var(--produto-bg, var(--floresta)) 30%, transparent) 100%);
+  background:
+    linear-gradient(96deg,
+        color-mix(in srgb, var(--produto-bg, var(--floresta)) 88%, transparent) 0 34%,
+        color-mix(in srgb, var(--produto-bg, var(--floresta)) 48%, transparent) 66%,
+        color-mix(in srgb, var(--produto-bg, var(--floresta)) 12%, transparent) 100%),
+    linear-gradient(180deg,
+        color-mix(in srgb, var(--profundo) 42%, transparent) 0%,
+        transparent 24%);
 }
 
 .produto-hero__inner {
@@ -3499,6 +4022,13 @@ body.dist-modal-aberto {
   flex-direction: column;
   align-items: flex-start;
   gap: var(--e-4);
+}
+
+/* `align-items: flex-start` faz cada filho dimensionar por
+   max-content. Sem este teto a lista de etiquetas ignora a largura
+   do container e vaza pela direita no mobile. */
+.produto-hero__texto>* {
+  max-width: 100%;
 }
 
 .produto-hero__texto h1 {
@@ -3558,12 +4088,53 @@ body.dist-modal-aberto {
   color: rgba(255, 255, 255, .9);
 }
 
+/* As fases são detalhe de bula, não identidade do produto: legenda
+   fina de uma linha, sem moldura, abaixo das etiquetas. */
+.produto__fases {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--e-3);
+  margin: calc(var(--e-1) * -1) 0 0;
+  max-width: 52ch;
+  font-family: var(--f-mono);
+  font-size: var(--t-eyebrow);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, .62);
+}
+
+/* Cada fase é uma unidade: a quebra de linha acontece entre fases,
+   nunca no meio de "Bovinos 1ª Fase". */
+.produto__fases span {
+  white-space: nowrap;
+}
+
+.produto__fases span:not(:last-child)::after {
+  content: " ·";
+  color: rgba(255, 255, 255, .38);
+}
+
 .produto-hero__palco {
   position: relative;
   min-height: clamp(20rem, 34vw, 30rem);
 }
 
+/* Na página de produto não há chão fotográfico sob a embalagem — o
+   recorte da espécie mostra o animal, não o solo. Então a sombra
+   deixa de fingir contato e assume o que de fato é: a poça de luz
+   de uma apresentação de produto, que descola a embalagem da
+   fotografia sem inventar um piso que a cena não tem. */
 .produto-hero__palco .campaign__ground {
+  left: 14%;
+  right: 14%;
+  bottom: calc(var(--baseline) - 5%);
+  height: 16%;
+  background: radial-gradient(ellipse at center,
+      rgba(11, 33, 23, .46) 0%,
+      rgba(11, 33, 23, .18) 48%,
+      transparent 74%);
+  filter: blur(16px);
   z-index: 1;
 }
 
@@ -3578,7 +4149,10 @@ body.dist-modal-aberto {
   object-fit: contain;
   object-position: bottom;
   z-index: 2;
-  filter: drop-shadow(var(--sombra-produto));
+  /* Contato curto somado à sombra ambiente: o mesmo contrato dos
+     banners de campanha, para a embalagem assentar no palco. */
+  filter: drop-shadow(0 7px 6px rgba(11, 33, 23, .55))
+    drop-shadow(var(--sombra-produto));
 }
 
 .produto__packshot--largo {
@@ -3774,16 +4348,6 @@ body.dist-modal-aberto {
 }
 
 /* ---------- Responsividade do catálogo e do produto ---------- */
-@media (max-width: 1180px) {
-  .destaques-linhas__grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .destaque-linha:last-child {
-    display: none;
-  }
-}
-
 @media (max-width: 920px) {
   .produto-hero__inner,
   .produto-corpo__grid {
@@ -3794,20 +4358,14 @@ body.dist-modal-aberto {
     position: static;
   }
 
-  .catalogo-hero__numeros {
-    gap: var(--e-6);
+  /* Sem largura para a prateleira, o respiro volta a ser respiro:
+     a fotografia sozinha sustenta a atmosfera. */
+  .catalogo-hero__prateleira {
+    display: none;
   }
 }
 
 @media (max-width: 640px) {
-  .destaques-linhas__grid {
-    grid-template-columns: 1fr;
-  }
-
-  .destaque-linha:last-child {
-    display: grid;
-  }
-
   .filtros__busca-linha {
     flex-wrap: wrap;
   }
@@ -3926,8 +4484,8 @@ body.dist-modal-aberto {
     grid-template-columns: 1fr;
   }
 
-  .catalogo-hero__numeros {
-    gap: var(--e-5);
+  .catalogo-hero__numeros>div {
+    padding-inline: var(--e-5);
   }
 }
 
