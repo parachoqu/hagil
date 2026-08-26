@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Produtos | Hágil Terapêutica</title>
-<meta name="description" content="Catálogo de medicamentos homeopáticos veterinários Hágil (estudo de UI/UX) (estudo de UI/UX).">
-<link rel="icon" type="image/png" href="img/logo.png">
+<title>Catálogo | Hágil Terapêutica</title>
+<meta name="description" content="Catálogo de medicamentos homeopáticos veterinários Hágil por espécie, fase e linha (estudo de UI/UX).">
+<link rel="icon" type="image/png" href="img/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -13,79 +13,103 @@
 </head>
 <body>
 
-<header class="site-header">
+<a class="pular" href="#catalogo-grid">Pular para o catálogo</a>
+
+<header class="site-header site-header--sobre-escuro">
   <div class="container site-header__inner">
     <a class="site-header__logo" href="index.html" aria-label="Hágil Terapêutica, página inicial">
-      <img src="img/logo.png" alt="Hágil Terapêutica">
+      <img src="img/logo.webp" alt="Hágil Terapêutica" width="93" height="64">
     </a>
     <button class="menu-toggle" aria-expanded="false" aria-controls="menu-principal">Menu</button>
     <nav class="site-nav" id="menu-principal" aria-label="Navegação principal">
+      <a href="index.html#especies">Espécies</a>
       <a href="index.html#empresa">Empresa</a>
-      <a href="index.html#diferenciais">Diferenciais</a>
+      <a href="index.html#ciencia">Ciência</a>
       <a href="index.html#conteudo">Conteúdo</a>
       <a href="index.html#distribuidores">Distribuidores</a>
-      <a class="btn btn--primario ativo" href="produtos.html" aria-current="page">Produtos</a>
+      <a class="btn btn--luz ativo" href="produtos.html" aria-current="page">Produtos</a>
     </nav>
   </div>
 </header>
 
 <main>
 
-  <!-- ===== Intro do catálogo ===== -->
-  <section class="catalogo-hero">
-    <div class="container">
-      <p class="eyebrow" data-entrada style="--i:0"><span class="gota" aria-hidden="true"></span>Catálogo · uso veterinário</p>
-      <h1 data-entrada style="--i:1">A linha completa Hágil.</h1>
-      <p data-entrada style="--i:2">Medicamentos homeopáticos para cada espécie e cada fase do ciclo produtivo, todos livres de resíduos, sem carência e com a assinatura de qualidade Hágil.</p>
-      <a class="btn btn--primario catalogo-hero__acao" href="#catalogo-grid" data-entrada style="--i:3">Visualizar catálogo completo
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </a>
+  <!-- ===== Abertura do catálogo ===== -->
+  <section class="catalogo-hero" aria-labelledby="catalogo-titulo">
+    <picture class="catalogo-hero__media">
+      <img src="assets/images/campo/hero/campo-hero-16x9.webp" alt="" width="1920" height="1080" fetchpriority="high">
+    </picture>
+    <div class="catalogo-hero__veu" aria-hidden="true"></div>
+    <div class="container catalogo-hero__inner">
+      <p class="eyebrow" data-entrada style="--i:1">Catálogo · uso veterinário</p>
+      <h1 id="catalogo-titulo" data-entrada style="--i:2">A linha completa Hágil.</h1>
+      <p class="catalogo-hero__lead" data-entrada style="--i:3">Cento e sessenta e sete apresentações homeopáticas para nove espécies, organizadas por fase do ciclo produtivo e por linha de produto.</p>
+      <dl class="catalogo-hero__numeros" data-entrada style="--i:4">
+        <div><dt>Produtos</dt><dd>167</dd></div>
+        <div><dt>Linhas</dt><dd>35</dd></div>
+        <div><dt>Espécies</dt><dd>9</dd></div>
+      </dl>
     </div>
   </section>
 
-  <!-- ===== Filtros por categoria ===== -->
-  <div class="filtros">
-    <div class="container filtros__inner">
-      <div class="filtros__lista" id="filtros-lista" role="group" aria-label="Filtrar produtos por categoria"></div>
-      <span class="filtros__contagem" id="filtros-contagem" aria-live="polite"></span>
+  <!-- ===== Descoberta antes do acervo ===== -->
+  <section class="secao secao--curta destaques-linhas" aria-labelledby="linhas-titulo">
+    <div class="container">
+      <div class="secao-head" data-reveal>
+        <p class="eyebrow"><span class="gota" aria-hidden="true"></span>Comece pela linha</p>
+        <h2 id="linhas-titulo">As linhas com maior cobertura de espécies.</h2>
+      </div>
+      <div class="destaques-linhas__grid" id="catalogo-destaques"></div>
+    </div>
+  </section>
+
+  <!-- ===== Busca e filtros ===== -->
+  <div class="filtros" id="filtros">
+    <div class="container">
+      <div class="filtros__busca-linha">
+        <div class="busca">
+          <svg class="busca__icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="search" id="catalogo-busca" class="busca__campo" placeholder="Buscar por produto ou linha — Dynamis, Curae, Máximo…" aria-label="Buscar produto no catálogo" autocomplete="off" spellcheck="false">
+          <button type="button" id="catalogo-busca-limpar" class="busca__limpar" aria-label="Limpar busca" hidden>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+          </button>
+        </div>
+        <span class="filtros__contagem" id="filtros-contagem" aria-live="polite"></span>
+        <button type="button" class="btn btn--fantasma btn--pequeno" id="catalogo-limpar" hidden>Limpar filtros</button>
+      </div>
+
+      <div class="filtros__lista" id="filtros-especies" role="group" aria-label="Filtrar por espécie"></div>
+      <div class="filtros__lista filtros__lista--fina" id="filtros-segmentos" role="group" aria-label="Filtrar por fase" hidden></div>
+      <div class="filtros__lista filtros__lista--fina filtros__lista--rolavel" id="filtros-familias" role="group" aria-label="Filtrar por linha"></div>
     </div>
   </div>
 
-  <!-- ===== Grade de produtos ===== -->
+  <!-- ===== Grade ===== -->
   <section class="catalogo">
     <div class="container">
-      <div class="catalogo__grid" id="catalogo-grid"></div>
-      <p class="catalogo__nota">Catálogo visual reorganizado a partir das imagens de produtos da Hágil. Consulte sempre o material técnico oficial para indicações e modo de uso.</p>
+      <ul class="catalogo__grid" id="catalogo-grid"></ul>
+      <p class="catalogo__vazio" id="catalogo-vazio" hidden></p>
+      <div class="catalogo__sentinela" id="catalogo-sentinela" aria-hidden="true">
+        <button type="button" class="btn btn--fantasma" id="catalogo-mais">Carregar mais produtos</button>
+      </div>
+      <p class="catalogo__nota">Uso veterinário. Indicações, modo de uso e informações técnicas seguem o material oficial da Hágil — consulte o distribuidor ou o responsável técnico da sua região.</p>
     </div>
   </section>
 
 </main>
 
-<!-- ===== Modal de produto ("bula premium") ===== -->
-<div class="modal" id="modal-produto" role="dialog" aria-modal="true" aria-labelledby="modal-titulo" hidden>
-  <button class="modal__backdrop" type="button" aria-label="Fechar detalhes do produto" tabindex="-1"></button>
-
-  <button class="modal__sair" type="button" id="modal-sair">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
-    Sair
-  </button>
-
-  <div class="modal__painel">
-    <div class="modal__visual" id="modal-visual"></div>
-    <div class="modal__conteudo" id="modal-conteudo"></div>
-  </div>
-</div>
-
-<!-- ===== Footer ===== -->
 <footer class="footer" id="contato">
   <div class="container">
     <div class="footer__grid">
       <div class="footer__marca">
-        <img src="assets/images/marca/logo-hagil-branco-oficial.png" alt="Hágil Terapêutica">
+        <img src="assets/images/marca/logo-hagil-branco-oficial.webp" alt="Hágil Terapêutica" width="116" height="80" loading="lazy">
         <p>Laboratório especializado em medicamentos homeopáticos de uso veterinário. Teófilo Otoni · Minas Gerais.</p>
       </div>
       <div>
-        <h4>Contato</h4>
+        <h3>Contato</h3>
         <ul>
           <li><a href="tel:+553335211928">(33) 3521-1928</a></li>
           <li><a href="tel:+5533999709559">(33) 99970-9559</a></li>
@@ -94,7 +118,7 @@
         </ul>
       </div>
       <div>
-        <h4>Atendimento</h4>
+        <h3>Atendimento</h3>
         <ul>
           <li>Segunda a quinta<br>07h30 às 18h30</li>
           <li>Sexta-feira<br>07h30 às 17h30</li>
@@ -102,7 +126,7 @@
         </ul>
       </div>
       <div>
-        <h4>Navegação</h4>
+        <h3>Navegação</h3>
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="produtos.html">Produtos</a></li>
@@ -121,6 +145,7 @@
 </footer>
 
 <script src="js/main.js"></script>
+<script src="js/catalogo.js"></script>
 <script src="js/produtos.js"></script>
 </body>
 </html>

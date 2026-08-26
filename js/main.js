@@ -142,7 +142,9 @@
           titulo.textContent = `${item.nome} - ${item.cidade}/${item.uf}`;
           const alvo = document.createElementNS(ns, "circle");
           alvo.setAttribute("class", "dist-marker__alvo");
-          alvo.setAttribute("cx", cx); alvo.setAttribute("cy", cy); alvo.setAttribute("r", 28);
+          // r=31 no viewBox rende ~44px de alvo na renderização real,
+          // o mínimo de toque que o sistema exige.
+          alvo.setAttribute("cx", cx); alvo.setAttribute("cy", cy); alvo.setAttribute("r", 31);
           const halo = document.createElementNS(ns, "circle");
           halo.setAttribute("class", "dist-marker__halo");
           halo.setAttribute("cx", cx); halo.setAttribute("cy", cy); halo.setAttribute("r", 5.4);
