@@ -45,6 +45,126 @@
     revelaveis.forEach((el) => el.classList.add("visivel"));
   }
 
+  /* ---------- Carrossel de campanhas ----------
+     Aprimoramento progressivo: sem este script a trilha continua
+     sendo um empilhamento vertical com os três banners visíveis e os
+     controles ocultos. Aqui ela vira um scroller com snap horizontal
+     — o gesto de arrastar é nativo do navegador, então a rolagem
+     vertical da página nunca é interceptada.
+
+     Sem autoplay, sem loop, sem mexer em foco, URL ou histórico. */
+  const campanhas = document.querySelector("[data-carrossel-raiz]");
+  const trilha = campanhas && campanhas.querySelector("[data-carrossel-trilha]");
+  const banners = trilha
+    ? Array.from(trilha.querySelectorAll("[data-carrossel-banner]"))
+    : [];
+
+  if (trilha && banners.length > 1) {
+    const barra = campanhas.querySelector("[data-carrossel-controles]");
+    const anterior = campanhas.querySelector('[data-carrossel-ir="anterior"]');
+    const seguinte = campanhas.querySelector('[data-carrossel-ir="seguinte"]');
+    const marcas = Array.from(campanhas.querySelectorAll("[data-carrossel-para]"));
+    const indice = campanhas.querySelector(".campanhas__posicao-indice");
+    const nome = campanhas.querySelector(".campanhas__posicao-nome");
+    const anuncio = campanhas.querySelector("[data-carrossel-anuncio]");
+    const semMovimento = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    // Nome de cada campanha: vem do aria-label ("Campanha 1 de 3: Nome"),
+    // sem duplicar o texto em nenhum outro lugar.
+    const nomes = banners.map((banner) => {
+      const rotulo = banner.getAttribute("aria-label") || "";
+      return rotulo.slice(rotulo.indexOf(":") + 1).trim() || rotulo;
+    });
+
+    const total = banners.length;
+    const doisDigitos = (n) => String(n).padStart(2, "0");
+    let atual = 0;
+    let pendente = 0;
+
+    campanhas.dataset.modo = "carrossel";
+    barra.hidden = false;
+    trilha.tabIndex = 0;
+
+    const indisponivel = (botao, off) => {
+      botao.setAttribute("aria-disabled", String(off));
+      botao.classList.toggle("indisponivel", off);
+    };
+
+    const sincroniza = (anunciar) => {
+      banners.forEach((banner, i) => {
+        // `inert` tira o banner fora de vista da tabulação e da árvore
+        // de acessibilidade. `aria-hidden` seria errado: há links dentro.
+        banner.inert = i !== atual;
+      });
+      marcas.forEach((marca, i) => {
+        if (i === atual) marca.setAttribute("aria-current", "true");
+        else marca.removeAttribute("aria-current");
+      });
+      // `aria-disabled` em vez de `disabled`: desabilitar o botão que
+      // está com o foco faria o navegador jogar o foco no body — e a
+      // troca de banner não pode mexer no foco de ninguém.
+      indisponivel(anterior, atual === 0);
+      indisponivel(seguinte, atual === total - 1);
+      if (indice) indice.textContent = doisDigitos(atual + 1);
+      if (nome) nome.textContent = nomes[atual];
+      if (anunciar && anuncio) {
+        anuncio.textContent = `Campanha ${atual + 1} de ${total}: ${nomes[atual]}`;
+      }
+    };
+
+    const vaPara = (alvo, anunciar) => {
+      const destino = Math.min(Math.max(alvo, 0), total - 1);
+      trilha.scrollTo({
+        left: destino * trilha.clientWidth,
+        behavior: semMovimento.matches ? "auto" : "smooth"
+      });
+      if (destino !== atual) {
+        atual = destino;
+        sincroniza(anunciar);
+      }
+    };
+
+    // O scroll é a fonte da verdade: cobre setas, teclado e gesto touch.
+    trilha.addEventListener("scroll", () => {
+      if (pendente) return;
+      pendente = window.requestAnimationFrame(() => {
+        pendente = 0;
+        const visto = Math.round(trilha.scrollLeft / trilha.clientWidth);
+        if (visto !== atual && visto >= 0 && visto < total) {
+          atual = visto;
+          sincroniza(true);
+        }
+      });
+    }, { passive: true });
+
+    anterior.addEventListener("click", () => vaPara(atual - 1, true));
+    seguinte.addEventListener("click", () => vaPara(atual + 1, true));
+    marcas.forEach((marca, i) => {
+      marca.addEventListener("click", () => vaPara(i, true));
+    });
+
+    campanhas.addEventListener("keydown", (evento) => {
+      if (evento.altKey || evento.ctrlKey || evento.metaKey) return;
+      const alvo = evento.target;
+      if (alvo.closest("input, textarea, select")) return;
+      const teclas = { ArrowLeft: atual - 1, ArrowRight: atual + 1, Home: 0, End: total - 1 };
+      if (!(evento.key in teclas)) return;
+      evento.preventDefault();
+      vaPara(teclas[evento.key], true);
+    });
+
+    // Ao redimensionar, o scrollLeft desalinha do novo clientWidth.
+    let redimensionando = 0;
+    window.addEventListener("resize", () => {
+      window.clearTimeout(redimensionando);
+      redimensionando = window.setTimeout(() => {
+        trilha.scrollTo({ left: atual * trilha.clientWidth, behavior: "auto" });
+      }, 150);
+    }, { passive: true });
+
+    sincroniza(false);
+  }
+
   /* ---------- Diretório estático e mapa de distribuidores ---------- */
   const svgMapa = document.getElementById("mapa-brasil");
   const listaDist = document.getElementById("dist-lista");

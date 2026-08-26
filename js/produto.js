@@ -34,8 +34,14 @@
     '<path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>';
 
   const produto = (() => {
-    const id = new URLSearchParams(window.location.search).get("id");
-    return PRODUTOS.find((p) => p.id === id) || null;
+    const rawId = new URLSearchParams(window.location.search).get("id") || "";
+    const id = rawId.toLowerCase().trim();
+    if (!id) return PRODUTOS[0] || null;
+    return (
+      PRODUTOS.find((p) => p.id === rawId || p.id === id) ||
+      PRODUTOS.find((p) => id.includes(p.id) || p.id.includes(id) || (p.busca && p.busca.includes(id))) ||
+      null
+    );
   })();
 
   if (!produto) {
@@ -51,7 +57,7 @@
 
   document.title = produto.nome + " | Hágil Terapêutica";
 
-  const irmaos = PRODUTOS.filter((p) => p.familiaSlug === produto.familiaSlug);
+  const irmaos = PRODUTOS.filter((p) => p.especie === produto.especie && p.id !== produto.id).slice(0, 5);
 
   /* Bloco de ficha: mostra o conteúdo quando validado, ou o aviso de
      pendência — nunca um texto de preenchimento. */
@@ -67,7 +73,11 @@
     );
   }
 
-  const taxonomia = [produto.categoriaRotulo, produto.segmento, "Linha " + produto.familia]
+  const taxonomia = [
+    produto.categoriaRotulo,
+    produto.segmentos && produto.segmentos.length ? produto.segmentos.join(", ") : produto.segmento,
+    produto.familia
+  ]
     .filter(Boolean)
     .map((t) => "<li>" + esc(t) + "</li>")
     .join("");
@@ -89,8 +99,7 @@
     '<li><a href="produtos.html?especie=' + esc(produto.especie) + '">' +
     esc(produto.categoriaRotulo) + "</a></li>" +
     '<li aria-hidden="true">/</li>' +
-    '<li><a href="produtos.html?familia=' + esc(produto.familiaSlug) + '">' +
-    esc(produto.familia) + "</a></li>" +
+    '<li>' + esc(produto.nome) + "</li>" +
     "</ol>" +
     "<h1>" + esc(produto.nome) + "</h1>" +
     (produto.beneficio
@@ -141,15 +150,13 @@
     setaSVG + "</a>" +
     "</div>" +
 
-    (irmaos.length > 1
-      ? '<nav class="produto-familia" aria-label="Outras apresentações da linha ' +
-        esc(produto.familia) + '">' +
-        "<h2>Linha " + esc(produto.familia) + " · " + irmaos.length + " apresentações</h2>" +
+    (irmaos.length > 0
+      ? '<nav class="produto-familia" aria-label="Outros produtos">' +
+        "<h2>Outros produtos para " + esc(produto.categoriaRotulo) + "</h2>" +
         "<ul>" +
         irmaos.map((p) =>
-          "<li><a href=\"produto.html?id=" + encodeURIComponent(p.id) + "\"" +
-          (p.id === produto.id ? ' aria-current="page"' : "") + ">" +
-          esc(p.nome) + "<span>" + esc(p.segmento || p.categoriaRotulo) + "</span></a></li>"
+          "<li><a href=\"produto.html?id=" + encodeURIComponent(p.id) + "\">" +
+          esc(p.nome) + "<span>" + esc(p.categoriaRotulo || "") + "</span></a></li>"
         ).join("") +
         "</ul></nav>"
       : "") +

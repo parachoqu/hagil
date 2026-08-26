@@ -10,6 +10,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
+<!-- Marca a página antes da primeira pintura: as animações de entrada
+     só existem quando há JavaScript para concluí-las. -->
+<script>document.documentElement.classList.add("js");</script>
 </head>
 <body>
 
@@ -43,10 +46,10 @@
        ============================================================ -->
   <section class="campaign hero" aria-labelledby="hero-titulo">
     <picture class="campaign__media">
-      <source media="(max-width: 640px)" srcset="assets/images/campo/hero/campo-hero-4x5.webp">
+      <source media="(max-width: 767px)" srcset="assets/images/campo/hero/campo-hero-4x5.webp" width="1080" height="1350">
       <img src="assets/images/campo/hero/campo-hero-16x9.webp"
-           alt="Pastagem brasileira ao entardecer com bovinos de corte"
-           width="1920" height="1080" fetchpriority="high">
+           alt=""
+           width="1920" height="1080" fetchpriority="high" decoding="async">
     </picture>
     <div class="campaign__veil" aria-hidden="true"></div>
 
@@ -170,35 +173,139 @@
   </section>
 
   <!-- ============================================================
-       03 · CAMPANHA DYNAMIS — verde-floresta e ocre
+       03 · CAMPANHAS — três cenas editoriais, uma dominante por vez
+
+       Sem JavaScript a trilha é um empilhamento vertical: os três
+       banners ficam visíveis e utilizáveis. Com JavaScript ela vira
+       um scroller com snap horizontal e a barra de controles aparece.
+       Uma única árvore de marcação serve aos dois modos.
        ============================================================ -->
-  <section class="campaign campaign--dynamis" aria-labelledby="dynamis-titulo" data-reveal>
-    <picture class="campaign__media">
-      <img src="assets/images/campo/campanhas/dynamis-16x7.webp" alt="Bovinos de corte em pastagem ao entardecer" width="1600" height="700" loading="lazy" decoding="async">
-    </picture>
-    <div class="campaign__veil" aria-hidden="true"></div>
-
-    <div class="container campaign__inner">
-      <div class="campaign__content">
-        <p class="eyebrow">Modificador orgânico</p>
-        <h2 id="dynamis-titulo">Energia vital<br>para o <em>desempenho</em>.</h2>
-        <p class="campaign__apoio">Equilíbrio natural para resistência e resultado do rebanho, em todas as fases do ciclo produtivo.</p>
-        <ul class="campaign__prova">
-          <li>Livre de resíduos</li>
-          <li>Reg. MAPA</li>
-          <li>Assistência técnica</li>
-        </ul>
-        <a class="btn btn--luz" href="produto.html?id=bovinos-bovinos-de-corte-dynamis-mh1000">Conhecer o Dynamis
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
-      </div>
-
-      <div class="campaign__stage">
-        <span class="campaign__ground" aria-hidden="true"></span>
-        <img class="campaign__animal" src="assets/images/hero/animais/otimizados/bovinos-corte-avermelhados.webp" alt="" width="560" height="354" loading="lazy" decoding="async">
-        <img class="campaign__product" src="assets/images/produtos/otimizados/Hagil_Bovinos_Bovinos de Corte_Dynamis MH1000.webp" alt="Embalagem do Dynamis MH1000" width="828" height="1100" loading="lazy" decoding="async">
-      </div>
+  <section class="campanhas" id="campanhas" aria-labelledby="campanhas-titulo" data-carrossel-raiz>
+    <div class="container campanhas__cabecalho" data-reveal>
+      <p class="eyebrow"><span class="gota" aria-hidden="true"></span>Campanhas em destaque</p>
+      <h2 id="campanhas-titulo">Três linhas, três momentos do ciclo produtivo.</h2>
     </div>
+
+    <div class="campanhas__trilha" data-carrossel-trilha
+         role="group" aria-roledescription="carrossel" aria-label="Campanhas Hágil">
+
+      <!-- Dynamis — verde-floresta e ocre -->
+      <article class="campanha campanha--dynamis" data-carrossel-banner
+               role="group" aria-roledescription="banner" aria-label="Campanha 1 de 3: Dynamis MH1000">
+        <div class="campanha__editorial">
+          <p class="eyebrow">Modificador orgânico</p>
+          <h3 id="dynamis-titulo">Energia vital<br>para o <em>desempenho</em>.</h3>
+          <p class="campanha__apoio">Equilíbrio natural para resistência e resultado do rebanho, em todas as fases do ciclo produtivo.</p>
+          <p class="campanha__ficha">12 apresentações · 9 espécies</p>
+          <ul class="campanha__prova">
+            <li>Livre de resíduos</li>
+            <li>Reg. MAPA</li>
+            <li>Assistência técnica</li>
+          </ul>
+          <a class="btn btn--luz" href="produto.html?id=bovinos-bovinos-de-corte-dynamis-mh1000">Conhecer o Dynamis
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+
+        <div class="campanha__cena">
+          <picture class="campanha__media">
+            <img src="assets/images/campo/campanhas/dynamis-16x7.webp" alt="" width="1600" height="700" loading="lazy" decoding="async">
+          </picture>
+          <span class="campanha__veu" aria-hidden="true"></span>
+          <div class="campanha__palco">
+            <span class="campanha__chao" aria-hidden="true"></span>
+            <img class="campanha__animal" src="assets/images/hero/animais/otimizados/bovinos-corte-avermelhados.webp" alt="" width="560" height="354" loading="lazy" decoding="async">
+            <img class="campanha__packshot" src="assets/images/produtos/otimizados/Hagil_Bovinos_Bovinos de Corte_Dynamis MH1000.webp" alt="Embalagem do Dynamis MH1000" width="828" height="1100" loading="lazy" decoding="async">
+          </div>
+        </div>
+      </article>
+
+      <!-- Máximo Baby — azul-céu e lima -->
+      <article class="campanha campanha--baby" data-carrossel-banner
+               role="group" aria-roledescription="banner" aria-label="Campanha 2 de 3: Máximo Baby H1000">
+        <div class="campanha__editorial">
+          <p class="eyebrow">Primeira fase</p>
+          <h3 id="baby-titulo">Cuidado desde<br>o <em>primeiro dia</em>.</h3>
+          <p class="campanha__apoio">Força, proteção e desenvolvimento para o bezerro, quando cada dia decide o desempenho do animal adulto.</p>
+          <p class="campanha__ficha">6 apresentações · 6 espécies</p>
+          <ul class="campanha__prova">
+            <li>Não tóxico</li>
+            <li>Sem carência</li>
+            <li>Uso veterinário</li>
+          </ul>
+          <a class="btn btn--primario" href="produto.html?id=bovinos-bovinos-1a-fase-maximo-baby-h1000">Conhecer o Máximo Baby
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+
+        <div class="campanha__cena">
+          <picture class="campanha__media">
+            <img src="assets/images/campo/campanhas/maximo-baby-16x7.webp" alt="" width="1600" height="700" loading="lazy" decoding="async">
+          </picture>
+          <span class="campanha__veu" aria-hidden="true"></span>
+          <div class="campanha__palco">
+            <span class="campanha__chao" aria-hidden="true"></span>
+            <img class="campanha__animal" src="assets/images/hero/animais/otimizados/bovino-zebu-cinza.webp" alt="" width="360" height="424" loading="lazy" decoding="async">
+            <img class="campanha__packshot" src="assets/images/produtos/otimizados/Hagil_Bovinos_Bovinos 1ª Fase_Máximo Baby H1000.webp" alt="Embalagem do Máximo Baby H1000" width="845" height="1100" loading="lazy" decoding="async">
+          </div>
+        </div>
+      </article>
+
+      <!-- Enthérikos — azul-marinho e céu.
+           Sem recorte de animal: a fotografia já traz produtor e bezerros. -->
+      <article class="campanha campanha--entherikos" data-carrossel-banner
+               role="group" aria-roledescription="banner" aria-label="Campanha 3 de 3: Enthérikos">
+        <div class="campanha__editorial">
+          <p class="eyebrow">Saúde digestiva</p>
+          <h3 id="entherikos-titulo">Equilíbrio que<br>aparece no <em>manejo</em>.</h3>
+          <p class="campanha__apoio">Controle das diarreias com equilíbrio natural e carência zero, para o rebanho seguir o ciclo sem interrupção.</p>
+          <p class="campanha__ficha">9 apresentações · 7 espécies</p>
+          <ul class="campanha__prova">
+            <li>Carência zero</li>
+            <li>Reg. MAPA</li>
+            <li>Multiespécie</li>
+          </ul>
+          <a class="btn btn--luz" href="produto.html?id=bovinos-bovinos-1a-fase-entherikos">Conhecer o Enthérikos
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+
+        <div class="campanha__cena">
+          <picture class="campanha__media">
+            <img src="assets/images/campo/campanhas/entherikos-16x7.webp" alt="" width="1600" height="700" loading="lazy" decoding="async">
+          </picture>
+          <span class="campanha__veu" aria-hidden="true"></span>
+          <div class="campanha__palco">
+            <span class="campanha__chao" aria-hidden="true"></span>
+            <img class="campanha__packshot campanha__packshot--largo" src="assets/images/produtos/otimizados/Hagil_Bovinos_Bovinos 1ª Fase_Enthérikos.webp" alt="Embalagem do Enthérikos" width="1571" height="596" loading="lazy" decoding="async">
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <!-- Controles: nascem ocultos porque só têm função com JavaScript. -->
+    <div class="container campanhas__barra" data-carrossel-controles hidden>
+      <button class="campanhas__seta" type="button" data-carrossel-ir="anterior" aria-label="Campanha anterior">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+
+      <p class="campanhas__posicao" data-carrossel-posicao aria-hidden="true">
+        <span class="campanhas__posicao-indice">01</span><span class="campanhas__posicao-total">/03</span>
+        <span class="campanhas__posicao-nome">Dynamis MH1000</span>
+      </p>
+
+      <ol class="campanhas__regua" data-carrossel-regua>
+        <li><button type="button" data-carrossel-para="0" aria-current="true"><span class="visually-hidden">Ir para a campanha 1 de 3: Dynamis MH1000</span></button></li>
+        <li><button type="button" data-carrossel-para="1"><span class="visually-hidden">Ir para a campanha 2 de 3: Máximo Baby H1000</span></button></li>
+        <li><button type="button" data-carrossel-para="2"><span class="visually-hidden">Ir para a campanha 3 de 3: Enthérikos</span></button></li>
+      </ol>
+
+      <button class="campanhas__seta" type="button" data-carrossel-ir="seguinte" aria-label="Próxima campanha">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+
+    <p class="visually-hidden" aria-live="polite" data-carrossel-anuncio></p>
   </section>
 
   <!-- ============================================================
@@ -208,52 +315,52 @@
     <div class="container">
       <div class="secao-head secao-head--linha" data-reveal>
         <div>
-          <p class="eyebrow"><span class="gota" aria-hidden="true"></span>Linhas em destaque</p>
+          <p class="eyebrow"><span class="gota" aria-hidden="true"></span>Produtos em destaque</p>
           <h2>A embalagem carrega a promessa.<br>O campo confirma.</h2>
         </div>
-        <a class="btn btn--fantasma" href="produtos.html">Ver as 35 linhas
+        <a class="btn btn--fantasma" href="produtos.html">Ver catálogo completo
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
       </div>
 
       <div class="destaques__grid">
-        <a class="destaque destaque--amplo" href="produtos.html?familia=endecthon" data-reveal style="--i:0">
+        <a class="destaque destaque--amplo" href="produto.html?id=endecthon-hp1000" data-reveal style="--i:0">
           <div class="destaque__img">
             <img src="assets/images/produtos/otimizados/Hagil_Bovinos_Bovinos 1ª Fase_Endecthon HP1000.webp" alt="Embalagem do Endecthon HP1000" width="843" height="1100" loading="lazy" decoding="async">
           </div>
           <div class="destaque__corpo">
-            <p class="eyebrow">Linha Endecthon</p>
+            <p class="eyebrow">Endecthon HP1000</p>
             <h3>Endecthon</h3>
-            <p>Onze apresentações cobrindo bovinos, bubalinos, caprinos, equinos, ovinos e suínos.</p>
-            <span class="destaque__link">Ver a linha
+            <p>Solução multiespécie cobrindo bovinos, bubalinos, caprinos, equinos, ovinos e suínos.</p>
+            <span class="destaque__link">Ver produto
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </span>
           </div>
         </a>
 
-        <a class="destaque" href="produtos.html?familia=hepathor" data-reveal style="--i:1">
+        <a class="destaque" href="produto.html?id=hepathor-h1000" data-reveal style="--i:1">
           <div class="destaque__img">
             <img src="assets/images/produtos/otimizados/Hagil_Bovinos_Bovinos de Leite_Hepathor H1000.webp" alt="Embalagem do Hepathor H1000" width="829" height="1100" loading="lazy" decoding="async">
           </div>
           <div class="destaque__corpo">
-            <p class="eyebrow">Linha Hepathor</p>
+            <p class="eyebrow">Hepathor H1000</p>
             <h3>Hepathor</h3>
-            <p>Onze apresentações para as principais espécies de produção.</p>
-            <span class="destaque__link">Ver a linha
+            <p>Eficácia e proteção hepática para as principais espécies de produção.</p>
+            <span class="destaque__link">Ver produto
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </span>
           </div>
         </a>
 
-        <a class="destaque" href="produtos.html?familia=curae" data-reveal style="--i:2">
+        <a class="destaque" href="produto.html?id=curae-hc1000" data-reveal style="--i:2">
           <div class="destaque__img">
             <img src="assets/images/produtos/otimizados/Hagil_Aves_Aves de Corte_Curae HC1000.webp" alt="Embalagem do Curae HC1000" width="828" height="1100" loading="lazy" decoding="async">
           </div>
           <div class="destaque__corpo">
-            <p class="eyebrow">Linha Curae</p>
+            <p class="eyebrow">Curae HC1000</p>
             <h3>Curae</h3>
-            <p>Dez apresentações, das aves de corte à linha Pet.</p>
-            <span class="destaque__link">Ver a linha
+            <p>Ampla cobertura veterinária, das aves de corte à linha Pet.</p>
+            <span class="destaque__link">Ver produto
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </span>
           </div>
@@ -263,39 +370,7 @@
   </section>
 
   <!-- ============================================================
-       05 · CAMPANHA MÁXIMO BABY — azul-céu e lima
-       ============================================================ -->
-  <section class="campaign campaign--baby" aria-labelledby="baby-titulo" data-reveal>
-    <picture class="campaign__media">
-      <img src="assets/images/campo/campanhas/maximo-baby-16x7.webp" alt="Vaca nelore com bezerro recém-nascido" width="1600" height="700" loading="lazy" decoding="async">
-    </picture>
-    <div class="campaign__veil" aria-hidden="true"></div>
-
-    <div class="container campaign__inner">
-      <div class="campaign__content">
-        <p class="eyebrow">Primeira fase</p>
-        <h2 id="baby-titulo">Cuidado desde<br>o <em>primeiro dia</em>.</h2>
-        <p class="campaign__apoio">Força, proteção e desenvolvimento para o bezerro, quando cada dia decide o desempenho do animal adulto.</p>
-        <ul class="campaign__prova">
-          <li>Não tóxico</li>
-          <li>Sem carência</li>
-          <li>Uso veterinário</li>
-        </ul>
-        <a class="btn btn--primario" href="produto.html?id=bovinos-bovinos-1a-fase-maximo-baby-h1000">Conhecer o Máximo Baby
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
-      </div>
-
-      <div class="campaign__stage">
-        <span class="campaign__ground" aria-hidden="true"></span>
-        <img class="campaign__animal" src="assets/images/hero/animais/otimizados/bovino-zebu-cinza.webp" alt="" width="360" height="424" loading="lazy" decoding="async">
-        <img class="campaign__product" src="assets/images/produtos/otimizados/Hagil_Bovinos_Bovinos 1ª Fase_Máximo Baby H1000.webp" alt="Embalagem do Máximo Baby H1000" width="845" height="1100" loading="lazy" decoding="async">
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       06 · EMPRESA — institucional compacto e documental
+       05 · EMPRESA — institucional compacto e documental
        ============================================================ -->
   <section class="secao empresa" id="empresa" aria-labelledby="empresa-titulo">
     <div class="container">
@@ -359,7 +434,7 @@
   </section>
 
   <!-- ============================================================
-       07 · CIÊNCIA — bloco técnico, marinho profundo
+       06 · CIÊNCIA — bloco técnico, marinho profundo
        ============================================================ -->
   <section class="secao secao--tecnica" id="ciencia" aria-labelledby="ciencia-titulo">
     <div class="container">
@@ -416,39 +491,7 @@
   </section>
 
   <!-- ============================================================
-       08 · CAMPANHA ENTHÉRIKOS — azul-marinho e terracota
-       Sem recorte de animal: a cena vive na fotografia de manejo.
-       ============================================================ -->
-  <section class="campaign campaign--entherikos" aria-labelledby="entherikos-titulo" data-reveal>
-    <picture class="campaign__media">
-      <img src="assets/images/campo/campanhas/entherikos-16x7.webp" alt="Produtor em manejo de bezerros no curral" width="1600" height="700" loading="lazy" decoding="async">
-    </picture>
-    <div class="campaign__veil" aria-hidden="true"></div>
-
-    <div class="container campaign__inner">
-      <div class="campaign__content">
-        <p class="eyebrow">Saúde digestiva</p>
-        <h2 id="entherikos-titulo">Equilíbrio que<br>aparece no <em>manejo</em>.</h2>
-        <p class="campaign__apoio">Controle das diarreias com equilíbrio natural e carência zero, para o rebanho seguir o ciclo sem interrupção.</p>
-        <ul class="campaign__prova">
-          <li>Carência zero</li>
-          <li>Reg. MAPA</li>
-          <li>Multiespécie</li>
-        </ul>
-        <a class="btn btn--luz" href="produto.html?id=bovinos-bovinos-1a-fase-entherikos">Conhecer o Enthérikos
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
-      </div>
-
-      <div class="campaign__stage">
-        <span class="campaign__ground" aria-hidden="true"></span>
-        <img class="campaign__product campaign__product--largo" src="assets/images/produtos/otimizados/Hagil_Bovinos_Bovinos 1ª Fase_Enthérikos.webp" alt="Embalagem do Enthérikos" width="1571" height="596" loading="lazy" decoding="async">
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       09 · CONTEÚDO — hierarquia de revista especializada
+       07 · CONTEÚDO — hierarquia de revista especializada
        ============================================================ -->
   <section class="secao conteudo" id="conteudo" aria-labelledby="conteudo-titulo">
     <div class="container">
@@ -487,7 +530,7 @@
   </section>
 
   <!-- ============================================================
-       10 · DISTRIBUIÇÃO E CREDENCIAIS — confirmação da confiança
+       08 · DISTRIBUIÇÃO E CREDENCIAIS — confirmação da confiança
        ============================================================ -->
   <section class="secao secao--escura prova" id="distribuidores" aria-labelledby="prova-titulo">
     <div class="container">
@@ -542,7 +585,7 @@
   </section>
 
   <!-- ============================================================
-       11 · ENCERRAMENTO
+       09 · ENCERRAMENTO
        ============================================================ -->
   <section class="secao cta-final">
     <div class="container" data-reveal>

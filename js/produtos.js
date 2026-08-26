@@ -70,9 +70,20 @@
   function filtra() {
     const termo = normaliza(estado.busca);
     return PRODUTOS.filter((p) => {
-      if (estado.especie !== "todos" && p.especie !== estado.especie) return false;
-      if (estado.segmento && p.segmentoSlug !== estado.segmento) return false;
-      if (estado.familia && p.familiaSlug !== estado.familia) return false;
+      if (estado.especie !== "todos") {
+        const espMatch =
+          (p.especies && p.especies.includes(estado.especie)) ||
+          (p.categorias && p.categorias.includes(estado.especie)) ||
+          p.especie === estado.especie;
+        if (!espMatch) return false;
+      }
+      if (estado.segmento) {
+        const segMatch =
+          (p.segmentos && p.segmentos.some((s) => normaliza(s).includes(normaliza(estado.segmento)))) ||
+          (p.segmentoSlugs && p.segmentoSlugs.includes(estado.segmento)) ||
+          p.segmentoSlug === estado.segmento;
+        if (!segMatch) return false;
+      }
       if (termo && p.busca.indexOf(termo) === -1) return false;
       return true;
     });
@@ -83,22 +94,24 @@
   function segmentosDisponiveis() {
     const vistos = new Map();
     PRODUTOS.forEach((p) => {
-      if (!p.segmento) return;
-      if (estado.especie !== "todos" && p.especie !== estado.especie) return;
-      vistos.set(p.segmentoSlug, p.segmento);
+      const matchEsp = estado.especie === "todos" ||
+        (p.especies && p.especies.includes(estado.especie)) ||
+        p.especie === estado.especie;
+      if (!matchEsp) return;
+      if (p.segmentos && p.segmentos.length) {
+        p.segmentos.forEach((seg, idx) => {
+          const sSlug = p.segmentoSlugs ? p.segmentoSlugs[idx] : normaliza(seg).replace(/\s+/g, '-');
+          vistos.set(sSlug, seg);
+        });
+      } else if (p.segmento) {
+        vistos.set(p.segmentoSlug, p.segmento);
+      }
     });
     return [...vistos.entries()];
   }
 
   function familiasDisponiveis() {
-    const contagens = new Map();
-    PRODUTOS.forEach((p) => {
-      if (estado.especie !== "todos" && p.especie !== estado.especie) return;
-      contagens.set(p.familiaSlug, (contagens.get(p.familiaSlug) || 0) + 1);
-    });
-    return FAMILIAS
-      .filter((f) => contagens.has(f.slug))
-      .map((f) => ({ ...f, total: contagens.get(f.slug) }));
+    return [];
   }
 
   /* ---------- Render dos filtros ---------- */
@@ -108,7 +121,11 @@
       const ativo = valor === estado.especie;
       const n = valor === "todos"
         ? PRODUTOS.length
-        : PRODUTOS.filter((p) => p.especie === valor).length;
+        : PRODUTOS.filter((p) =>
+            (p.especies && p.especies.includes(valor)) ||
+            (p.categorias && p.categorias.includes(valor)) ||
+            p.especie === valor
+          ).length;
       return (
         '<button class="filtro" type="button" data-especie="' + valor + '"' +
         ' data-tema="' + valor + '" aria-pressed="' + ativo + '">' +
@@ -136,16 +153,8 @@
   }
 
   function montaFamilias() {
-    const itens = familiasDisponiveis();
-    listaFamilias.innerHTML =
-      '<span class="filtros__rotulo">Linha</span>' +
-      '<button class="filtro filtro--fino" type="button" data-familia=""' +
-      ' aria-pressed="' + (estado.familia === "") + '">Todas</button>' +
-      itens.map((f) =>
-        '<button class="filtro filtro--fino" type="button" data-familia="' + esc(f.slug) + '"' +
-        ' aria-pressed="' + (estado.familia === f.slug) + '">' +
-        esc(f.nome) + '<span class="filtro__n">' + f.total + "</span></button>"
-      ).join("");
+    if (!listaFamilias) return;
+    listaFamilias.innerHTML = "";
   }
 
   /* ---------- Render da grade ---------- */
@@ -161,9 +170,8 @@
       ' width="' + largura + '" height="' + altura + '" loading="lazy" decoding="async">' +
       "</span>" +
       '<span class="card-prod__corpo">' +
-      '<span class="card-prod__familia">' + esc(p.familia) + "</span>" +
       "<strong>" + esc(p.nome) + "</strong>" +
-      '<span class="card-prod__cats">' + esc(p.segmento || p.categoriaRotulo) + "</span>" +
+      '<span class="card-prod__cats">' + esc(p.categoriaRotulo || "") + "</span>" +
       "</span></a></li>"
     );
   }
@@ -298,14 +306,16 @@
     aplica();
   });
 
-  listaFamilias.addEventListener("click", (e) => {
-    const botao = e.target.closest("[data-familia]");
-    if (!botao) return;
-    const valor = botao.dataset.familia;
-    if (valor === estado.familia) return;
-    estado.familia = valor;
-    aplica();
-  });
+  if (listaFamilias) {
+    listaFamilias.addEventListener("click", (e) => {
+      const botao = e.target.closest("[data-familia]");
+      if (!botao) return;
+      const valor = botao.dataset.familia;
+      if (valor === estado.familia) return;
+      estado.familia = valor;
+      aplica();
+    });
+  }
 
   if (campoBusca) {
     let timer = 0;
