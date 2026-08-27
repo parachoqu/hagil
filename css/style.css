@@ -1433,10 +1433,6 @@ button {
   color: #fff;
 }
 
-.site-header--sobre-escuro:not(.rolou) .site-header__logo img {
-  filter: brightness(0) invert(1);
-}
-
 .site-header--sobre-escuro:not(.rolou) .menu-toggle {
   color: #fff;
   border-color: var(--hairline-luz);
@@ -1451,14 +1447,37 @@ button {
 }
 
 .site-header__logo {
-  display: flex;
+  display: inline-grid;
+  grid-template-areas: "logo";
   align-items: center;
   flex: none;
 }
 
-.site-header__logo img {
+.site-header__logo img,
+.site-header__logo-img {
+  grid-area: logo;
   height: 64px;
   width: auto;
+  transition: opacity var(--dur) var(--ease);
+}
+
+.site-header__logo-img--clara {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.site-header__logo-img--padrao {
+  opacity: 1;
+}
+
+.site-header--sobre-escuro:not(.rolou) .site-header__logo-img--clara {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.site-header--sobre-escuro:not(.rolou) .site-header__logo-img--padrao {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .site-nav {
