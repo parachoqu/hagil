@@ -111,6 +111,75 @@
   --banner-area-segura: clamp(1.75rem, 3.6vw, 3.75rem);
   --banner-packshot: clamp(14rem, 24vw, 23rem);
   --banner-dur: 420ms;
+
+  /* ============================================================
+     VOCABULÁRIO DE PROFUNDIDADE
+
+     Um contrato só, herdado por todas as seções. A profundidade
+     do sistema não vem de efeitos avulsos: vem de três coisas
+     ditas uma vez aqui e repetidas em todo lugar.
+
+       01 LUZ      uma direção só para a cena inteira. Todo
+                   gradiente direcional e toda poça de luz saem
+                   de --luz-x / --luz-y.
+
+       02 SOMBRA   sempre em par. A curta diz onde o objeto TOCA
+                   o chão; a longa é a luz do ambiente. Uma
+                   sozinha faz o objeto flutuar ou grudar.
+
+       03 GRÃO     textura de papel e de solo em CSS puro. É o
+                   que impede que creme, areia e marinho leiam
+                   como chapa de cor.
+     ============================================================ */
+
+  /* 01 · Luz — sol baixo à direita, como nas fotografias. */
+  --luz-x: 78%;
+  --luz-y: 30%;
+
+  /* 02 · O par de sombras. Tinta verde-profunda, nunca preto:
+     preto sobre creme e sobre areia lê como sujeira. */
+  --contato: 0 5px 4px rgba(11, 33, 23, .5);
+  --ambiente: 0 18px 20px rgba(11, 33, 23, .3);
+
+  /* Elevação de superfície — duas camadas, a curta desenhando o
+     apoio e a longa abrindo o espaço sob o objeto. */
+  --elev-1: 0 1px 2px rgba(11, 33, 23, .06), 0 6px 14px -8px rgba(11, 33, 23, .18);
+  --elev-2: 0 2px 4px rgba(11, 33, 23, .07), 0 22px 40px -20px rgba(11, 33, 23, .3);
+
+  /* 03 · Grão. Três manchas em tiles de tamanhos coprimos: o
+     padrão nunca se repete à vista e não há imagem para baixar.
+     --grao vai sobre superfícies claras, --grao-luz sobre escuras. */
+  --grao:
+    radial-gradient(circle at 21% 33%, rgba(20, 37, 26, .032) 0 1px, transparent 1.7px),
+    radial-gradient(circle at 71% 64%, rgba(20, 37, 26, .026) 0 1px, transparent 1.7px),
+    radial-gradient(circle at 44% 86%, rgba(20, 37, 26, .02) 0 1px, transparent 1.7px);
+  --grao-luz:
+    radial-gradient(circle at 21% 33%, rgba(255, 255, 255, .04) 0 1px, transparent 1.7px),
+    radial-gradient(circle at 71% 64%, rgba(255, 255, 255, .03) 0 1px, transparent 1.7px),
+    radial-gradient(circle at 44% 86%, rgba(255, 255, 255, .022) 0 1px, transparent 1.7px);
+  --grao-tile: 23px 23px, 37px 37px, 53px 53px;
+}
+
+/* A camada de grão é sempre um pseudo-elemento próprio: assim ela
+   não disputa o `background` da seção, que quase sempre já carrega
+   gradientes de atmosfera. */
+.grao {
+  position: relative;
+  isolation: isolate;
+}
+
+.grao::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: var(--grao);
+  background-size: var(--grao-tile);
+}
+
+.grao--luz::before {
+  background-image: var(--grao-luz);
 }
 
 /* ---------- Base ---------- */
@@ -546,7 +615,11 @@ button {
   object-fit: contain;
   object-position: bottom;
   z-index: 4;
-  filter: drop-shadow(var(--sombra-produto));
+  /* O par do sistema: a curta diz onde a embalagem TOCA o chão, a
+     longa é a luz do ambiente. Só a longa fazia o packshot pairar
+     sobre o pasto em vez de assentar nele. */
+  filter: drop-shadow(0 7px 6px rgba(11, 33, 23, .55))
+    drop-shadow(var(--sombra-produto));
 }
 
 /* ============================================================
@@ -566,18 +639,55 @@ button {
    mobile). Um enquadramento central genérico cortaria justamente
    o produtor, a matriz ou a boiada.
    ============================================================ */
+/* A ATMOSFERA VIVE FORA DO BANNER.
+
+   Enquanto a cor da campanha parava na borda arredondada, o que se
+   via era um creme chapado com um retângulo colado em cima. Aqui a
+   seção inteira responde ao capítulo em cena: um campo de cor amplo,
+   na direção da luz do sistema, e a sombra ambiente do próprio
+   banner tingida com a cor daquela campanha.
+
+   O gatilho é o data-capitulo que o carrossel escreve. Sem
+   JavaScript o padrão neutro se aplica e os três banners empilhados
+   continuam íntegros — a atmosfera é aditiva, nunca condição de
+   legibilidade.
+
+   A troca anima `background-color` (interpolável) sob uma máscara
+   estática, e não o gradiente inteiro: gradiente não interpola, e a
+   passagem entre capítulos ficaria em corte seco. */
 .campanhas {
-  padding-block: clamp(var(--e-8), 9vw, var(--e-10));
+  --cap-atm: var(--floresta);
+  position: relative;
+  isolation: isolate;
+  padding-block: clamp(var(--e-8), 9vw, var(--e-10)) clamp(var(--e-7), 6vw, var(--e-9));
   background: var(--creme);
   overflow: clip;
 }
+
+.campanhas::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-color: color-mix(in srgb, var(--cap-atm) 11%, transparent);
+  -webkit-mask-image: radial-gradient(118% 64% at var(--luz-x) 46%,
+      #000 0%, rgba(0, 0, 0, .4) 46%, transparent 78%);
+  mask-image: radial-gradient(118% 64% at var(--luz-x) 46%,
+      #000 0%, rgba(0, 0, 0, .4) 46%, transparent 78%);
+  transition: background-color 620ms var(--ease);
+}
+
+.campanhas[data-capitulo="dynamis"] { --cap-atm: var(--ocre); }
+.campanhas[data-capitulo="baby"] { --cap-atm: var(--ceu); }
+.campanhas[data-capitulo="entherikos"] { --cap-atm: var(--marinho); }
 
 .campanhas__cabecalho {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: var(--e-3);
-  margin-bottom: var(--e-7);
+  margin-bottom: clamp(var(--e-5), 3.4vw, var(--e-7));
 }
 
 .campanhas__cabecalho h2 {
@@ -585,11 +695,17 @@ button {
 }
 
 /* Sem JS a trilha empilha. O modo carrossel é aditivo. */
+/* O `padding-bottom` não é respiro: é espaço para a sombra ambiente
+   do banner existir. Em modo carrossel a trilha rola no eixo X, e
+   `overflow-x: auto` faz o eixo Y computar para `auto` também — sem
+   esta folga a sombra seria recortada rente à base do banner, que é
+   exatamente o corte que faz o banner parecer colado. */
 .campanhas__trilha {
   display: grid;
   gap: var(--e-6);
   width: min(var(--container), 100% - (var(--margem) * 2));
   margin-inline: auto;
+  padding-bottom: clamp(1.5rem, 3vw, 2.75rem);
 }
 
 .campanhas[data-modo="carrossel"] .campanhas__trilha {
@@ -620,12 +736,38 @@ button {
   --foto-pos-cena: 50% 50%;
   --packshot-x: 20%;
   --animal-x: 0%;
+
+  /* Luz da cena e tinta do chão. A luz é sol baixo por padrão,
+     porque é a hora de duas das três fotografias. */
+  --cena-luz: var(--ocre);
+  --chao-tinta: var(--profundo);
+
+  /* Âncoras do chão sob a EMBALAGEM.
+     A poça ambiente antes cobria o palco inteiro, de 8% a 8%, e não
+     tinha relação nenhuma com o lugar onde o packshot está. Estas
+     quatro medidas colocam a poça e o contato debaixo da embalagem
+     de cada capítulo — é a diferença entre um objeto na cena e um
+     adesivo sobre a fotografia. */
+  --chao-x: 14%;
+  --chao-larg: 58%;
+  --contato-x: 26%;
+  --contato-larg: 31%;
+  --contato-alt: 1.7%;
+
   position: relative;
   isolation: isolate;
   overflow: hidden;
   border-radius: var(--r-campanha);
   background: var(--campaign-bg);
   color: #fff;
+  /* Elevação tingida com a cor da campanha, nunca preta: sobre creme
+     e areia o preto lê como sujeira, não como sombra. O filete
+     interno é oclusão de borda — define o limite da peça sem
+     desenhar a moldura genérica de 1px. */
+  box-shadow:
+    0 2px 5px color-mix(in srgb, var(--campaign-bg) 20%, transparent),
+    0 34px 58px -34px color-mix(in srgb, var(--campaign-bg) 72%, transparent),
+    inset 0 0 0 1px rgba(255, 255, 255, .08);
   /* A largura precisa ser a fonte da proporção. Sem `width: 100%` o
      `aspect-ratio` deriva a largura a partir do `min-height` e o banner
      estoura a trilha do carrossel. */
@@ -667,21 +809,44 @@ button {
   translate: var(--foto-desloc, 0) 0;
 }
 
-/* Protege a leitura e costura os planos. Denso onde o texto vive,
-   transparente sobre o palco: a fotografia continua fotografia. */
+/* Protege a leitura e costura os planos.
+
+   Quatro camadas, quatro papéis — e é a soma delas que substitui a
+   sensação de "duas metades" por uma queda de luz:
+
+     01 LUZ         o sol da fotografia, em --luz-x/--luz-y. Costura
+                    embalagem, animal e pasto na mesma fonte.
+     02 LEITURA     denso onde o editorial vive, limpo sobre o palco.
+                    Cinco paradas em vez de três: a passagem entre
+                    tinta e fotografia deixa de ter aresta.
+     03 CÉU         o topo recua e o horizonte ganha distância.
+     04 SOLO        o primeiro plano entra na sombra. É o que dá
+                    espessura ao chão e fecha a cena por baixo.
+
+   Nenhuma delas toca o packshot: a luz existe ao redor da
+   embalagem, nunca sobre o rótulo. */
 .campanha__veu {
   position: absolute;
   inset: 0;
   z-index: 1;
   background:
+    radial-gradient(54% 44% at var(--luz-x) var(--luz-y),
+      color-mix(in srgb, var(--cena-luz) 26%, transparent) 0%,
+      color-mix(in srgb, var(--cena-luz) 8%, transparent) 44%,
+      transparent 72%),
     linear-gradient(94deg,
       color-mix(in srgb, var(--campaign-bg) 82%, transparent) 0 22%,
-      color-mix(in srgb, var(--campaign-bg) 46%, transparent) 50%,
-      color-mix(in srgb, var(--campaign-bg) 10%, transparent) 74%,
+      color-mix(in srgb, var(--campaign-bg) 58%, transparent) 44%,
+      color-mix(in srgb, var(--campaign-bg) 26%, transparent) 62%,
+      color-mix(in srgb, var(--campaign-bg) 8%, transparent) 80%,
       transparent 100%),
     linear-gradient(180deg,
-      color-mix(in srgb, var(--profundo) 20%, transparent) 0%,
-      transparent 32%);
+      color-mix(in srgb, var(--profundo) 22%, transparent) 0%,
+      transparent 30%),
+    linear-gradient(0deg,
+      color-mix(in srgb, var(--profundo) 44%, transparent) 0%,
+      color-mix(in srgb, var(--profundo) 14%, transparent) 13%,
+      transparent 30%);
 }
 
 .campanha__palco {
@@ -690,21 +855,62 @@ button {
   z-index: 2;
 }
 
-/* Sombra ambiente: a zona de chão comum que impede produto e animal
-   de flutuarem sobre a fotografia. */
+/* O PAR DE SOMBRAS, aplicado ao palco.
+
+   .campanha__chao é a poça AMBIENTE: ampla, difusa, tingida com a
+   luz do chão daquela cena. Ela abre espaço sob o objeto.
+
+   .campanha__palco::after é o CONTATO: curto, escuro, quase sem
+   desfoque, exatamente onde a embalagem encosta. Ele é o que diz
+   "isto está apoiado".
+
+   Uma sozinha nunca funciona: só a ampla faz o produto pairar; só a
+   curta o faz parecer recortado e colado. As duas, ancoradas nas
+   mesmas medidas que posicionam o packshot, resolvem os três
+   capítulos com um contrato só. */
 .campanha__chao {
   position: absolute;
-  left: 8%;
-  right: 8%;
+  right: var(--chao-x);
+  left: auto;
+  width: var(--chao-larg);
   bottom: calc(var(--baseline) - 3%);
   height: 11%;
   border-radius: 50%;
   background: radial-gradient(ellipse at center,
-      rgba(11, 33, 23, .46) 0%,
-      rgba(11, 33, 23, .2) 46%,
+      color-mix(in srgb, var(--chao-tinta) 46%, transparent) 0%,
+      color-mix(in srgb, var(--chao-tinta) 20%, transparent) 46%,
       transparent 72%);
   filter: blur(7px);
   z-index: 1;
+}
+
+.campanha__palco::after {
+  content: "";
+  position: absolute;
+  right: var(--contato-x);
+  bottom: calc(var(--baseline) - .8%);
+  width: var(--contato-larg);
+  height: var(--contato-alt);
+  z-index: 1;
+  pointer-events: none;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center,
+      color-mix(in srgb, var(--chao-tinta) 66%, transparent) 0%,
+      color-mix(in srgb, var(--chao-tinta) 30%, transparent) 50%,
+      transparent 78%);
+  filter: blur(3px);
+}
+
+/* No palco espelhado as duas sombras trocam de âncora junto com a
+   embalagem — `right` as jogaria para o lado oposto ao produto. */
+.campanha--espelhada .campanha__chao,
+.campanha--espelhada .campanha__palco::after {
+  right: auto;
+  left: var(--chao-x);
+}
+
+.campanha--espelhada .campanha__palco::after {
+  left: var(--contato-x);
 }
 
 /* Color grading só na fauna. O animal sustenta a cena e recua:
@@ -759,10 +965,14 @@ button {
   max-width: 82%;
 }
 
-/* Profundidade discreta no hover — sem inclinar nem deformar. */
+/* Profundidade discreta no hover — sem inclinar nem deformar.
+   A embalagem sobe e as duas sombras afrouxam JUNTAS: trocar o par
+   por uma sombra longa só, como antes, fazia o produto perder o
+   contato com o chão justamente no gesto que deveria aproximá-lo. */
 .campanha:hover .campanha__packshot {
   transform: translateY(-6px);
-  filter: drop-shadow(0 30px 28px rgba(11, 33, 23, .42));
+  filter: drop-shadow(0 12px 9px rgba(11, 33, 23, .4))
+    drop-shadow(0 32px 30px rgba(11, 33, 23, .34));
 }
 
 /* ---------- Editorial ---------- */
@@ -835,6 +1045,8 @@ button {
 .campanha--dynamis {
   --campaign-bg: #174A34;
   --campaign-accent: #C38B32;
+  --cena-luz: var(--ocre);
+  --chao-tinta: #14301D;
   --foto-pos: 34% 66%;
   --foto-pos-cena: 68% 58%;
   --foto-zoom: 1.06;
@@ -842,6 +1054,12 @@ button {
   --animal-x: -4%;
   --animal-h: 38%;
   --baseline: 16%;
+  /* A embalagem centra em ~41% da direita do palco. As duas sombras
+     seguem ela, não o meio do quadro. */
+  --chao-x: 14%;
+  --chao-larg: 56%;
+  --contato-x: 26%;
+  --contato-larg: 31%;
 }
 
 /* CAPÍTULO 02 — cuidado e desenvolvimento.
@@ -851,6 +1069,11 @@ button {
 .campanha--baby {
   --campaign-bg: #64BFC9;
   --campaign-accent: #A9C84F;
+  /* Manhã clara, não fim de tarde: a luz da cena é palha, quase
+     branca. E a sombra no capim de manhã é fria, não preta — é essa
+     temperatura que impede o sachê de parecer recortado. */
+  --cena-luz: #F4E9CB;
+  --chao-tinta: #123243;
   --foto-espelho: -1;
   --foto-pos: 50% 58%;
   --foto-pos-cena: 30% 60%;
@@ -862,7 +1085,36 @@ button {
   /* O sachê de 400g é fisicamente pequeno. Uma embalagem menor é
      mais verdadeira aqui e deixa o par respirar no campo aberto. */
   --banner-packshot: clamp(11rem, 18vw, 17rem);
+  /* Palco espelhado: as âncoras contam a partir da ESQUERDA. */
+  --chao-x: 53%;
+  --chao-larg: 40%;
+  --contato-x: 61%;
+  --contato-larg: 25%;
+  --contato-alt: 1.5%;
   color: var(--marinho);
+}
+
+/* Perspectiva aérea.
+   Este é o capítulo mais leve e o único sem contraste de valor para
+   separar os planos: matriz, bezerro, pasto e horizonte vivem todos
+   na mesma faixa clara. Uma névoa fria na altura do horizonte devolve
+   a distância — sem escurecer nada e sem tocar a fotografia embaixo. */
+.campanha--baby .campanha__cena::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg,
+        transparent 26%,
+        color-mix(in srgb, var(--ceu) 20%, transparent) 44%,
+        color-mix(in srgb, var(--ceu) 7%, transparent) 56%,
+        transparent 68%),
+    linear-gradient(0deg,
+        rgba(20, 46, 28, .26) 0%,
+        rgba(20, 46, 28, .08) 12%,
+        transparent 28%);
 }
 
 /* CAPÍTULO 03 — equilíbrio e manejo.
@@ -871,6 +1123,9 @@ button {
 .campanha--entherikos {
   --campaign-bg: #0F2C4C;
   --campaign-accent: #64BFC9;
+  --cena-luz: var(--ocre);
+  /* Terra batida de curral, não capim: a sombra puxa para o marrom. */
+  --chao-tinta: #2A1D0F;
   --foto-pos: 30% 58%;
   --foto-pos-cena: 78% 54%;
   /* A embalagem deitada assenta na terra batida do primeiro plano,
@@ -878,6 +1133,46 @@ button {
      perspectiva correta, sem disputar a cena com as pessoas. */
   --packshot-x: 30%;
   --baseline: 10%;
+  /* A caixa é larga e deitada: a área de contato é uma faixa
+     comprida, não uma elipse pequena. */
+  --chao-x: 27%;
+  --chao-larg: 62%;
+  --contato-x: 34%;
+  --contato-larg: 48%;
+  --contato-alt: 2.6%;
+}
+
+/* A caixa deitada precisa de duas coisas que a elipse padrão não dá:
+   uma faixa de contato acompanhando a base comprida da embalagem e
+   uma sombra PROJETADA para a esquerda, porque o sol da fotografia
+   está baixo e à direita. É essa segunda sombra que tira o último
+   resíduo de adesivo sobre a terra. */
+.campanha--entherikos .campanha__palco::after {
+  background:
+    radial-gradient(ellipse 48% 100% at 64% 46%,
+        color-mix(in srgb, var(--chao-tinta) 62%, transparent) 0%,
+        color-mix(in srgb, var(--chao-tinta) 26%, transparent) 54%,
+        transparent 80%),
+    radial-gradient(ellipse 96% 130% at 28% 64%,
+        color-mix(in srgb, var(--chao-tinta) 34%, transparent) 0%,
+        transparent 74%);
+  filter: blur(5px);
+}
+
+/* Registro documental: o curral, o produtor e os bezerros recuam
+   para o meio-campo e a terra batida do primeiro plano fica com a
+   embalagem. Sem essa distância, tudo acontecia no mesmo plano. */
+.campanha--entherikos .campanha__cena::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(180deg,
+      transparent 18%,
+      color-mix(in srgb, var(--ceu) 15%, transparent) 38%,
+      color-mix(in srgb, var(--ceu) 5%, transparent) 50%,
+      transparent 62%);
 }
 
 .campanha--entherikos .campanha__packshot--largo {
@@ -926,10 +1221,12 @@ button {
 .campanha--espelhada .campanha__veu {
   background:
     linear-gradient(266deg,
-      color-mix(in srgb, var(--nevoa) 90%, transparent) 0 24%,
-      color-mix(in srgb, var(--nevoa) 60%, transparent) 48%,
-      color-mix(in srgb, var(--campaign-bg) 16%, transparent) 64%,
-      transparent 86%),
+      color-mix(in srgb, var(--nevoa) 84%, transparent) 0 18%,
+      color-mix(in srgb, var(--nevoa) 68%, transparent) 34%,
+      color-mix(in srgb, var(--nevoa) 40%, transparent) 50%,
+      color-mix(in srgb, var(--nevoa) 16%, transparent) 62%,
+      color-mix(in srgb, var(--campaign-bg) 12%, transparent) 74%,
+      transparent 90%),
     linear-gradient(180deg,
       color-mix(in srgb, var(--ceu) 16%, transparent) 0%,
       transparent 32%);
@@ -1014,7 +1311,9 @@ button {
   display: flex;
   align-items: flex-start;
   gap: clamp(var(--e-3), 2vw, var(--e-5));
-  margin-top: var(--e-6);
+  /* A trilha já reserva a folga da sombra do banner. Somar a margem
+     antiga aqui abria um vazio entre a campanha e o seu índice. */
+  margin-top: var(--e-2);
 }
 
 .campanhas__seta {
@@ -1123,6 +1422,7 @@ button {
   height: 2px;
   border-radius: 999px;
   background: var(--hairline);
+  box-shadow: inset 0 1px 1px rgba(11, 33, 23, .07);
   overflow: hidden;
 }
 
@@ -1213,19 +1513,34 @@ button {
     opacity: .94;
   }
 
+  /* O palco passa de 54% para 50% e as embalagens encolhem: as
+     sombras precisam reencontrar a base de cada packshot, senão
+     voltam a ser uma poça no meio do quadro. */
   .campanha--dynamis {
     --foto-pos: 40% 64%;
     --animal-h: 34%;
+    --chao-x: 14%;
+    --chao-larg: 56%;
+    --contato-x: 27%;
+    --contato-larg: 30%;
   }
 
   .campanha--baby {
     --foto-pos: 50% 60%;
     --packshot-x: 4%;
+    --chao-x: 2%;
+    --chao-larg: 34%;
+    --contato-x: 7%;
+    --contato-larg: 24%;
   }
 
   .campanha--entherikos {
     --foto-pos: 26% 58%;
     --packshot-x: 16%;
+    --chao-x: 14%;
+    --chao-larg: 62%;
+    --contato-x: 21%;
+    --contato-larg: 48%;
   }
 
   .campanha--entherikos .campanha__editorial {
@@ -1283,17 +1598,73 @@ button {
     object-position: var(--foto-pos-cena);
   }
 
-  /* Costura a foto à cor sólida acima dela, sem apagar a cena. */
+  /* Costura a foto à cor sólida acima dela, sem apagar a cena — e
+     mantém os dois planos que o quadro largo já tem: a luz do sol
+     onde a cena é clara e o primeiro plano entrando na sombra, para
+     a embalagem ter chão também aqui. */
   .campanha__veu {
-    background: linear-gradient(180deg,
-        var(--campaign-bg) 0%,
-        color-mix(in srgb, var(--campaign-bg) 34%, transparent) 16%,
-        transparent 44%);
+    background:
+      radial-gradient(64% 40% at var(--luz-x) 34%,
+          color-mix(in srgb, var(--cena-luz) 20%, transparent) 0%,
+          transparent 70%),
+      linear-gradient(180deg,
+          var(--campaign-bg) 0%,
+          color-mix(in srgb, var(--campaign-bg) 34%, transparent) 16%,
+          transparent 44%),
+      linear-gradient(0deg,
+          color-mix(in srgb, var(--profundo) 34%, transparent) 0%,
+          color-mix(in srgb, var(--profundo) 10%, transparent) 12%,
+          transparent 26%);
+  }
+
+  /* A névoa de distância é um recurso do quadro largo: no vertical a
+     fotografia já entra reenquadrada e a faixa cairia no lugar
+     errado da cena. */
+  .campanha--baby .campanha__cena::before,
+  .campanha--entherikos .campanha__cena::before {
+    display: none;
   }
 
   .campanha__palco,
   .campanha--espelhada .campanha__palco {
     inset: 0;
+  }
+
+  /* No quadro vertical o palco é o banner inteiro e toda embalagem
+     em pé ancora em `right: 8%` — inclusive a do capítulo espelhado,
+     que aqui perde o espelho. As duas sombras voltam a contar pela
+     direita e reencontram a base do packshot. */
+  .campanha,
+  .campanha--espelhada {
+    --chao-x: 8%;
+    --chao-larg: 44%;
+    --contato-x: 12%;
+    --contato-larg: 30%;
+    --contato-alt: 2.4%;
+  }
+
+  .campanha--espelhada .campanha__chao {
+    right: var(--chao-x);
+    left: auto;
+  }
+
+  .campanha--espelhada .campanha__palco::after {
+    right: var(--contato-x);
+    left: auto;
+  }
+
+  /* A embalagem deitada é centrada no quadro estreito; as sombras
+     também. `translate` deixa `transform` livre para o hover. */
+  .campanha--entherikos .campanha__chao {
+    right: 50%;
+    translate: 50% 0;
+    width: 58%;
+  }
+
+  .campanha--entherikos .campanha__palco::after {
+    right: 50%;
+    translate: 50% 0;
+    width: 42%;
   }
 
   /* No quadro vertical a inversão perde função: com o editorial
@@ -1620,19 +1991,76 @@ button {
   object-position: 50% 58%;
 }
 
-/* Transição intencional para a seção seguinte: a base da hero
-   dissolve no creme do mosaico de espécies em vez de cortar seco. */
+/* A luz da cena, dita uma vez.
+   O sol da fotografia está baixo e à direita. Uma poça quente em
+   --luz-x/--luz-y costura pasto, bovinos e embalagem sob a mesma
+   fonte — e é ela que dissolve a sensação de colagem. O packshot
+   continua sem grading: a luz existe ao redor dele, não sobre ele. */
+.hero .campaign__veil {
+  background:
+    radial-gradient(58% 46% at var(--luz-x) var(--luz-y),
+        rgba(195, 139, 50, .24) 0%,
+        rgba(195, 139, 50, .08) 44%,
+        transparent 72%),
+    linear-gradient(94deg,
+        color-mix(in srgb, var(--campaign-bg) 86%, transparent) 0 26%,
+        color-mix(in srgb, var(--campaign-bg) 52%, transparent) 48%,
+        color-mix(in srgb, var(--campaign-bg) 20%, transparent) 68%,
+        color-mix(in srgb, var(--campaign-bg) 6%, transparent) 84%,
+        transparent 100%),
+    linear-gradient(180deg,
+        color-mix(in srgb, var(--profundo) 34%, transparent) 0%,
+        transparent 30%);
+}
+
+/* Sombra de contato da embalagem.
+   A .campaign__ground é a poça ambiente de todo o palco — ela
+   assenta a cena inteira, mas não diz onde ESTA embalagem toca.
+   Esta elipse curta e escura, ancorada na mesma direita e na mesma
+   baseline do packshot, diz. É a diferença entre um produto
+   fotografado no campo e um adesivo. */
+.hero .campaign__stage::after {
+  content: "";
+  position: absolute;
+  right: 5.4%;
+  bottom: calc(var(--baseline) - 1.2%);
+  width: clamp(10.5rem, 21vw, 18.4rem);
+  height: clamp(.85rem, 1.7vw, 1.5rem);
+  z-index: 3;
+  pointer-events: none;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center,
+      rgba(11, 33, 23, .62) 0%,
+      rgba(11, 33, 23, .26) 52%,
+      transparent 78%);
+  filter: blur(4px);
+}
+
+/* Transição intencional para a seção seguinte.
+   Duas etapas, não uma. Primeiro o primeiro plano de pasto entra na
+   sombra — é o que dá espessura ao chão e fecha a cena por baixo.
+   Só depois a base dissolve no creme do mosaico. Um gradiente único
+   partindo do escuro direto para o creme produzia um meio-tom
+   barrento no meio do caminho. */
 .hero::after {
   content: "";
   position: absolute;
   inset: auto 0 0 0;
-  height: 6%;
+  height: 16%;
   z-index: 5;
   pointer-events: none;
-  background: linear-gradient(180deg,
-      transparent 0%,
-      color-mix(in srgb, var(--creme) 32%, transparent) 62%,
-      var(--creme) 100%);
+  background:
+    linear-gradient(180deg,
+        transparent 0%,
+        transparent 44%,
+        color-mix(in srgb, var(--creme) 34%, transparent) 58%,
+        var(--creme) 70%,
+        var(--creme) 100%),
+    linear-gradient(180deg,
+        transparent 0%,
+        rgba(11, 33, 23, .36) 30%,
+        rgba(11, 33, 23, .14) 50%,
+        transparent 64%);
 }
 
 .hero .campaign__inner {
@@ -1690,11 +2118,15 @@ button {
   white-space: nowrap;
 }
 
-/* Encostada na base da embalagem, à esquerda dela: a legenda
-   pertence ao produto, não ao quadro. */
+/* Sob a base da embalagem e alinhada à borda direita dela: a
+   legenda pertence ao produto, como a tarja de um objeto exposto.
+   Antes vivia em `right: 30%`, dentro da silhueta do pacote — e
+   qualquer coisa sobre o rótulo é interface cobrindo campanha. */
 .hero__chip--b {
-  bottom: calc(var(--baseline) + 1%);
-  right: 30%;
+  bottom: calc(var(--baseline) - 5.2%);
+  right: 5.2%;
+  background: color-mix(in srgb, var(--creme) 92%, transparent);
+  box-shadow: 0 6px 16px -10px rgba(11, 33, 23, .6);
 }
 
 /* ---------- Fauna: dois planos, um chão só ----------
@@ -1915,7 +2347,13 @@ button {
     min-height: 0;
     display: flex;
     flex-direction: column;
-    background: var(--profundo);
+    /* Não é um bloco chapado sob a foto: é a mesma cena entrando na
+       sombra. O verde da campanha sobrevive logo abaixo do pasto e
+       só então cai para o profundo. É o que impede que a mensagem
+       leia como uma segunda página colada na primeira. */
+    background: linear-gradient(180deg,
+        color-mix(in srgb, var(--floresta) 26%, var(--profundo)) 0%,
+        var(--profundo) 42%);
   }
 
   /* A fotografia e o véu param onde a cena acaba. */
@@ -1930,14 +2368,24 @@ button {
   }
 
   /* Véu leve, só o necessário para o logo e o menu sobreviverem no
-     topo. Abaixo disso a fotografia é fotografia. */
+     topo. Abaixo disso a fotografia é fotografia — e a descida para
+     a mensagem acontece em rampa longa, com a mesma luz quente do
+     fim de tarde no horizonte. A rampa curta anterior cortava o
+     pasto numa linha reta e denunciava as duas metades. */
   .hero .campaign__veil {
-    background: linear-gradient(180deg,
-        color-mix(in srgb, var(--profundo) 62%, transparent) 0%,
-        color-mix(in srgb, var(--profundo) 14%, transparent) 26%,
-        transparent 52%,
-        color-mix(in srgb, var(--profundo) 34%, transparent) 92%,
-        var(--profundo) 100%);
+    background:
+      radial-gradient(72% 34% at 60% 30%,
+          rgba(195, 139, 50, .2) 0%,
+          rgba(195, 139, 50, .06) 46%,
+          transparent 74%),
+      linear-gradient(180deg,
+          color-mix(in srgb, var(--profundo) 62%, transparent) 0%,
+          color-mix(in srgb, var(--profundo) 14%, transparent) 24%,
+          transparent 44%,
+          rgba(11, 33, 23, .2) 70%,
+          color-mix(in srgb, var(--profundo) 58%, transparent) 86%,
+          color-mix(in srgb, var(--profundo) 90%, transparent) 96%,
+          var(--profundo) 100%);
   }
 
   .hero .campaign__inner {
@@ -1980,6 +2428,17 @@ button {
     height: min(38vh, 62vw);
     right: 50%;
     transform: translateX(50%);
+  }
+
+  /* A sombra de contato acompanha a embalagem para o centro.
+     `translate` (propriedade individual) em vez de `transform`:
+     o packshot usa `transform` e os dois não podem disputar. */
+  .hero .campaign__stage::after {
+    right: 50%;
+    translate: 50% 0;
+    width: min(27vh, 44vw);
+    height: min(2.4vh, 3.8vw);
+    bottom: calc(var(--baseline) - 1.8%);
   }
 
   .hero__chip {
@@ -2092,6 +2551,23 @@ button {
   grid-column: span 4;
 }
 
+/* Atmosfera por espécie.
+   A mesma semântica cromática que o catálogo já usa em
+   .card-prod[data-tema] e que a página de produto usa em
+   .produto-hero[data-tema]. Aqui ela entra na base do véu: nove
+   tiles com nove temperaturas de luz deixam de ser nove retângulos
+   iguais e passam a ser nove ambientes. */
+.especie { --esp-atm: var(--floresta); }
+.especie[data-especie="bovinos"] { --esp-atm: var(--ocre); }
+.especie[data-especie="equinos"] { --esp-atm: var(--floresta); }
+.especie[data-especie="suinos"] { --esp-atm: var(--terra); }
+.especie[data-especie="aves"] { --esp-atm: #9A6D26; }
+.especie[data-especie="pet"] { --esp-atm: var(--ceu); }
+.especie[data-especie="caprinos"] { --esp-atm: var(--areia); }
+.especie[data-especie="ovinos"] { --esp-atm: #6E6450; }
+.especie[data-especie="bubalinos"] { --esp-atm: var(--profundo); }
+.especie[data-especie="peixes"] { --esp-atm: var(--marinho); }
+
 .especie a {
   position: relative;
   display: block;
@@ -2101,6 +2577,13 @@ button {
   text-decoration: none;
   color: #fff;
   background: var(--floresta);
+  box-shadow: var(--elev-1);
+  transition: box-shadow 320ms var(--ease);
+}
+
+.especie a:hover,
+.especie a:focus-visible {
+  box-shadow: var(--elev-2);
 }
 
 .especie img {
@@ -2110,21 +2593,67 @@ button {
   transition: transform 600ms var(--ease);
 }
 
-.especie a:hover img {
-  transform: scale(1.03);
+/* Deslocamento mínimo: 1,5% é o suficiente para a imagem responder
+   ao ponteiro. A 3% o enquadramento visivelmente saltava, e o que
+   se via era o efeito, não o ambiente. */
+.especie a:hover img,
+.especie a:focus-visible img {
+  transform: scale(1.015);
 }
 
-/* Véu só na base: a fotografia respira e o rótulo mantém contraste AA
-   mesmo sobre as atmosferas claras (areia, creme). */
+/* Véu direcional, só na base.
+
+   Duas camadas com papéis distintos: a tinta dá a temperatura da
+   espécie; o escurecimento garante o AA da contagem, que é texto
+   pequeno em lima.
+
+   A ORDEM IMPORTA, e ela custou uma medição para ficar certa. Com a
+   tinta por cima, o tile de caprinos (areia, a atmosfera mais clara
+   dos nove) clareava a base do véu e a contagem caía para 4,35:1 —
+   reprovada em AA. Com o escurecimento por cima, a base volta ao
+   preto-verde de sempre, a contagem sobe para ~8:1 e a tinta
+   continua visível na faixa de transição, que é onde ela de fato
+   descreve o ambiente. */
 .especie a::after {
   content: "";
   position: absolute;
-  inset: 30% 0 0 0;
-  background: linear-gradient(180deg,
-      transparent 0%,
-      rgba(11, 33, 23, .55) 46%,
-      rgba(11, 33, 23, .92) 100%);
+  inset: 26% 0 0 0;
+  z-index: 1;
   pointer-events: none;
+  background:
+    linear-gradient(180deg,
+        transparent 0%,
+        rgba(11, 33, 23, .5) 48%,
+        rgba(11, 33, 23, .9) 100%),
+    linear-gradient(178deg,
+        transparent 26%,
+        color-mix(in srgb, var(--esp-atm) 52%, transparent) 100%);
+  transition: opacity 320ms var(--ease);
+}
+
+/* Luz de cima e oclusão de borda.
+   A luz vem de --luz-x, como em toda a página. O filete interno é
+   o que separa a fotografia do creme da seção sem desenhar uma
+   moldura: é oclusão, não borda. */
+.especie a::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  border-radius: inherit;
+  background: radial-gradient(78% 56% at var(--luz-x) -6%,
+      rgba(255, 255, 255, .16) 0%,
+      transparent 62%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, .1),
+    inset 0 -22px 34px -24px rgba(11, 33, 23, .8);
+  transition: opacity 320ms var(--ease);
+}
+
+.especie a:hover::before,
+.especie a:focus-visible::before {
+  opacity: .72;
 }
 
 .especie__rotulo {
@@ -2132,11 +2661,17 @@ button {
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 1;
+  z-index: 3;
   display: flex;
   flex-direction: column;
   gap: .25rem;
   padding: var(--e-5);
+  transition: transform 320ms var(--ease);
+}
+
+.especie a:hover .especie__rotulo,
+.especie a:focus-visible .especie__rotulo {
+  transform: translateY(-3px);
 }
 
 .especie__rotulo strong {
@@ -2144,6 +2679,28 @@ button {
   font-size: clamp(1.15rem, 1.7vw, 1.6rem);
   line-height: 1.1;
   letter-spacing: -0.02em;
+}
+
+/* Bovinos concentra 41 dos produtos e ocupa cinco colunas e duas
+   linhas. A hierarquia não pode parar no tamanho do tile: o véu
+   desce mais, o filete de lima abre o rótulo e a tipografia cresce.
+   É o único tile que se anuncia. */
+.especie--destaque a::after {
+  inset: 16% 0 0 0;
+}
+
+.especie--destaque .especie__rotulo {
+  gap: .45rem;
+  padding: clamp(1.5rem, 2.4vw, 2.25rem);
+}
+
+.especie--destaque .especie__rotulo::before {
+  content: "";
+  width: 2.5rem;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--lima);
+  margin-bottom: .35rem;
 }
 
 .especie--destaque .especie__rotulo strong {
@@ -2165,18 +2722,38 @@ button {
   background: var(--creme);
 }
 
+/* A mesma tabela de atmosferas das espécies e do catálogo. Aqui ela
+   governa a poça de luz sob a embalagem: dá contexto de espécie ao
+   produto sem encostar num pixel da arte do rótulo. */
+.destaque {
+  --dest-atm: var(--floresta);
+}
+
+.destaque[data-tema="bovinos"] { --dest-atm: #7A5A2E; }
+.destaque[data-tema="aves"] { --dest-atm: #8A6220; }
+
 .destaques__grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: var(--gutter);
 }
 
+/* Os dois secundários deixam de ser cartões brancos com filete.
+   Superfície levemente quente, elevação no lugar da borda e — o que
+   de fato muda a leitura — palco sob a embalagem.
+
+   A variação editorial continua: o destaque amplo é escuro e
+   dramático, estes dois são claros e diurnos. O que muda é que
+   agora os três pertencem ao mesmo universo, com a mesma luz e o
+   mesmo par de sombras. Não viraram uma grade uniforme. */
 .destaque {
+  position: relative;
   display: flex;
   flex-direction: column;
   border-radius: var(--r-card);
-  background: var(--branco);
-  border: 1px solid var(--hairline);
+  background: linear-gradient(176deg, #FFFDF7 0%, #F8F4E9 100%);
+  border: 1px solid transparent;
+  box-shadow: var(--elev-1);
   text-decoration: none;
   color: inherit;
   overflow: hidden;
@@ -2185,40 +2762,104 @@ button {
 
 .destaque--amplo {
   grid-column: span 2;
-  background: var(--profundo);
+  background:
+    radial-gradient(74% 54% at var(--luz-x) 6%,
+        rgba(169, 200, 79, .11) 0%,
+        transparent 62%),
+    var(--profundo);
   border-color: transparent;
   color: #fff;
 }
 
 .destaque:hover {
   transform: translateY(-6px);
-  box-shadow: var(--sombra-2);
+  box-shadow: var(--elev-2);
 }
 
+/* O PALCO.
+   Poça de luz na cor da espécie na base, luz de cima vindo de
+   --luz-x e sombra de contato sob a embalagem. As três juntas fazem
+   o packshot pousar sobre uma superfície em vez de pairar no meio
+   de um retângulo. */
 .destaque__img {
+  position: relative;
   display: grid;
   place-items: center;
   padding: var(--e-6);
   min-height: 15rem;
+  background:
+    radial-gradient(74% 52% at 50% 99%,
+        color-mix(in srgb, var(--dest-atm) 38%, transparent) 0%,
+        color-mix(in srgb, var(--dest-atm) 12%, transparent) 46%,
+        transparent 76%),
+    radial-gradient(72% 56% at var(--luz-x) 0%,
+        rgba(255, 255, 255, .85) 0%,
+        transparent 64%);
 }
 
 .destaque--amplo .destaque__img {
   min-height: 20rem;
+  background:
+    radial-gradient(58% 42% at 50% 97%,
+        color-mix(in srgb, var(--dest-atm) 42%, transparent) 0%,
+        transparent 72%),
+    radial-gradient(66% 50% at var(--luz-x) 0%,
+        rgba(255, 255, 255, .1) 0%,
+        transparent 62%);
+}
+
+.destaque__img::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  translate: -50% 0;
+  bottom: calc(var(--e-6) - .4rem);
+  width: 48%;
+  height: .95rem;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center,
+      rgba(11, 33, 23, .42) 0%,
+      rgba(11, 33, 23, .16) 52%,
+      transparent 78%);
+  filter: blur(4px);
+  transition: opacity 320ms var(--ease), transform 320ms var(--ease);
+}
+
+.destaque--amplo .destaque__img::after {
+  width: 40%;
+  height: 1.05rem;
+  background: radial-gradient(ellipse at center,
+      rgba(0, 0, 0, .52) 0%,
+      rgba(0, 0, 0, .2) 52%,
+      transparent 78%);
 }
 
 .destaque__img img {
+  position: relative;
+  z-index: 1;
   width: auto;
   max-height: 15rem;
-  filter: drop-shadow(0 16px 18px rgba(11, 33, 23, .28));
-  transition: transform 320ms var(--ease);
+  /* O par do sistema, como nos banners e na hero. */
+  filter: drop-shadow(0 4px 3px rgba(11, 33, 23, .3))
+    drop-shadow(0 16px 18px rgba(11, 33, 23, .22));
+  transition: transform 320ms var(--ease), filter 320ms var(--ease);
 }
 
 .destaque--amplo .destaque__img img {
   max-height: 20rem;
 }
 
+/* A embalagem sobe e a sombra afrouxa junto — em vez de deslizar
+   com a sombra colada na base, como se estivesse pintada nela. */
 .destaque:hover .destaque__img img {
   transform: translateY(-6px);
+  filter: drop-shadow(0 9px 7px rgba(11, 33, 23, .24))
+    drop-shadow(0 22px 24px rgba(11, 33, 23, .2));
+}
+
+.destaque:hover .destaque__img::after {
+  opacity: .62;
+  transform: scaleX(1.06);
 }
 
 .destaque__corpo {
@@ -2268,7 +2909,18 @@ button {
    EMPRESA — institucional compacto e documental
    ============================================================ */
 .empresa {
-  background: var(--areia);
+  /* A areia deixa de ser chapa: a luz entra do mesmo canto do resto
+     da página e a superfície ganha uma direção. */
+  background:
+    radial-gradient(92% 62% at var(--luz-x) -12%,
+        rgba(255, 255, 255, .4) 0%,
+        rgba(255, 255, 255, .1) 44%,
+        transparent 70%),
+    var(--areia);
+}
+
+.empresa__figura {
+  box-shadow: var(--elev-2);
 }
 
 .empresa__grid {
@@ -2315,16 +2967,41 @@ button {
   color: rgba(255, 255, 255, .78);
 }
 
-/* Trajetória como faixa horizontal: seis marcos sem seis blocos. */
+/* TRAJETÓRIA — um traço, não seis blocos.
+
+   Antes eram seis colunas idênticas penduradas num filete cinza:
+   uma lista horizontal, sem direção nem começo. Agora o filete é
+   contínuo e vai do verde da fundação ao lima do presente, e cada
+   marco é uma marca que ATRAVESSA a linha. A leitura passa a ter
+   sentido — de 2009 para hoje — sem uma data ou um rótulo novo.
+
+   --marco-recuo é a distância entre o filete e o topo dos itens.
+   Como o filete vive na borda do <ol> e os marcos vivem em cada
+   <li>, é essa variável que mantém os dois alinhados em qualquer
+   viewport. */
 .trajetoria {
+  --marco-recuo: calc(var(--e-6) + .35rem);
+  position: relative;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   gap: var(--gutter);
   list-style: none;
   margin: clamp(3rem, 6vw, 5rem) 0 0;
-  padding: var(--e-6) 0 0;
-  border-top: 1px solid rgba(58, 53, 39, .22);
+  padding: var(--marco-recuo) 0 0;
   counter-reset: marco;
+}
+
+.trajetoria::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg,
+      color-mix(in srgb, var(--floresta) 55%, transparent) 0%,
+      var(--floresta) 16%,
+      #4C6D33 60%,
+      var(--lima) 100%);
 }
 
 .trajetoria li {
@@ -2338,12 +3015,32 @@ button {
 .trajetoria li::before {
   content: "";
   position: absolute;
-  top: -1px;
+  top: calc((var(--marco-recuo) + 3.5px) * -1);
   left: 0;
-  width: var(--e-6);
-  height: 3px;
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
   background: var(--floresta);
-  transform: translateY(calc(var(--e-6) * -1 - 1px));
+  /* O halo abre um vão no filete: o marco cruza a linha em vez de
+     ficar pousado sobre ela. */
+  box-shadow: 0 0 0 4px var(--areia);
+}
+
+/* A origem tem peso; o presente é a gota da marca em lima. Dois
+   marcos diferentes bastam para a linha ter começo e fim. */
+.trajetoria li:first-child::before {
+  width: 11px;
+  height: 11px;
+  top: calc((var(--marco-recuo) + 4.5px) * -1);
+}
+
+.trajetoria li:last-child::before {
+  width: 10px;
+  height: 10px;
+  top: calc((var(--marco-recuo) + 4px) * -1);
+  background: var(--lima);
+  border-radius: 50% 0 50% 50%;
+  rotate: 45deg;
 }
 
 .trajetoria strong {
@@ -2369,17 +3066,37 @@ button {
   margin-top: clamp(2.5rem, 5vw, 4rem);
 }
 
+/* Aparência de documento, não de componente.
+   Cartão arredondado com filete em volta é o vocabulário de uma
+   interface qualquer. Missão, Visão, Valores e a Política Integrada
+   V.03 são documentos institucionais: pedem filete superior, régua
+   lateral e um marcador de abertura em mono — o mesmo vernáculo de
+   bula que a página usa nas fichas e na régua de capítulos. */
 .institucional__item {
-  background: rgba(255, 255, 255, .5);
-  border: 1px solid rgba(58, 53, 39, .18);
-  border-radius: var(--r-card);
+  position: relative;
+  background: linear-gradient(180deg,
+      rgba(255, 255, 255, .62) 0%,
+      rgba(255, 255, 255, .3) 100%);
+  border: 0;
+  border-top: 1px solid rgba(58, 53, 39, .34);
+  border-radius: 0;
+  box-shadow: inset 3px 0 0 color-mix(in srgb, var(--floresta) 24%, transparent);
+  transition: box-shadow 280ms var(--ease), background 280ms var(--ease);
+}
+
+.institucional__item:hover,
+.institucional__item[open] {
+  background: linear-gradient(180deg,
+      rgba(255, 255, 255, .78) 0%,
+      rgba(255, 255, 255, .4) 100%);
+  box-shadow: inset 3px 0 0 var(--floresta);
 }
 
 .institucional__item summary {
   display: flex;
   align-items: center;
   gap: .7rem;
-  padding: var(--e-5);
+  padding: var(--e-5) var(--e-5) var(--e-5) calc(var(--e-5) + var(--e-2));
   cursor: pointer;
   font-family: var(--f-display);
   font-weight: 700;
@@ -2394,23 +3111,41 @@ button {
 
 .institucional__item summary::after {
   content: "+";
+  display: grid;
+  place-items: center;
   margin-left: auto;
+  width: 1.6rem;
+  height: 1.6rem;
+  border: 1px solid rgba(58, 53, 39, .3);
+  border-radius: var(--r-controle);
   font-family: var(--f-mono);
-  font-size: 1.3rem;
+  font-size: 1rem;
   line-height: 1;
   color: var(--floresta);
+  transition: background 280ms var(--ease), border-color 280ms var(--ease),
+    color 280ms var(--ease);
+}
+
+.institucional__item:hover summary::after {
+  border-color: var(--floresta);
 }
 
 .institucional__item[open] summary::after {
   content: "–";
+  background: var(--floresta);
+  border-color: var(--floresta);
+  color: #fff;
 }
 
 .institucional__corpo {
-  padding: 0 var(--e-5) var(--e-5);
+  padding: 0 var(--e-5) var(--e-5) calc(var(--e-5) + var(--e-2));
   display: flex;
   flex-direction: column;
   gap: var(--e-3);
   color: #3A3527;
+  border-top: 1px solid rgba(58, 53, 39, .16);
+  padding-top: var(--e-4);
+  margin-top: calc(var(--e-2) * -1);
 }
 
 .institucional__corpo h3 {
@@ -2484,11 +3219,30 @@ button {
   color: var(--ceu);
 }
 
+/* Na área técnica o grão vira papel milimetrado — o vernáculo do
+   laboratório, não o do campo. A máscara impede que a malha vire uma
+   grade cobrindo a seção inteira: ela se adensa atrás do título e do
+   par de indicadores e desaparece antes de alcançar a fotografia. */
+.secao--tecnica.grao::before {
+  background-image:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, .05) 0 1px, transparent 1px 40px),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, .05) 0 1px, transparent 1px 40px);
+  background-size: auto;
+  -webkit-mask-image: radial-gradient(88% 72% at 20% 28%,
+      #000 0%, rgba(0, 0, 0, .32) 52%, transparent 84%);
+  mask-image: radial-gradient(88% 72% at 20% 28%,
+      #000 0%, rgba(0, 0, 0, .32) 52%, transparent 84%);
+}
+
+/* A tarja da legenda era verde-profundo sobre marinho: a única cor
+   fora do bloco em toda a seção. Agora é a versão escura do próprio
+   marinho. */
 .ciencia__figura {
   margin: 0;
   border-radius: var(--r-midia);
   overflow: hidden;
-  background: var(--profundo);
+  background: #0A2038;
+  box-shadow: var(--elev-2);
 }
 
 .ciencia__figura img {
@@ -2560,6 +3314,9 @@ button {
   gap: var(--gutter);
 }
 
+/* A capa é a peça impressa da seção: pede elevação, oclusão de
+   borda e um scrim que comece mais baixo, para a fotografia existir
+   antes do texto. */
 .editorial__capa {
   position: relative;
   display: block;
@@ -2569,6 +3326,7 @@ button {
   text-decoration: none;
   color: #fff;
   background: var(--profundo);
+  box-shadow: var(--elev-2);
 }
 
 .editorial__capa img {
@@ -2588,7 +3346,16 @@ button {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(11, 33, 23, .25) 0%, rgba(11, 33, 23, .9) 78%);
+  border-radius: inherit;
+  background:
+    radial-gradient(72% 48% at var(--luz-x) 2%,
+        rgba(195, 139, 50, .16) 0%,
+        transparent 62%),
+    linear-gradient(180deg,
+        rgba(11, 33, 23, .1) 0%,
+        rgba(11, 33, 23, .34) 44%,
+        rgba(11, 33, 23, .92) 88%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .1);
 }
 
 .editorial__capa-texto {
@@ -2630,7 +3397,12 @@ button {
   border-top: 1px solid var(--hairline);
 }
 
+/* Linhas, não cartões. O ritmo vem de uma régua de leitura que
+   cresce à esquerda no hover e no foco — o mesmo gesto de "onde você
+   está" que a régua de capítulos e o filtro de fase já usam, na sua
+   versão mais silenciosa. */
 .editorial__lista a {
+  position: relative;
   display: grid;
   grid-template-columns: auto 1fr;
   grid-template-areas:
@@ -2638,15 +3410,41 @@ button {
     "titulo titulo";
   gap: .35rem var(--e-4);
   align-items: center;
-  padding: var(--e-5) var(--e-4);
+  padding: var(--e-5) var(--e-4) var(--e-5) calc(var(--e-4) + var(--e-3));
   text-decoration: none;
   color: inherit;
-  transition: background 280ms var(--ease), padding-left 280ms var(--ease);
+  transition: background 280ms var(--ease);
 }
 
-.editorial__lista a:hover {
-  background: rgba(23, 74, 52, .06);
-  padding-left: calc(var(--e-4) + 6px);
+.editorial__lista a::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  translate: 0 -50%;
+  width: 2px;
+  height: 0;
+  border-radius: 999px;
+  background: var(--lima);
+  transition: height 280ms var(--ease);
+}
+
+.editorial__lista a:hover,
+.editorial__lista a:focus-visible {
+  background: rgba(23, 74, 52, .05);
+}
+
+.editorial__lista a:hover::before,
+.editorial__lista a:focus-visible::before {
+  height: 58%;
+}
+
+.editorial__lista strong {
+  transition: color 280ms var(--ease);
+}
+
+.editorial__lista a:hover strong {
+  color: var(--floresta);
 }
 
 .editorial__tipo {
@@ -2686,10 +3484,19 @@ button {
   border-top: 1px solid var(--hairline-luz);
 }
 
+/* As credenciais são a base de prova da seção: ganham superfície e
+   filete próprios para lerem como documento apoiado, sem que logo
+   ou texto cresçam um ponto sequer. */
 .cert {
   display: flex;
   align-items: center;
   gap: var(--e-5);
+  padding: var(--e-5);
+  border-radius: var(--r-card);
+  background: rgba(255, 255, 255, .035);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, .09),
+    0 18px 30px -26px rgba(0, 0, 0, .8);
 }
 
 .cert__marca {
@@ -2697,6 +3504,7 @@ button {
   height: auto;
   flex: none;
   border-radius: var(--r-controle);
+  box-shadow: 0 6px 14px -8px rgba(0, 0, 0, .75);
 }
 
 .cert h3 {
@@ -2710,8 +3518,11 @@ button {
 }
 
 .cert--texto {
-  padding-left: var(--e-5);
   border-left: 2px solid var(--lima);
+  border-radius: 0 var(--r-card) var(--r-card) 0;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, .06),
+    0 18px 30px -26px rgba(0, 0, 0, .8);
 }
 
 /* ============================================================
@@ -2804,16 +3615,49 @@ button {
   align-items: center;
 }
 
+/* MALHA TERRITORIAL.
+   O mapa era uma silhueta branca recortada sobre o profundo: leitura
+   de ícone, não de território. A malha atrás — meridianos e
+   paralelos em lima quase invisível, apagados nas bordas por uma
+   máscara radial — devolve a ideia de cobertura sem introduzir um
+   pixel de movimento permanente. */
+.dist__mapa {
+  position: relative;
+  isolation: isolate;
+}
+
+.dist__mapa::before {
+  content: "";
+  position: absolute;
+  inset: -8% -6% 4%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(0deg, rgba(169, 200, 79, .1) 0 1px, transparent 1px 34px),
+    repeating-linear-gradient(90deg, rgba(169, 200, 79, .1) 0 1px, transparent 1px 34px),
+    radial-gradient(56% 50% at 46% 50%, rgba(169, 200, 79, .13) 0%, transparent 74%);
+  -webkit-mask-image: radial-gradient(58% 54% at 46% 50%,
+      #000 0%, rgba(0, 0, 0, .55) 54%, transparent 88%);
+  mask-image: radial-gradient(58% 54% at 46% 50%,
+      #000 0%, rgba(0, 0, 0, .55) 54%, transparent 88%);
+}
+
 .dist__mapa svg {
   width: 100%;
   height: auto;
   display: block;
   overflow: visible;
+  /* A primeira sombra tem desfoque zero: é espessura, não sombra.
+     Ela dá ao território uma borda inferior sólida e o transforma de
+     recorte plano em chapa apoiada. A segunda é a sombra ambiente. */
+  filter:
+    drop-shadow(0 3px 0 rgba(6, 20, 12, .55))
+    drop-shadow(0 26px 30px rgba(0, 0, 0, .45));
 }
 
 .brasil-base {
-  fill: var(--nevoa);
-  stroke: rgba(34, 84, 58, .42);
+  fill: #E9EDE3;
+  stroke: rgba(34, 84, 58, .5);
   stroke-width: 1.25;
 }
 
@@ -2841,6 +3685,11 @@ button {
   color: var(--marinho);
 }
 
+.dist-marker__halo,
+.dist-marker__ponto {
+  transition: fill 220ms var(--ease), stroke-width 220ms var(--ease);
+}
+
 .dist-marker:hover .dist-marker__halo,
 .dist-marker:focus .dist-marker__halo,
 .dist-marker.selecionado .dist-marker__halo {
@@ -2848,8 +3697,16 @@ button {
   stroke-width: 2.4;
 }
 
+/* O outline padrão do navegador desenharia um retângulo em volta do
+   alvo de 44px, longe do ponto. O anel acompanha o próprio marcador. */
 .dist-marker:focus {
   outline: none;
+}
+
+.dist-marker:focus-visible .dist-marker__halo {
+  fill: var(--lima);
+  stroke: var(--branco);
+  stroke-width: 3;
 }
 
 .dist__mapa-legenda {
@@ -2911,13 +3768,17 @@ button {
 
 .dist__filtro:hover {
   border-color: var(--lima);
+  background: rgba(169, 200, 79, .1);
   color: #fff;
 }
 
+/* O estado ativo precisa parecer uma leitura confirmada, não um
+   botão aceso: o anel externo é o que dá essa precisão. */
 .dist__filtro[aria-pressed="true"] {
   color: var(--profundo);
   background: var(--lima);
   border-color: var(--lima);
+  box-shadow: 0 0 0 3px rgba(169, 200, 79, .18);
 }
 
 .dist__filtro[aria-pressed="true"] .gota {
@@ -3227,9 +4088,42 @@ body.dist-modal-aberto {
   overflow: hidden;
 }
 
-/* ---------- CTA final ---------- */
+/* ============================================================
+   CTA FINAL — o encerramento
+
+   Era um bloco creme com muito vazio: a página simplesmente parava.
+   Agora ela termina. O creme desce para a areia, a areia entra no
+   profundo do rodapé, e sobre essa faixa de solo assenta uma
+   prateleira baixa das mesmas embalagens que a home já mostrou.
+
+   Campo, catálogo e solução se encontram na última dobra — e o
+   próximo passo continua sendo o botão que já existia.
+   ============================================================ */
 .cta-final {
+  position: relative;
+  isolation: isolate;
   text-align: center;
+  padding-bottom: 0;
+  overflow: hidden;
+}
+
+/* A faixa de solo. Vive em z-index -1, sob a prateleira e sob o
+   texto, e termina exatamente no profundo com que o rodapé começa:
+   é isso que apaga a emenda entre as duas seções. */
+.cta-final::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: clamp(9rem, 16vw, 13.5rem);
+  z-index: -2;
+  pointer-events: none;
+  background: linear-gradient(180deg,
+      transparent 0%,
+      color-mix(in srgb, var(--areia) 44%, transparent) 30%,
+      var(--areia) 54%,
+      #6A6448 76%,
+      var(--profundo) 96%,
+      var(--profundo) 100%);
 }
 
 .cta-final .eyebrow {
@@ -3252,17 +4146,106 @@ body.dist-modal-aberto {
   margin-top: 2.4rem;
 }
 
-/* ---------- Footer ---------- */
+.cta-final__prateleira {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin-top: clamp(1.75rem, 3.4vw, 3rem);
+  padding-inline: var(--margem);
+  pointer-events: none;
+}
+
+/* A poça ambiente da fileira inteira: sem ela as embalagens ficavam
+   penduradas sobre a faixa de areia em vez de apoiadas nela. */
+.cta-final__prateleira::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  translate: -50% 0;
+  bottom: 6%;
+  width: min(46rem, 82%);
+  height: clamp(1.6rem, 3vw, 2.6rem);
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center,
+      rgba(11, 33, 23, .38) 0%,
+      rgba(11, 33, 23, .14) 48%,
+      transparent 76%);
+  filter: blur(9px);
+}
+
+/* Cortadas pela borda inferior: a prateleira continua abaixo do
+   quadro. Profundidade óptica — escala decrescente, sobreposição e
+   profundidade de campo — exatamente como na abertura do catálogo.
+   Nenhuma embalagem recebe grading de cor. */
+.cta-final__prateleira img {
+  width: auto;
+  object-fit: contain;
+  object-position: bottom;
+  translate: 0 16%;
+}
+
+.cta-final__prateleira img + img {
+  margin-left: clamp(-2.6rem, -2.2vw, -1.4rem);
+}
+
+.cta-final__prateleira img:nth-child(1),
+.cta-final__prateleira img:nth-child(5) {
+  height: clamp(4.4rem, 7.6vw, 6.8rem);
+  filter: blur(1.3px) drop-shadow(0 8px 10px rgba(11, 33, 23, .42));
+}
+
+.cta-final__prateleira img:nth-child(2),
+.cta-final__prateleira img:nth-child(4) {
+  height: clamp(5.4rem, 9.4vw, 8.4rem);
+  filter: blur(.5px) drop-shadow(0 10px 12px rgba(11, 33, 23, .44));
+}
+
+.cta-final__prateleira img:nth-child(3) {
+  position: relative;
+  z-index: 1;
+  height: clamp(6.4rem, 11.2vw, 10rem);
+  filter: drop-shadow(0 4px 3px rgba(11, 33, 23, .5))
+    drop-shadow(0 16px 18px rgba(11, 33, 23, .34));
+}
+
+/* ---------- Footer ----------
+   Continua sóbrio e funcional. O que muda é o acabamento de
+   encerramento: a luz que desce da faixa de solo da CTA, réguas
+   verticais entre as colunas — vernáculo de ficha, não de menu — e
+   a mesma microtextura das superfícies claras, na versão para
+   fundo escuro. */
 .footer {
-  background: var(--profundo);
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(84% 44% at 50% 0%,
+        rgba(169, 200, 79, .06) 0%,
+        transparent 62%),
+    var(--profundo);
   color: rgba(255, 255, 255, .78);
   padding-block: clamp(3.5rem, 6vw, 5.5rem) 2rem;
+}
+
+.footer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: var(--grao-luz);
+  background-size: var(--grao-tile);
 }
 
 .footer__grid {
   display: grid;
   grid-template-columns: 1.3fr 1fr 1fr 1fr;
   gap: clamp(2rem, 4vw, 3.5rem);
+}
+
+.footer__grid > div + div {
+  padding-left: clamp(1.25rem, 2.4vw, 2rem);
+  border-left: 1px solid var(--hairline-luz);
 }
 
 .footer__marca img {
@@ -3403,6 +4386,10 @@ body.dist-modal-aberto {
   inset: 0;
   z-index: 1;
   background:
+    radial-gradient(54% 42% at var(--luz-x) 26%,
+        rgba(195, 139, 50, .2) 0%,
+        rgba(195, 139, 50, .06) 44%,
+        transparent 72%),
     linear-gradient(96deg,
         color-mix(in srgb, var(--profundo) 92%, transparent) 0 30%,
         color-mix(in srgb, var(--profundo) 62%, transparent) 58%,
@@ -3411,7 +4398,24 @@ body.dist-modal-aberto {
     linear-gradient(180deg,
         color-mix(in srgb, var(--profundo) 46%, transparent) 0%,
         transparent 26%,
-        color-mix(in srgb, var(--profundo) 58%, transparent) 100%);
+        color-mix(in srgb, var(--profundo) 62%, transparent) 100%);
+}
+
+/* Passagem contínua da abertura para a barra de filtros: a base das
+   embalagens dissolve no creme em vez de ser cortada em linha reta
+   pela borda da seção. */
+.catalogo-hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 4.5rem;
+  z-index: 6;
+  pointer-events: none;
+  background: linear-gradient(180deg,
+      transparent 0%,
+      color-mix(in srgb, var(--creme) 18%, transparent) 62%,
+      color-mix(in srgb, var(--creme) 72%, transparent) 88%,
+      var(--creme) 100%);
 }
 
 .catalogo-hero__inner {
@@ -3445,14 +4449,37 @@ body.dist-modal-aberto {
    A profundidade é óptica — escala, oclusão e profundidade de campo.
    Nenhuma embalagem recebe grading de cor: a regra do sistema vale
    aqui como vale nos banners. */
+/* A base técnica atravessava as embalagens: o filete passava POR
+   CIMA dos packshots e lia como erro de camada. Elevando a
+   prateleira acima dele, a linha passa por trás — vira oclusão, que
+   é profundidade, em vez de risco sobre o produto. */
 .catalogo-hero__prateleira {
   position: absolute;
   right: max(var(--margem), (100% - var(--container)) / 2);
   bottom: 0;
-  z-index: 2;
+  z-index: 5;
   display: flex;
   align-items: flex-end;
   pointer-events: none;
+}
+
+/* A poça ambiente que sustenta a fileira inteira. Sem ela as
+   embalagens ficavam suspensas no meio do pasto; com ela existe uma
+   zona de chão comum entre a fotografia e o acervo. */
+.catalogo-hero__prateleira::before {
+  content: "";
+  position: absolute;
+  left: -8%;
+  right: -4%;
+  bottom: 8%;
+  height: clamp(2.5rem, 5vw, 4.5rem);
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center,
+      rgba(6, 20, 12, .6) 0%,
+      rgba(6, 20, 12, .28) 46%,
+      transparent 74%);
+  filter: blur(14px);
 }
 
 .catalogo-hero__prateleira img {
@@ -3488,7 +4515,7 @@ body.dist-modal-aberto {
    ficha: rótulo em mono, valor em display. */
 .catalogo-hero__base {
   position: relative;
-  z-index: 4;
+  z-index: 3;
   margin-top: clamp(3rem, 8vw, 6rem);
   padding-top: var(--e-5);
   padding-bottom: var(--e-5);
@@ -3831,30 +4858,80 @@ body.dist-modal-aberto {
   text-decoration: none;
   color: inherit;
   overflow: hidden;
-  box-shadow: 0 1px 2px rgba(11, 33, 23, .05);
+  /* O filete superior na cor da espécie é o que quebra a leitura de
+     "trinta e oito retângulos brancos" sem custar nada em
+     escaneabilidade: a cor já é a mesma da poça de luz sob a
+     embalagem e a do rótulo, então não é um sinal novo — é o mesmo
+     sinal, agora visível na borda do card. */
+  box-shadow:
+    inset 0 2px 0 color-mix(in srgb, var(--card-rotulo, var(--floresta)) 42%, transparent),
+    0 1px 2px rgba(11, 33, 23, .05);
   transition: transform 300ms var(--ease), box-shadow 300ms var(--ease);
+}
+
+/* Variação leve de superfície. Não é decoração: é o que impede a
+   grade de virar uma única chapa branca quando 24 cards entram de
+   uma vez.
+
+   O passo é 3, não 2, de propósito: com quatro colunas, alternar de
+   dois em dois pinta as colunas 2 e 4 inteiras e a variação vira
+   listra vertical. Um passo ímpar desalinha do número de colunas e
+   se redistribui sozinho quando o auto-fill muda de três para cinco
+   colunas. */
+.card-prod:nth-child(3n+2) a {
+  background: #FCFAF3;
 }
 
 .card-prod a:hover {
   transform: translateY(-6px);
-  box-shadow: var(--sombra-2);
+  box-shadow:
+    inset 0 2px 0 var(--card-rotulo, var(--floresta)),
+    var(--elev-2);
 }
 
 /* A embalagem vem primeiro e vem grande: o rótulo precisa ser legível
    sem abrir o produto. */
 .card-prod__img {
+  position: relative;
   display: grid;
   place-items: center;
   padding: var(--e-6) var(--e-5) var(--e-4);
   min-height: 13rem;
   background:
-    radial-gradient(70% 60% at 50% 88%, var(--card-tema, rgba(23, 74, 52, .09)), transparent 70%);
+    radial-gradient(78% 66% at 50% 94%, var(--card-tema, rgba(23, 74, 52, .09)), transparent 72%),
+    radial-gradient(76% 58% at var(--luz-x) -4%, rgba(255, 255, 255, .8), transparent 62%);
+}
+
+/* Contato curto sob a embalagem — o mesmo par de sombras da hero,
+   dos banners e dos destaques, na escala do card. */
+.card-prod__img::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  translate: -50% 0;
+  bottom: calc(var(--e-4) - .1rem);
+  width: 44%;
+  height: .55rem;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center,
+      rgba(11, 33, 23, .3) 0%,
+      rgba(11, 33, 23, .1) 52%,
+      transparent 78%);
+  filter: blur(3px);
+  transition: opacity 300ms var(--ease), transform 300ms var(--ease);
+}
+
+.card-prod a:hover .card-prod__img::after {
+  opacity: .6;
+  transform: scaleX(1.08);
 }
 
 /* Mesmo contrato de sombra dos banners e da página de produto: uma
    curta de contato e uma ampla de ambiente. É o que faz a embalagem
    pousar sobre a poça de luz do card em vez de pairar sobre ela. */
 .card-prod__img img {
+  position: relative;
+  z-index: 1;
   width: auto;
   max-height: 11rem;
   filter: drop-shadow(0 4px 3px rgba(11, 33, 23, .34))
@@ -3990,11 +5067,16 @@ body.dist-modal-aberto {
   position: absolute;
   inset: 0;
   background: linear-gradient(96deg,
-      var(--produto-bg, var(--floresta)) 0 28%,
-      color-mix(in srgb, var(--produto-bg, var(--floresta)) 58%, transparent) 62%,
-      color-mix(in srgb, var(--produto-bg, var(--floresta)) 20%, transparent) 100%);
+      color-mix(in srgb, var(--produto-bg, var(--floresta)) 88%, transparent) 0 22%,
+      color-mix(in srgb, var(--produto-bg, var(--floresta)) 62%, transparent) 46%,
+      color-mix(in srgb, var(--produto-bg, var(--floresta)) 32%, transparent) 70%,
+      color-mix(in srgb, var(--produto-bg, var(--floresta)) 12%, transparent) 100%);
   mix-blend-mode: multiply;
-  opacity: .6;
+  /* A .6 a chapa engolia o animal: a espécie virava uma mancha de
+     cor e a fotografia deixava de existir. A .42 a tinta ainda dá a
+     atmosfera e a espécie volta a ser reconhecível — que é a única
+     razão de a fotografia estar ali. */
+  opacity: .42;
 }
 
 /* Cada espécie traz sua atmosfera para a hero do produto, e as nove
@@ -4120,7 +5202,11 @@ body.dist-modal-aberto {
   letter-spacing: .1em;
   text-transform: uppercase;
   line-height: 1.7;
-  color: rgba(255, 255, 255, .62);
+  /* Com a tinta da espécie em .42 a fotografia voltou a aparecer e o
+     fundo sob esta legenda ficou mais claro: a .62 a razão caía para
+     4,58:1, no fio do AA. A .68 volta para 5,2:1 sem escurecer a
+     fotografia de novo. */
+  color: rgba(255, 255, 255, .68);
 }
 
 /* Cada fase é uma unidade: a quebra de linha acontece entre fases,
@@ -4144,6 +5230,14 @@ body.dist-modal-aberto {
    deixa de fingir contato e assume o que de fato é: a poça de luz
    de uma apresentação de produto, que descola a embalagem da
    fotografia sem inventar um piso que a cena não tem. */
+.produto-hero__palco {
+  /* A luz da espécie chega ao palco: é o que costura a embalagem à
+     atmosfera do fundo, em vez de deixá-la recortada sobre ele. */
+  background: radial-gradient(52% 46% at 50% 74%,
+      color-mix(in srgb, var(--produto-bg, var(--floresta)) 30%, transparent) 0%,
+      transparent 72%);
+}
+
 .produto-hero__palco .campaign__ground {
   left: 14%;
   right: 14%;
@@ -4155,6 +5249,46 @@ body.dist-modal-aberto {
       transparent 74%);
   filter: blur(16px);
   z-index: 1;
+}
+
+/* O contato: curto, escuro e centrado sob a embalagem. Mesmo par de
+   sombras da hero, dos banners, dos destaques e do catálogo. */
+.produto-hero__palco::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  translate: -50% 0;
+  bottom: calc(var(--baseline) - 1%);
+  width: clamp(9rem, 17vw, 15rem);
+  height: clamp(.8rem, 1.5vw, 1.3rem);
+  z-index: 1;
+  pointer-events: none;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center,
+      rgba(11, 33, 23, .58) 0%,
+      rgba(11, 33, 23, .24) 52%,
+      transparent 78%);
+  filter: blur(5px);
+}
+
+/* Passagem da hero para a ficha técnica: a cor da espécie escorre
+   para o creme do corpo em vez de terminar numa linha reta. */
+.produto-hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: clamp(3rem, 7vw, 5.5rem);
+  /* Mesmo nível do véu e, por vir depois na ordem do documento,
+     acima dele — mas abaixo do .produto-hero__inner, que é z-index
+     2. A passagem não pode apagar a base da embalagem. */
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(180deg,
+      transparent 0%,
+      color-mix(in srgb, var(--profundo) 24%, transparent) 52%,
+      color-mix(in srgb, var(--creme) 16%, transparent) 84%,
+      color-mix(in srgb, var(--creme) 88%, transparent) 97%,
+      var(--creme) 100%);
 }
 
 .produto__packshot {
@@ -4223,25 +5357,35 @@ body.dist-modal-aberto {
 }
 
 /* Campo aguardando validação técnica: o design não preenche o que
-   precisa vir do responsável técnico. */
+   precisa vir do responsável técnico.
+
+   O que mudou foi o PESO, não a mensagem. Cinco caixas tracejadas
+   em terra, uma sob a outra, dominavam a página inteira e liam como
+   erro de renderização — o defeito visual acabava contaminando a
+   credibilidade da informação verdadeira ao redor. Como nota de
+   margem com régua lateral, o aviso continua explícito, mantém o
+   ícone e o texto integrais, e volta a ocupar o lugar que lhe cabe:
+   uma anotação técnica, não uma falha. */
 .pendente {
   display: flex;
   align-items: flex-start;
   gap: var(--e-3);
-  padding: var(--e-5);
-  border-radius: var(--r-card);
-  border: 1px dashed rgba(165, 81, 53, .45);
-  background: rgba(165, 81, 53, .05);
-  color: #6E3A26;
-  font-size: .92rem;
+  padding: .15rem 0 .15rem var(--e-4);
+  border: 0;
+  border-left: 2px solid rgba(165, 81, 53, .55);
+  border-radius: 0;
+  background: none;
+  color: #7A4630;
+  font-size: .9rem;
+  line-height: 1.5;
   max-width: 62ch;
 }
 
 .pendente svg {
   flex: none;
-  width: 1.15rem;
-  height: 1.15rem;
-  margin-top: .1rem;
+  width: 1rem;
+  height: 1rem;
+  margin-top: .22rem;
 }
 
 .produto__aviso {
@@ -4477,11 +5621,26 @@ body.dist-modal-aberto {
   .footer__grid {
     grid-template-columns: 1fr 1fr;
   }
+
+  /* Com duas colunas as réguas verticais deixam de separar seções e
+     passam a cortar a leitura pela metade. */
+  .footer__grid > div + div {
+    padding-left: 0;
+    border-left: 0;
+  }
 }
 
 @media (max-width: 640px) {
   :root {
     --header-h: 76px;
+  }
+
+  /* Cinco embalagens num quadro estreito viram uma fileira de
+     miniaturas ilegíveis. Ficam as três centrais, na mesma
+     proporção. */
+  .cta-final__prateleira img:nth-child(1),
+  .cta-final__prateleira img:nth-child(5) {
+    display: none;
   }
 
   /* Quatro colunas automáticas estouram a largura útil e davam
@@ -4505,6 +5664,119 @@ body.dist-modal-aberto {
 
   .catalogo-hero__numeros>div {
     padding-inline: var(--e-5);
+  }
+}
+
+/* ============================================================
+   CIÊNCIA — recomposição dos diferenciais
+
+   Seis caixas de mesmo tamanho, mesma borda e mesmo comportamento
+   não são uma hierarquia: são um inventário. A partir de 1024px a
+   lista se reorganiza em dois pesos, sem tocar no HTML e sem mudar
+   a ordem de leitura — o que está no documento continua sendo o que
+   se lê, de 01 a 06.
+
+     01 · Livre de resíduos   o que a marca prova primeiro
+     02 · Tecnologia          o que sustenta a prova
+     03-06                    registros técnicos conectados,
+                              sob um filete contínuo
+
+   Este bloco vem depois da responsividade das seções de propósito:
+   o empilhamento em duas colunas declarado em max-width 1180px
+   precisa perder para a recomposição nas larguras onde ela cabe.
+   ============================================================ */
+@media (min-width: 1024px) {
+  .difs {
+    grid-template-columns: repeat(12, 1fr);
+    /* Sem vão entre colunas na segunda fileira: é o que permite aos
+       quatro registros compartilharem um único filete superior em
+       vez de quatro filetes soltos. A fileira de cima recupera o
+       vão com margem própria. */
+    column-gap: 0;
+    row-gap: clamp(2rem, 3.4vw, 3rem);
+  }
+
+  .dif:nth-child(1) {
+    grid-column: span 7;
+    margin-right: var(--gutter);
+  }
+
+  .dif:nth-child(2) {
+    grid-column: span 5;
+  }
+
+  .dif:nth-child(-n+2) {
+    padding: clamp(1.6rem, 2.4vw, 2.4rem);
+    background:
+      radial-gradient(78% 100% at var(--luz-x) 0%,
+          rgba(100, 191, 201, .12) 0%,
+          transparent 68%),
+      rgba(255, 255, 255, .05);
+    border-color: rgba(255, 255, 255, .2);
+  }
+
+  .dif:nth-child(1) h3 {
+    font-size: clamp(1.5rem, 2.3vw, 1.95rem);
+    line-height: 1.12;
+  }
+
+  .dif:nth-child(2) h3 {
+    font-size: clamp(1.3rem, 1.8vw, 1.55rem);
+  }
+
+  .dif:nth-child(-n+2) p {
+    font-size: 1.02rem;
+    max-width: 44ch;
+    color: rgba(255, 255, 255, .8);
+  }
+
+  /* O índice dos dois primeiros ganha um filete que sai do número:
+     marcador de registro técnico, não decoração. */
+  .dif:nth-child(-n+2) .dif__indice {
+    display: inline-flex;
+    align-items: center;
+    gap: .8rem;
+    font-size: .8rem;
+    font-weight: 600;
+  }
+
+  .dif:nth-child(-n+2) .dif__indice::after {
+    content: "";
+    width: clamp(2rem, 5vw, 4rem);
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--ceu), transparent);
+  }
+
+  /* Registros: sem caixa. O que os organiza é o filete que atravessa
+     os quatro e a régua vertical que os separa. */
+  .dif:nth-child(n+3) {
+    grid-column: span 3;
+    padding: var(--e-5) var(--e-5) 0;
+    background: none;
+    border: 0;
+    border-top: 1px solid rgba(255, 255, 255, .24);
+    border-radius: 0;
+  }
+
+  .dif:nth-child(n+4) {
+    border-left: 1px solid rgba(255, 255, 255, .12);
+  }
+
+  .dif:nth-child(3) {
+    padding-left: 0;
+  }
+
+  .dif:nth-child(6) {
+    padding-right: 0;
+  }
+
+  .dif:nth-child(n+3) h3 {
+    font-size: 1.08rem;
+  }
+
+  .dif:nth-child(n+3) p {
+    font-size: .9rem;
   }
 }
 
@@ -4548,7 +5820,20 @@ body.dist-modal-aberto {
     scroll-behavior: auto;
   }
 
-  .campanha:hover .campanha__packshot {
+  /* Sob movimento reduzido as transições duram ~0: um deslocamento
+     de 6px deixaria de ser animação e viraria um salto. Todos os
+     gestos de elevação do sistema são desligados juntos. */
+  .campanha:hover .campanha__packshot,
+  .destaque:hover,
+  .destaque:hover .destaque__img img,
+  .destaque:hover .destaque__img::after,
+  .card-prod a:hover,
+  .card-prod a:hover .card-prod__img img,
+  .card-prod a:hover .card-prod__img::after,
+  .especie a:hover img,
+  .especie a:focus-visible img,
+  .especie a:hover .especie__rotulo,
+  .especie a:focus-visible .especie__rotulo {
     transform: none;
   }
 }

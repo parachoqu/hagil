@@ -98,7 +98,7 @@
        Nove categorias reais do catálogo. Bovinos domina a
        composição porque domina o portfólio.
        ============================================================ -->
-  <section class="secao especies" id="especies" aria-labelledby="especies-titulo">
+  <section class="secao especies grao" id="especies" aria-labelledby="especies-titulo">
     <div class="container">
       <div class="secao-head secao-head--linha" data-reveal>
         <div>
@@ -111,7 +111,7 @@
       </div>
 
       <ul class="especies__mosaico" data-reveal>
-        <li class="especie especie--destaque" style="--i:0">
+        <li class="especie especie--destaque" data-especie="bovinos" style="--i:0">
           <a href="produtos.html?especie=bovinos">
             <img src="assets/images/campo/especies/bovinos-4x5.webp" alt="Vaca nelore com bezerro em pastagem" width="1080" height="1350" loading="lazy" decoding="async">
             <span class="especie__rotulo">
@@ -120,49 +120,49 @@
             </span>
           </a>
         </li>
-        <li class="especie" style="--i:1">
+        <li class="especie" data-especie="equinos" style="--i:1">
           <a href="produtos.html?especie=equinos">
             <img src="assets/images/campo/especies/equinos-4x5.webp" alt="Cavalo em pastagem brasileira" width="1080" height="1350" loading="lazy" decoding="async">
             <span class="especie__rotulo"><strong>Equinos</strong><span class="especie__contagem">17 produtos</span></span>
           </a>
         </li>
-        <li class="especie" style="--i:2">
+        <li class="especie" data-especie="suinos" style="--i:2">
           <a href="produtos.html?especie=suinos">
             <img src="assets/images/campo/especies/suinos-4x5.webp" alt="Suínos em baia de granja" width="1080" height="1350" loading="lazy" decoding="async">
             <span class="especie__rotulo"><strong>Suínos</strong><span class="especie__contagem">14 produtos</span></span>
           </a>
         </li>
-        <li class="especie" style="--i:3">
+        <li class="especie" data-especie="aves" style="--i:3">
           <a href="produtos.html?especie=aves">
             <img src="assets/images/campo/especies/aves-4x5.webp" alt="Aves de postura em aviário" width="1080" height="1350" loading="lazy" decoding="async">
             <span class="especie__rotulo"><strong>Aves</strong><span class="especie__contagem">15 produtos · corte e postura</span></span>
           </a>
         </li>
-        <li class="especie" style="--i:4">
+        <li class="especie" data-especie="pet" style="--i:4">
           <a href="produtos.html?especie=pet">
             <img src="assets/images/campo/especies/pet-4x5.webp" alt="Cão e gato em ambiente doméstico" width="1080" height="1350" loading="lazy" decoding="async">
             <span class="especie__rotulo"><strong>Pet</strong><span class="especie__contagem">20 produtos</span></span>
           </a>
         </li>
-        <li class="especie" style="--i:5">
+        <li class="especie" data-especie="caprinos" style="--i:5">
           <a href="produtos.html?especie=caprinos">
             <img src="assets/images/campo/especies/caprinos-4x5.webp" alt="Cabras leiteiras em terreno semiárido" width="1080" height="1350" loading="lazy" decoding="async">
             <span class="especie__rotulo"><strong>Caprinos</strong><span class="especie__contagem">18 produtos</span></span>
           </a>
         </li>
-        <li class="especie" style="--i:6">
+        <li class="especie" data-especie="ovinos" style="--i:6">
           <a href="produtos.html?especie=ovinos">
             <img src="assets/images/campo/especies/ovinos-4x5.webp" alt="Ovelha com cordeiro em pastagem" width="1080" height="1350" loading="lazy" decoding="async">
             <span class="especie__rotulo"><strong>Ovinos</strong><span class="especie__contagem">16 produtos</span></span>
           </a>
         </li>
-        <li class="especie" style="--i:7">
+        <li class="especie" data-especie="bubalinos" style="--i:7">
           <a href="produtos.html?especie=bubalinos">
             <img src="assets/images/campo/especies/bubalinos-4x5.webp" alt="Búfalos em várzea alagada" width="1080" height="1350" loading="lazy" decoding="async">
             <span class="especie__rotulo"><strong>Bubalinos</strong><span class="especie__contagem">18 produtos</span></span>
           </a>
         </li>
-        <li class="especie" style="--i:8">
+        <li class="especie" data-especie="peixes" style="--i:8">
           <a href="produtos.html?especie=peixes">
             <img src="assets/images/campo/especies/peixes-4x5.webp" alt="Tanque de piscicultura" width="1080" height="1350" loading="lazy" decoding="async">
             <span class="especie__rotulo"><strong>Peixes</strong><span class="especie__contagem">8 produtos</span></span>
@@ -333,7 +333,7 @@
   <!-- ============================================================
        04 · DESTAQUES — três famílias, escalas alternadas
        ============================================================ -->
-  <section class="secao destaques">
+  <section class="secao destaques grao">
     <div class="container">
       <div class="secao-head secao-head--linha" data-reveal>
         <div>
@@ -346,7 +346,7 @@
       </div>
 
       <div class="destaques__grid">
-        <a class="destaque destaque--amplo" href="produto.html?id=endecthon-hp1000" data-reveal style="--i:0">
+        <a class="destaque destaque--amplo" data-tema="bovinos" href="produto.html?id=endecthon-hp1000" data-reveal style="--i:0">
           <div class="destaque__img">
             <img src="assets/images/produtos/otimizados/Hagil_Bovinos_Bovinos 1ª Fase_Endecthon HP1000.webp" alt="Embalagem do Endecthon HP1000" width="843" height="1100" loading="lazy" decoding="async">
           </div>
@@ -360,7 +360,7 @@
           </div>
         </a>
 
-        <a class="destaque" href="produto.html?id=hepathor-h1000" data-reveal style="--i:1">
+        <a class="destaque" data-tema="bovinos" href="produto.html?id=hepathor-h1000" data-reveal style="--i:1">
           <div class="destaque__img">
             <img src="assets/images/produtos/otimizados/Hagil_Bovinos_Bovinos de Leite_Hepathor H1000.webp" alt="Embalagem do Hepathor H1000" width="829" height="1100" loading="lazy" decoding="async">
           </div>
@@ -374,7 +374,7 @@
           </div>
         </a>
 
-        <a class="destaque" href="produto.html?id=curae-hc1000" data-reveal style="--i:2">
+        <a class="destaque" data-tema="aves" href="produto.html?id=curae-hc1000" data-reveal style="--i:2">
           <div class="destaque__img">
             <img src="assets/images/produtos/otimizados/Hagil_Aves_Aves de Corte_Curae HC1000.webp" alt="Embalagem do Curae HC1000" width="828" height="1100" loading="lazy" decoding="async">
           </div>
@@ -394,7 +394,7 @@
   <!-- ============================================================
        05 · EMPRESA — institucional compacto e documental
        ============================================================ -->
-  <section class="secao empresa" id="empresa" aria-labelledby="empresa-titulo">
+  <section class="secao empresa grao" id="empresa" aria-labelledby="empresa-titulo">
     <div class="container">
       <div class="empresa__grid">
         <div class="empresa__texto" data-reveal>
@@ -458,7 +458,7 @@
   <!-- ============================================================
        06 · CIÊNCIA — bloco técnico, marinho profundo
        ============================================================ -->
-  <section class="secao secao--tecnica" id="ciencia" aria-labelledby="ciencia-titulo">
+  <section class="secao secao--tecnica grao grao--luz" id="ciencia" aria-labelledby="ciencia-titulo">
     <div class="container">
       <div class="ciencia__abertura" data-reveal>
         <div>
@@ -515,7 +515,7 @@
   <!-- ============================================================
        07 · CONTEÚDO — hierarquia de revista especializada
        ============================================================ -->
-  <section class="secao conteudo" id="conteudo" aria-labelledby="conteudo-titulo">
+  <section class="secao conteudo grao" id="conteudo" aria-labelledby="conteudo-titulo">
     <div class="container">
       <div class="secao-head secao-head--linha" data-reveal>
         <div>
@@ -554,7 +554,7 @@
   <!-- ============================================================
        08 · DISTRIBUIÇÃO E CREDENCIAIS — confirmação da confiança
        ============================================================ -->
-  <section class="secao secao--escura prova" id="distribuidores" aria-labelledby="prova-titulo">
+  <section class="secao secao--escura prova grao grao--luz" id="distribuidores" aria-labelledby="prova-titulo">
     <div class="container">
       <div class="dist__grid">
         <div class="dist__mapa" data-reveal>
@@ -609,7 +609,7 @@
   <!-- ============================================================
        09 · ENCERRAMENTO
        ============================================================ -->
-  <section class="secao cta-final">
+  <section class="secao cta-final grao">
     <div class="container" data-reveal>
       <p class="eyebrow"><span class="gota" aria-hidden="true"></span>Catálogo completo</p>
       <h2>Uma solução para cada fase<br>do ciclo produtivo.</h2>
@@ -617,6 +617,25 @@
       <a class="btn btn--primario" href="produtos.html">Visualizar catálogo completo
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
+    </div>
+
+    <!-- Prateleira de encerramento.
+         Cinco embalagens que a página JÁ carregou — destaques,
+         campanhas e hero —, agora baixas, sobrepostas e cortadas
+         pela borda inferior da seção. Zero bytes novos.
+
+         O que a separa da abertura do catálogo: aqui não há
+         fotografia atrás, as embalagens são pequenas e o corte é
+         mais profundo. Não é outra hero nem outro banner: é a
+         última linha da página, dizendo que existe um acervo, com o
+         creme descendo para a areia e a areia entrando no profundo
+         do rodapé. -->
+    <div class="cta-final__prateleira" aria-hidden="true">
+      <img src="assets/images/produtos/otimizados/Hagil_Bovinos_Bovinos de Leite_Hepathor H1000.webp" alt="" width="829" height="1100" loading="lazy" decoding="async">
+      <img src="assets/images/produtos/otimizados/Hagil_Aves_Aves de Corte_Curae HC1000.webp" alt="" width="828" height="1100" loading="lazy" decoding="async">
+      <img src="assets/images/produtos/otimizados/Hagil_Bovinos_Bovinos de Corte_Dynamis MH1000.webp" alt="" width="828" height="1100" loading="lazy" decoding="async">
+      <img src="assets/images/produtos/otimizados/Hagil_Bovinos_Bovinos 1ª Fase_Máximo Baby H1000.webp" alt="" width="845" height="1100" loading="lazy" decoding="async">
+      <img src="assets/images/produtos/otimizados/Hagil_Bovinos_Bovinos 1ª Fase_Endecthon HP1000.webp" alt="" width="843" height="1100" loading="lazy" decoding="async">
     </div>
   </section>
 

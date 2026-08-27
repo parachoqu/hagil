@@ -91,6 +91,13 @@
     };
 
     const sincroniza = (anunciar) => {
+      // A seção inteira passa a saber qual capítulo está em cena.
+      // É o único gancho que faltava para a atmosfera VIVER FORA do
+      // banner: sem ele, cor, luz e sombra da campanha param na borda
+      // arredondada e o banner fica colado sobre um creme chapado.
+      // Só escreve um data-attribute — nada de foco, URL, histórico
+      // ou temporizador.
+      campanhas.dataset.capitulo = banners[atual].dataset.capitulo || "";
       banners.forEach((banner, i) => {
         // `inert` tira o banner fora de vista da tabulação e da árvore
         // de acessibilidade. `aria-hidden` seria errado: há links dentro.
@@ -262,9 +269,13 @@
           titulo.textContent = `${item.nome} - ${item.cidade}/${item.uf}`;
           const alvo = document.createElementNS(ns, "circle");
           alvo.setAttribute("class", "dist-marker__alvo");
-          // r=31 no viewBox rende ~44px de alvo na renderização real,
-          // o mínimo de toque que o sistema exige.
-          alvo.setAttribute("cx", cx); alvo.setAttribute("cy", cy); alvo.setAttribute("r", 31);
+          // O alvo é dimensionado no viewBox (448 de largura), então o
+          // tamanho real depende da largura em que o mapa é renderizado.
+          // O pior caso é 360px de viewport: com as margens, o mapa cai
+          // para ~312px e a escala para 0,70 — r=31 rendia 43px ali, um
+          // fio abaixo do mínimo de toque. r=33 mantém os 44px em todas
+          // as larguras suportadas.
+          alvo.setAttribute("cx", cx); alvo.setAttribute("cy", cy); alvo.setAttribute("r", 33);
           const halo = document.createElementNS(ns, "circle");
           halo.setAttribute("class", "dist-marker__halo");
           halo.setAttribute("cx", cx); halo.setAttribute("cy", cy); halo.setAttribute("r", 5.4);
